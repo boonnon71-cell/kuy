@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>เข้าสู่ระบบ</title>
+<style>
+*{
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+body{
+    margin: 0;
+    height: 100vh;
+    background:
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url("หอประชุมพญางำเมือง_638544951942604029.jpg");
+    background-size: cover;
+    background-position: center;
+}
+.header{
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    right: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+.header .title{
+    font-size: 18px;
+    font-weight: 500;
+}
+.header img{
+    height: 70px;
+}
+.container{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-box{
+    width: 450px;
+    background: #fff;
+    padding: 45px;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+}
+label{
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+input{
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: #000;
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 22px;
+}
+input::placeholder{
+    color: #aaa;
+}
+.btn-login{
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    background: #8a00c2;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+.btn-login:hover{
+    background: #7400a5;
+}
+.divider{
+    margin: 25px 0 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    position: relative;
+}
+.divider::before,
+.divider::after{
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 35%;
+    height: 1px;
+    background: #ccc;
+}
+.divider::before{ left: 0; }
+.divider::after{ right: 0; }
+.office365{
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: #8a00c2;
+    text-decoration: none;
+}
+.office365:hover{
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <div class="title">โรงพยาบาลทันตกรรมมหาวิทยาลัยพะเยา</div>
+    <img src="Up.d.png" alt="UP Logo">
+</div>
+<div class="container">
+    <div class="login-box">
+        <label>ชื่อผู้ใช้งาน</label>
+        <input type="text" placeholder="ชื่อผู้ใช้งาน">
+        <label>รหัสผ่าน</label>
+        <input type="password" placeholder="รหัสผ่าน">
+        <button class="btn-login">เข้าสู่ระบบ</button>
+        <div class="divider">ลงชื่อเข้าใช้ด้วย</div>
+        <!-- ปุ่ม Office 365 -->
+        <a class="office365"
+           href=https://login.microsoftonline.com/d7cbbb08-47a3-4bd7-8347-5018f2744cfb/oauth2/v2.0/authorize?response_type=code&client_id=8400af9d-24c3-4ca9-b86e-bce1bac5654c&redirect_uri=https%3A%2F%2Fgrader.se.ict.up.ac.th%2Fauth%2Fcallback%2Fsegrader_azure&scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.Read+email+profile+openid&state=rwBmLIA89CePCJKI3GNPWanoDIobG5>
+            UP OFFICE 365
+        </a>
+    </div>
+</div>
+</body>
+</html>
