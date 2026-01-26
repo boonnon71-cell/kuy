@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ประวัติผู้ป่วย</title>
+    <style>
+*{
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+        body {
+            margin: 0;
+            background-color: white;
+        }
+        .wrapper{
+            display: flex;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* แถบเมนูด้านซ้าย */
+.sidebar{
+    width: 240px;
+    background: #ffffff;
+    padding: 20px 15px;
+    border-right: 1px solid #ddd;
+}
+.sidebar .logo{
+    text-align: center;
+    margin-bottom: 30px;
+}
+.sidebar .logo img{
+    width: 80px;
+}
+.sidebar a{
+    display: block;
+    padding: 10px 12px;
+    color: #222;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+.sidebar a.active{
+    color: #1976ff;
+    font-weight: 600;
+}
+.sidebar a:hover{
+    background: #f0f0f0;
+}
+
+        /* โลโก้ด้านบนเมนู */
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 80px;
+        }
+
+        /* รายการเมนู */
+        .menu-item {
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .menu-item:hover {
+            background-color: #e8f0ff;
+        }
+
+        .menu-item.active {
+            color: #2a60ff;
+            font-weight: bold;
+        }
+
+        /* พื้นที่เนื้อหาด้านขวา */
+        .content {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 20px 30px;
+            position: relative;
+        }
+
+        /* แถบหัวข้อ */
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            font-size: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* กล่องรูปด้านขวาบน */
+        .photo-box {
+            position: absolute;
+            top: 15px;
+            right: 30px;
+            width: 120px;
+            height: 150px;
+            border: 1px solid #aaa;
+            background-color: #fafafa;
+        }
+
+        /* สถานะ */
+        .status {
+            position: absolute;
+            top: 175px;
+            right: 30px;
+            font-size: 14px;
+        }
+
+        .status span {
+            color: green;
+            font-weight: bold;
+        }
+
+        /* ฟอร์มข้อมูลผู้ป่วย */
+        .form-row {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .label {
+            width: 200px;
+            color: #333;
+        }
+
+        .value {
+            flex: 1;
+            border-bottom: 1px dotted #999;
+            min-height: 18px;
+        }
+
+        /* กลุ่ม checkbox */
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .checkbox-group label {
+            cursor: pointer;
+        }
+
+        /* เส้นคั่น */
+        .divider {
+            border-top: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .input-field {
+            width: 300px;
+            /* ความกว้างมาตรฐาน */
+            padding: 5px 8px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        textarea.input-field {
+            resize: vertical;
+            /* ขยายได้เฉพาะแนวตั้ง */
+        }
+
+        .save-btn {
+            padding: 8px 20px;
+            background-color: #2a60ff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background-color: #1f4ed8;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="Up.d.png" alt="UP Logo">
+        </div>
+        <a href="#" >หน้าหลัก</a>
+        <a href="Clinic/Clinic.html">คลินิก ></a>
+        <a href="#">รายชื่อแพทย์</a>
+        <a href="record/history.html" class="active">ประวัติการรักษา</a>
+        <a href="#">แชท</a>
+    </div>
+
+        <!-- เนื้อหาหลัก -->
+        <div class="content">
+
+            <div class="header">
+            <div class="back-btn" onclick="window.location.href='../index.html'">&lt;</div>
+                <div class="title">ประวัติผู้ป่วย</div>
+            </div>
+
+            <div class="photo-box">
+                <img src="patient.jpg" alt="รูปผู้ป่วย" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+
+            <div class="status">
+                สถานะ : <span>กำลังรักษา</span>
+            </div>
+
+            <!-- ฟอร์ม -->
+            <form>
+
+                <div class="form-row">
+                    <div class="label">ชื่อ-สกุล :</div>
+                    <input type="text" class="input-field">
+                </div>
+
+                <div class="form-row">
+                    <div class="label">เพศ :</div>
+                    <select class="input-field">
+                        <option>ชาย</option>
+                        <option>หญิง</option>
+                        <option>อื่นๆ</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="label">อายุ :</div>
+                    <input type="number" class="input-field" style="width:100px">
+                </div>
+
+                <div class="form-row">
+                    <div class="label">น้ำหนัก :</div>
+                    <input type="number" class="input-field" style="width:120px"> กก.
+                </div>
+
+                <div class="form-row">
+                    <div class="label">ส่วนสูง :</div>
+                    <input type="number" class="input-field" style="width:120px"> ซม.
+                </div>
+
+                <div class="form-row">
+                    <div class="label">เบอร์โทรศัพท์ :</div>
+                    <input type="tel" class="input-field" style="width:200px">
+                </div>
+
+                <div class="form-row">
+                    <div class="label">วันที่เกิด :</div>
+                    <input type="date" class="input-field" style="width:180px">
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="form-row">
+                    <div class="label">การสูบบุหรี่ :</div>
+                    <div class="checkbox-group">
+                        <label><input type="radio" name="smoke"> ไม่เคยสูบ</label>
+                        <label><input type="radio" name="smoke"> เคยสูบ</label>
+                        <label><input type="radio" name="smoke"> สูบอยู่</label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="label">การดื่มสุรา :</div>
+                    <div class="checkbox-group">
+                        <label><input type="radio" name="alcohol"> ไม่เคยดื่ม</label>
+                        <label><input type="radio" name="alcohol"> เคยดื่ม</label>
+                        <label><input type="radio" name="alcohol"> ดื่มอยู่</label>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="form-row">
+                    <div class="label">ประวัติการแพ้ยา :</div>
+                    <textarea class="input-field" rows="2"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="label">วันที่มารักษาครั้งแรก :</div>
+                    <input type="date" class="input-field" style="width:180px">
+                </div>
+
+                <div class="form-row">
+                    <div class="label">อาการที่มา :</div>
+                    <textarea class="input-field" rows="2"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="label">คลินิกแรกที่รักษา :</div>
+                    <input type="text" class="input-field">
+                </div>
+                <div class="form-row">
+                    <div class="label">ผลตรวจจากคลินิก :</div>
+                    <textarea class="input-field" rows="2"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="label">ถูกจัดเป็นผู้ป่วยเคส :</div>
+                    <input type="text" class="input-field">
+                </div>
+                <div class="form-row">
+                    <div class="label">ถูกส่งตัวไปคลินิก :</div>
+                    <input type="text" class="input-field">
+                </div>
+                <div class="form-row">
+                    <div class="label">แพทย์ผู้ดูแลคนแรก :</div>
+                    <input type="text" class="input-field">
+                </div>
+                <div class="form-row">
+                    <div class="label"></div>
+                    <button type="submit" class="save-btn">บันทึกข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
