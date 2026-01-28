@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Game Notification</title>
+<style>
+    body {
+        background:#0b1020;
+        height:100vh;
+        margin:0;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .notify {
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 420px;
+        height: 90px;
+        background: linear-gradient(135deg,#ff3b7d,#7f2bff);
+        border-radius: 16px;
+        box-shadow: 0 15px 40px rgba(0,0,0,.5);
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        color: white;
+        cursor: grab;
+        animation: slideIn .6s ease-out;
+        user-select: none;
+    }
+
+    .notify:active {
+        cursor: grabbing;
+    }
+
+    .avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: url("https://i.imgur.com/0y0y0y0.png") center/cover;
+        border: 3px solid rgba(255,255,255,.6);
+        margin-right: 12px;
+    }
+
+    .content {
+        flex:1;
+    }
+
+    .title {
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+        opacity: .9;
+        margin-top: 4px;
+    }
+
+    .kill {
+        font-size: 26px;
+        font-weight: 900;
+        text-shadow: 0 0 10px rgba(255,255,255,.6);
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -30px);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="notify" id="notify">
+    <div class="avatar"></div>
+    <div class="content">
+        <div class="title">Violet : Dimension Breaker</div>
+        <div class="subtitle">สังหารศัตรูได้สำเร็จ</div>
+    </div>
+    <div class="kill">KILL</div>
+</div>
+
+<script>
+const box = document.getElementById("notify");
+let isDragging = false;
+let offsetX, offsetY;
+
+box.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    offsetX = e.clientX - box.offsetLeft;
+    offsetY = e.clientY - box.offsetTop;
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    box.style.left = e.clientX - offsetX + "px";
+    box.style.top = e.clientY - offsetY + "px";
+    box.style.transform = "none";
+});
+
+document.addEventListener("mouseup", () => {
+    isDragging = false;
+});
+</script>
+
+</body>
+</html>
