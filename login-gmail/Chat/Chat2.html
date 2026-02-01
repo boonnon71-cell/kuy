@@ -201,6 +201,55 @@ body{
     color: #fff;
     cursor: pointer;
 }
+/* ===== Topbar Layout ===== */
+.topbar{
+    height: 60px;
+    background: #fff;
+    padding: 0 18px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Left chat info */
+.chat-top-left{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.back-btn{
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* Patient */
+.patient-info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.patient-avatar{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #ccc;
+}
+
+.patient-avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.patient-name{
+    font-size: 16px;
+    font-weight: 500;
+}
+
 </style>
 
 <script>
@@ -305,6 +354,19 @@ document.addEventListener("click", function(e){
 
         <!-- Topbar -->
         <header class="topbar">
+            <!-- Left : Patient -->
+    <div class="chat-top-left">
+        <div class="back-btn" onclick="window.location.href='../Chat/Chat.html'">←</div>
+
+
+
+        <div class="patient-info">
+            <div class="patient-avatar">
+                <img src="images/patient.jpg">
+            </div>
+            <span class="patient-name">ชื่อผู้ป่วย</span>
+        </div>
+    </div>
             <div class="user-group">
                 <div class="notification">🔔<span class="badge">3</span></div>
                 <div class="account-box">
@@ -318,6 +380,7 @@ document.addEventListener("click", function(e){
 
         <!-- Chat -->
         <main class="main">
+            
             <div class="chat-area" id="chatArea">
             </div>
 

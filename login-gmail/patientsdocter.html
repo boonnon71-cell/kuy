@@ -140,6 +140,10 @@ body{
 /* Button */
 .patient-action{
     margin-left: 20px;
+    position: relative;   /* ⭐ สำคัญ */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 .btn-confirm{
     background: #8a00c2;
@@ -336,42 +340,89 @@ body{
     font-weight: 500;
     cursor: pointer;
 }
+
+.goal-link:hover{
+    text-decoration: underline;
+}
 .goal-link2{
     color: #000000;
     text-decoration: none;
     font-weight: 500;
     cursor: pointer;
 }
+
 .goal-link2:hover{
     text-decoration: underline;
 }
-
-.goal-link:hover{
-    text-decoration: underline;
+/* ===== Welcome Banner ===== */
+.welcome-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(5,8,20,.85);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:10000;
+    animation: fadeIn .6s ease forwards;
 }
-.goal-inline{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    border-bottom: 2px solid #1e88e5;
-    padding: 10px 4px;
-    margin-bottom: 18px;
+.welcome-banner{
+    position:relative;
+    width:80%;
+    max-width:720px;
+    padding:30px 40px;
+    background:linear-gradient(135deg,#1a1f3c,#0b0f1a);
+    border-radius:14px;
+    border:1px solid rgba(139,92,246,.6);
+    box-shadow:0 0 25px rgba(139,92,246,.6);
+    animation: slideIn .8s ease forwards, glowPulse 2.5s infinite;
 }
-
-.goal-left{
-    font-size: 15px;
-    color: #000;
+.close-btn{
+    position:absolute;
+    top:14px;
+    right:18px;
+    font-size:22px;
+    color:#fff;
+    cursor:pointer;
+    opacity:.7;
 }
-
-.goal-count{
-    font-weight: 700;
-    margin: 0 4px;
+.close-btn:hover{opacity:1}
+.banner-content{
+    display:flex;
+    align-items:center;
+    gap:20px;
 }
-
-.goal-right{
-    font-size: 14px;
-    color: #000;
+.banner-icon{
+    font-size:48px;
+    filter:drop-shadow(0 0 10px #8b5cf6);
+}
+.banner-text h1{
+    margin:0;
+    font-size:36px;
+    color:#fff;
+    letter-spacing:2px;
+}
+.banner-text h2{
+    margin:6px 0 0;
+    font-size:18px;
+    font-weight:300;
+    color:#c7d2fe;
+}
+.banner-text p{
+    margin-top:6px;
+    font-size:14px;
+    color:#94a3b8;
+}
+@keyframes slideIn{
+    from{transform:translateX(-60px);opacity:0}
+    to{transform:translateX(0);opacity:1}
+}
+@keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+@keyframes glowPulse{
+    0%,100%{box-shadow:0 0 18px rgba(139,92,246,.5)}
+    50%{box-shadow:0 0 35px rgba(56,189,248,.9)}
 }
 /* ===== Account Dropdown ===== */
 .account-wrapper{
@@ -464,6 +515,113 @@ body{
 .account-logout:hover{
     background: rgba(255,0,0,0.08);
 }
+.no-doctor-title{
+    font-size: 16px;
+    font-weight: 600;
+    color: #8a00c2;   /* สีม่วงตามปุ่ม */
+    margin-bottom: 14px;
+}
+.account-logout{
+    display: block;              /* ให้เหมือน div */
+    text-decoration: none;       /* ตัดเส้นใต้ */
+    color: red;                  /* สีเดิม */
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid red;
+    border-radius: 4px;          /* ถ้าเดิมไม่มี ลบได้ */
+    cursor: pointer;
+}
+
+.account-logout:hover{
+    background: rgba(255,0,0,0.08);
+}
+.account-item,
+.account-logout{
+    text-decoration: none;
+    color: inherit;
+}
+.breadcrumb a.active-page{
+    color: #444;
+    pointer-events: none;
+    cursor: default;
+}
+
+.btn-confirm.status{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+/* วงกลม */
+.status-dot{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.status.done{
+    background: #8a00c2;
+}
+
+.status.done .status-dot{
+    background: #00e676;
+}
+
+.status.recall{
+    background: #8a00c2;
+}
+
+.status.recall .status-dot{
+    background: #ff0000;
+}
+
+@keyframes pulse{
+    0%{transform: scale(1); opacity: 1;}
+    50%{transform: scale(1.5); opacity: .6;}
+    100%{transform: scale(1); opacity: 1;}
+}
+.status.treating .status-dot{
+    animation: pulse 1.2s infinite;
+}
+.status.recall .status-dot{
+    animation: pulse 1.2s infinite;
+}
+.status.done .status-dot{
+    animation: pulse 1.2s infinite;
+}
+
+.btn-edit{
+    margin-top: 8px;
+    background: #1976ff;
+    border: none;
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn-edit:hover{
+    background: #155ed1;
+}
+
+/* input วันนัด */
+.edit-date{
+  position: absolute;   /* ⭐ ไม่ดัน layout */
+    top: 42px;            /* ระยะจากปุ่ม */
+    right: 0;
+
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 13px;
+    width: 150px;
+
+    display: none;
+    z-index: 10;
+}
 
 </style>
 <script>
@@ -519,13 +677,22 @@ function confirmAccept(){
     // ไปหน้าผู้ป่วยที่คุณดูแล
     window.location.href = "patient-mycare.html";
 }
-window.onload = function(){
-    document.getElementById("goalAlert").style.display = "flex";
+function closeWelcome(){
+    const el = document.getElementById('welcome');
+    el.style.animation = 'fadeIn .5s reverse forwards';
+    setTimeout(()=>{
+        el.remove();
+        //localStorage.setItem("welcomeShown","1");
+    },500);
 }
 
-function closeGoalAlert(){
-    document.getElementById("goalAlert").style.display = "none";
-}
+/* แสดงเฉพาะตอนเข้าใช้งานครั้งแรก */
+window.addEventListener("load",()=>{
+    if(localStorage.getItem("welcomeShown")){
+        const el = document.getElementById("welcome");
+        if(el) el.remove();
+    }
+});
 function toggleAccountMenu(){
     const menu = document.getElementById("accountDropdown");
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
@@ -540,6 +707,67 @@ document.addEventListener("click", function(e){
         menu.style.display = "none";
     }
 });
+
+function toggleEditDate(btn){
+    const input = btn.nextElementSibling;
+    input.style.display = (input.style.display === "none") ? "block" : "none";
+}
+
+function updateAppointment(input){
+    const date = input.value;
+    if(!date) return;
+
+    // แปลงเป็นวันที่ไทยแบบง่าย
+    const d = new Date(date);
+    const thaiDate = d.toLocaleDateString("th-TH", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+
+    // หา div "นัดผู้ป่วยวันที่"
+    const card = input.closest(".patient-card");
+    const info = card.querySelectorAll(".patient-info div");
+
+    info.forEach(div=>{
+        if(div.innerText.includes("นัดผู้ป่วยวันที่")){
+            div.innerText = "นัดผู้ป่วยวันที่: " + thaiDate;
+        }
+    });
+
+    input.style.display = "none";
+}
+function updateAppointmentText(input){
+    const value = input.value.trim();
+    if(!value) return;
+
+    // คาดรูปแบบ dd/mm/yyyy
+    const parts = value.split("/");
+    if(parts.length !== 3){
+        alert("กรุณากรอกวันที่รูปแบบ วว/ดด/ปปปป");
+        return;
+    }
+
+    const [day, month, year] = parts;
+
+    if(day.length !== 2 || month.length !== 2 || year.length !== 4){
+        alert("รูปแบบวันที่ไม่ถูกต้อง");
+        return;
+    }
+
+    const thaiDate = `${day}/${month}/${year}`;
+
+    const card = input.closest(".patient-card");
+    const info = card.querySelectorAll(".patient-info div");
+
+    info.forEach(div=>{
+        if(div.innerText.includes("นัดผู้ป่วยวันที่")){
+            div.innerText = "นัดผู้ป่วยวันที่: " + thaiDate;
+        }
+    });
+
+    input.style.display = "none";
+}
 </script>
 
 </head>
@@ -550,7 +778,7 @@ document.addEventListener("click", function(e){
         <div class="logo">
             <img src="Up.d copy.png" alt="UP Logo">
         </div>
-        <a href="#" class="active">หน้าหลัก</a>
+        <a href="../login-gmail/index.html" class="active">หน้าหลัก</a>
         <div class="clinic-menu" onclick="toggleClinicMenu()">
     คลินิก ▾
     <div class="clinic-dropdown" id="clinicDropdown">
@@ -563,12 +791,12 @@ document.addEventListener("click", function(e){
     <a href="clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
     <a href="clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
     <a href="clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
-    <a href="clinic/drug.html" class="dropdown-item">ประกันตัวยา</a>
+    <a href="clinic/periodontology.html" class="dropdown-item">ปริทันตวิทยา</a>
     <a href="clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
 </div>
 </div>
 
-        <a href="#">รายชื่อแพทย์</a>
+        <a href="namedocter/docterindex.html">รายชื่อแพทย์</a>
         <a href="record/historyindex.html">ประวัติการรักษา</a>
         <a href="Chat/Chat.html">แชท</a>
     </div>
@@ -590,8 +818,8 @@ document.addEventListener("click", function(e){
             </div>
         </div>
     </span>
-    <a href="patientsdocter.html" class="goal-link2">ผู้ป่วยที่คุณดูแล</a>
-    <a href="../login-gmail/index.html" class="goal-link">เป้าหมายของคุณ</a>
+    <a href="../login-gmail/index.html" class="goal-link">ผู้ป่วยที่คุณดูแล</a>
+    <a href="target.html" class="goal-link2">เป้าหมายของคุณ</a>
 </div>
 <div class="user-menu">
     <div class="user-group">
@@ -626,20 +854,21 @@ document.addEventListener("click", function(e){
         <div class="account-section">
             <div class="section-title">เลือกแอปพลิเคชัน</div>
 
-            <div class="account-item">
+            <a href="reg.html" class="account-item">
                 <div class="circle-icon"></div>
                 ระบบ reg
-            </div>
+            </a>
 
-            <div class="account-item">
+            <a href="ge-online.html" class="account-item">
                 <div class="circle-icon"></div>
                 ระบบ ge-online
-            </div>
+            </a>
         </div>
 
-        <div class="account-logout">
-            ออกจากระบบ
-        </div>
+            <a href="logout.html" class="account-logout">
+                ออกจากระบบ
+            </a>
+
 
     </div>
 </div>
@@ -650,69 +879,100 @@ document.addEventListener("click", function(e){
 
         </div>
         <div class="main">
-            <!-- ===== Goal Inline Header (ใส่ตรงนี้) ===== -->
-    <div class="goal-inline">
-        <div class="goal-left">
-            ปีนี้คุณต้องทำคนไข้
-            <span class="goal-count">2</span>
-            คน
-        </div>
-
-        <div class="goal-right">
-            รายชื่อผู้ป่วยที่แนะนำ
-        </div>
-    </div>
-
-    <!-- Patient Card -->
+            
             <!-- Patient Card -->
             <div class="patient-card">
                 <div class="patient-photo">
-    <img src="images/patient1.jpg" alt="patient">
+    <img src="นนท์.jpg" alt="patient">
 </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล:</div>
-                    <div>เพศ: ชาย | อายุ: 20</div>
-                    <div>วันที่เข้าตรวจล่าสุด:</div>
-                    <div>วันที่รับช่วงงาน:</div>
-                    <div>คลินิกที่ทำการรักษา:</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
-                    </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
-                    </div>
+                    <div>ชื่อ-สกุล: นายสิทธินนท์ บุญปั๋น</div>
+                    <div>เพศ: ชาย | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 28 กุมภาพันธ์ 2569</div>
+                    <div>นัดผู้ป่วยวันที่: 3 กุมภาพันธ์ 2569</div>
+                    <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
+                    <br>
+                        <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
+                    </br>
                 </div>
                 <div class="patient-action">
-                <button class="btn-confirm"
-                onclick="openModal('ผู้ป่วยชาย อายุ 20 ปี')">
-                    ยืนยันการรับผู้ป่วย
+                    <button class="btn-confirm status done">
+                    <span class="status-dot"></span>
+                    นัดแล้ว
                 </button>
+                <button class="btn-edit" onclick="toggleEditDate(this)">
+                    แก้ไขวันนัด
+                </button>
+
+                <input type="text"
+                    class="edit-date"
+                    placeholder="ตัวอย่าง: 20/09/2569"
+                    placeholder="วว/ดด/ปปปป"
+                    style="display:none"
+                    onchange="updateAppointmentText(this)">
+
                 </div>
             </div>
                         <div class="patient-card">
                 <div class="patient-photo">
-    <img src="images/patient1.jpg" alt="patient">
+    <img src="โมจิ.jpg" alt="patient">
 </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล:</div>
-                    <div>เพศ: ชาย | อายุ: 20</div>
-                    <div>วันที่เข้าตรวจล่าสุด:</div>
-                    <div>วันที่รับช่วงงาน:</div>
-                    <div>คลินิกที่ทำการรักษา:</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
-                    </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
-                    </div>
+                    <div>ชื่อ-สกุล: นางสาวปัญจรัตน์ ทองนา</div>
+                    <div>เพศ: หญิง | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 7 มกราคม 2569</div>
+                    <div>นัดผู้ป่วยวันที่: 2 กุมภาพันธ์ 2569</div>
+                    <div>คลินิกที่ทำการรักษา: ทันตกรรมจัดฟัน</div>
+                    <br>
+                        <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
+                    </br>
                 </div>
                 <div class="patient-action">
-                    <button class="btn-confirm"
-                        onclick="openModal('ผู้ป่วยชาย อายุ 20 ปี')">
-                        ยืนยันการรับผู้ป่วย
+                    <button class="btn-confirm status done">
+                    <span class="status-dot"></span>
+                        นัดแล้ว
                     </button>
+                    <button class="btn-edit" onclick="toggleEditDate(this)">
+                    แก้ไขวันนัด
+                </button>
+
+                <input type="text"
+                    class="edit-date"
+                    placeholder="ตัวอย่าง: 20/09/2569"
+                    placeholder="วว/ดด/ปปปป"
+                    style="display:none"
+                    onchange="updateAppointmentText(this)">
+                </div>
+            </div>
+                        <div class="patient-card">
+                <div class="patient-photo">
+    <img src="ต้องตา.jpg" alt="patient">
+</div>
+                <div class="patient-info">
+                    <div>ชื่อ-สกุล: นางสาวอรัญญาพร จีนย้าย</div>
+                    <div>เพศ: หญิง | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 23 ธันวาคม 2568</div>
+                    <div>นัดผู้ป่วยวันที่:</div>
+                    <div>คลินิกที่ทำการรักษา: ศัลยกรรมช่องปาก</div>
+                    <br>
+                        <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
+                    </br>
+                </div>
+                <div class="patient-action">
+                    <button class="btn-confirm status recall">
+                    <span class="status-dot"></span>
+                        ยังไม่ได้นัด
+                    </button>
+                    <button class="btn-edit" onclick="toggleEditDate(this)">
+                    เพิ่มวันนัด
+                </button>
+
+                <input type="text"
+                    class="edit-date"
+                    placeholder="ตัวอย่าง: 20/09/2569"
+                    placeholder="วว/ดด/ปปปป"
+                    style="display:none"
+                    onchange="updateAppointmentText(this)">
                 </div>
             </div>
                         <div class="patient-card">
@@ -720,65 +980,62 @@ document.addEventListener("click", function(e){
     <img src="images/patient1.jpg" alt="patient">
 </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล:</div>
-                    <div>เพศ: ชาย | อายุ: 20</div>
-                    <div>วันที่เข้าตรวจล่าสุด:</div>
-                    <div>วันที่รับช่วงงาน:</div>
-                    <div>คลินิกที่ทำการรักษา:</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
-                    </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
-                    </div>
+                    <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
+                    <div>เพศ: ชาย | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 18 ธันวาคม 2568</div>
+                    <div>นัดผู้ป่วยวันที่: 11 มกราคม 2569</div>
+                    <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
+                    <br>
+                        <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
+                    
                 </div>
                 <div class="patient-action">
-                    <button class="btn-confirm">ยืนยันการรับผู้ป่วย</button>
+                    <button class="btn-confirm status done">
+                    <span class="status-dot"></span>
+                    นัดแล้ว
+                </button>
+                <button class="btn-edit" onclick="toggleEditDate(this)">
+                    แก้ไขวันนัด
+                </button>
+
+                <input type="text"
+                    class="edit-date"
+                    placeholder="ตัวอย่าง: 20/09/2569"
+                    placeholder="วว/ดด/ปปปป"
+                    style="display:none"
+                    onchange="updateAppointmentText(this)">
+
                 </div>
             </div>
                         <div class="patient-card">
                 <div class="patient-photo">
-    <img src="images/patient1.jpg" alt="patient">
+    <img src="ทันจิโร่.jpg" alt="patient">
 </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล:</div>
-                    <div>เพศ: ชาย | อายุ: 20</div>
-                    <div>วันที่เข้าตรวจล่าสุด:</div>
-                    <div>วันที่รับช่วงงาน:</div>
-                    <div>คลินิกที่ทำการรักษา:</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
-                    </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
-                    </div>
+                    <div>ชื่อ-สกุล: นายคามาโดะ ทันจิโร่</div>
+                    <div>เพศ: ชาย | อายุ: 17 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 3 ธันวาคม 2568</div>
+                    <div>นัดผู้ป่วยวันที่:</div>
+                    <div>คลินิกที่ทำการรักษา: ทันตกรรมครอบครัว</div>
+                    <br>
+                        <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
+                    </br>
                 </div>
                 <div class="patient-action">
-                    <button class="btn-confirm">ยืนยันการรับผู้ป่วย</button>
-                </div>
-            </div>
-                        <div class="patient-card">
-                <div class="patient-photo">
-    <img src="images/patient1.jpg" alt="patient">
-</div>
-                <div class="patient-info">
-                    <div>ชื่อ-สกุล:</div>
-                    <div>เพศ: ชาย | อายุ: 20</div>
-                    <div>วันที่เข้าตรวจล่าสุด:</div>
-                    <div>วันที่รับช่วงงาน:</div>
-                    <div>คลินิกที่ทำการรักษา:</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
-                    </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
-                    </div>
-                </div>
-                <div class="patient-action">
-                    <button class="btn-confirm">ยืนยันการรับผู้ป่วย</button>
+                    <button class="btn-confirm status recall">
+                    <span class="status-dot"></span>
+                        ยังไม่ได้นัด
+                    </button>
+                    <button class="btn-edit" onclick="toggleEditDate(this)">
+                    เพิ่มวันนัด
+                </button>
+
+                <input type="text"
+                    class="edit-date"
+                    placeholder="ตัวอย่าง: 20/09/2569"
+                    placeholder="วว/ดด/ปปปป"
+                    style="display:none"
+                    onchange="updateAppointmentText(this)">
                 </div>
             </div>
                 </div>
@@ -795,23 +1052,7 @@ document.addEventListener("click", function(e){
         </div>
     </div>
 </div>
-<!-- ===== Goal Alert Modal ===== -->
-<div class="modal-overlay" id="goalAlert">
-    <div class="modal-box">
-        <h3>⚠️ เป้าหมายยังไม่ครบ</h3>
-        <p style="text-align:left">
-            คุณยังขาดผู้ป่วยอีก <b style="color:#d32f2f">2 คน</b><br><br>
-            <b>เคสที่ยังขาด:</b>
-            <ul style="margin-top:8px">
-                <li>🦷 ทันตกรรมบูรณะ (1 เคส)</li>
-                <li>😷 ทันตกรรมฉุกเฉิน (1 เคส)</li>
-            </ul>
-        </p>
-        <div class="modal-actions">
-            <button class="btn-confirm" onclick="closeGoalAlert()">รับทราบ</button>
-        </div>
-    </div>
-</div>
+
 
 </body>
 </html>
