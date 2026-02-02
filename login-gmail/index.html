@@ -570,9 +570,11 @@ document.addEventListener("click", function(e){
 });
 
 let selectedPatient = null;
+let selectedCard = null;
 
-function openModal(patientName){
-    selectedPatient = patientName;
+function openModal(patient, btn){
+    selectedPatient = patient;
+    selectedCard = btn.closest('.patient-card');
     document.getElementById("confirmModal").style.display = "flex";
 }
 
@@ -581,11 +583,25 @@ function closeModal(){
 }
 
 function confirmAccept(){
-    // จำลองบันทึกผู้ป่วยล่าสุด
-    localStorage.setItem("latestPatient", selectedPatient);
+    let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
+
+    // เพิ่มผู้ป่วยใหม่ไว้บนสุด
+    myPatients.unshift(selectedPatient);
+
+    localStorage.setItem("myPatients", JSON.stringify(myPatients));
+
+    // ลบการ์ดผู้ป่วยออกจากหน้านี้
+    if(selectedCard){
+        selectedCard.remove();
+    }
+
+    closeModal();
+
+    // แจ้งเตือน
+    alert("รับผู้ป่วยเรียบร้อยแล้ว");
 
     // ไปหน้าผู้ป่วยที่คุณดูแล
-    window.location.href = "patient-mycare.html";
+    window.location.href = "patientsdocterconfirm.html";
 }
 function closeWelcome(){
     const el = document.getElementById('welcome');
@@ -703,7 +719,7 @@ document.addEventListener("click", function(e){
         <div class="account-section">
             <div class="section-title">เลือกแอปพลิเคชัน</div>
 
-            <a href="reg.html" class="account-item">
+            <a href="https://reg.up.ac.th/" class="account-item">
                 <div class="circle-icon"></div>
                 ระบบ reg
             </a>
@@ -750,7 +766,16 @@ document.addEventListener("click", function(e){
                 </div>
                 <div class="patient-action">
                 <button class="btn-confirm"
-                onclick="openModal('ผู้ป่วยชาย อายุ 20 ปี')">
+                onclick="openModal({
+                    id: 'p001',
+                    name: 'นายสิทธินนท์ บุญปั๋น',
+                    gender: 'ชาย',
+                    age: 19,
+                    clinic: 'เอนโดดอนติกส์',
+                    lastVisit: '28 กุมภาพันธ์ 2569',
+                    available: 'พุธ บ่าย',
+                    image: 'นนท์.jpg'
+                }, this)">
                     ยืนยันการรับผู้ป่วย
                 </button>
                 </div>
@@ -775,7 +800,16 @@ document.addEventListener("click", function(e){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                        onclick="openModal('ผู้ป่วยหญิง อายุ 19 ปี')">
+                        onclick="openModal({
+                    id: 'p001',
+                    name: 'นางสาวปัญจรัตน์ ทองนา',
+                    gender: 'หญิง',
+                    age: 19,
+                    clinic: ' ทันตกรรมจัดฟัน',
+                    lastVisit: '7 มกราคม 2569',
+                    available: ' จันทร์ เช้า',
+                    image: 'โมจิ.jpg'
+                }, this)">
                         ยืนยันการรับผู้ป่วย
                     </button>
                 </div>
@@ -800,14 +834,23 @@ document.addEventListener("click", function(e){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                        onclick="openModal('ผู้ป่วยหญิง อายุ 19 ปี')">
+                        onclick="openModal({
+                    id: 'p001',
+                    name: 'นางสาวอรัญญาพร จีนย้าย',
+                    gender: 'หญิง',
+                    age: 19,
+                    clinic: ' ศัลยกรรมช่องปาก',
+                    lastVisit: '23 ธันวาคม 2568',
+                    available: ' อังคาร ทั้งวัน',
+                    image: 'ต้องตา.jpg'
+                }, this)">
                         ยืนยันการรับผู้ป่วย
                     </button>
                 </div>
             </div>
                         <div class="patient-card">
                 <div class="patient-photo">
-    <img src="images/patient1.jpg" alt="patient">
+    <img src="ฟิวส์.jpg" alt="patient">
 </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
@@ -825,7 +868,16 @@ document.addEventListener("click", function(e){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                    onclick="openModal('ผู้ป่วยชาย อายุ 19 ปี')">
+                    onclick="openModal({
+                    id: 'p001',
+                    name: 'นายอติวิชญ์ คำมูลใจ',
+                    gender: 'ชาย',
+                    age: 19,
+                    clinic: ' ปริทันตวิทยา',
+                    lastVisit: '18 ธันวาคม 2568',
+                    available: ' พฤหัสบดี เช้า',
+                    image: 'ต้องตา.jpg'
+                }, this)">
                     ยืนยันการรับผู้ป่วย
                 </button>
                 </div>
@@ -850,7 +902,16 @@ document.addEventListener("click", function(e){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                    onclick="openModal('ผู้ป่วยชาย อายุ 17 ปี')">
+                    onclick="openModal({
+                    id: 'p001',
+                    name: 'นายคามาโดะ ทันจิโร่',
+                    gender: 'ชาย',
+                    age: 17,
+                    clinic: ' ทันตกรรมครอบครัว',
+                    lastVisit: '3 ธันวาคม 2568',
+                    available: ' พุธ เช้า',
+                    image: 'ทันจิโร่.jpg'
+                }, this)">
                         ยืนยันการรับผู้ป่วย
                     </button>
                 </div>

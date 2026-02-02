@@ -354,6 +354,124 @@ body{
     color: #145fd1;
 }
 
+.account-box{
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.account-wrapper{
+    position: relative;
+}
+
+.account-dropdown{
+    position: absolute;
+    top: 58px;
+    right: 0;
+    width: 260px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+    display: none;
+    z-index: 1000;
+}
+
+.account-header{
+    display: flex;
+    gap: 12px;
+    padding: 14px;
+    background: #dcdcdc;
+}
+
+.account-avatar{
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.account-name{
+    font-weight: 600;
+}
+
+.account-role{
+    font-size: 13px;
+    color: #8a00c2;
+}
+
+.account-section{
+    padding: 10px 14px;
+}
+
+.section-title{
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.account-item{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    cursor: pointer;
+    text-decoration: none;
+    color: #000;
+}
+
+.account-item:hover{
+    background: #f0f0f0;
+}
+
+.circle-icon{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #000;
+}
+
+.account-logout{
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid red;
+    color: red;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.account-logout:hover{
+    background: rgba(255,0,0,0.08);
+}
+
+
+.account-dropdown.show{
+    display: block;
+}
+
+
+.account-item:hover{
+    background: #3a3a3a;
+}
+
+.account-logout{
+    display: block;              /* ให้เหมือน div */
+    text-decoration: none;       /* ตัดเส้นใต้ */
+    color: rgb(0, 0, 0);                  /* สีเดิม */
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid red;
+    border-radius: 4px;          /* ถ้าเดิมไม่มี ลบได้ */
+    cursor: pointer;
+}
+
+.account-logout:hover{
+    background: rgba(229,57,53,0.1);
+}
+
+
 </style>
 <script>
 function togglePatientMenu(){
@@ -388,6 +506,20 @@ document.addEventListener("click", function(e){
 
     if(clinicMenu && !clinicMenu.contains(e.target)){
         clinicDropdown.style.display = "none";
+    }
+});
+
+function toggleAccountMenu(){
+    const menu = document.getElementById("accountDropdown");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+document.addEventListener("click", function(e){
+    const wrapper = document.querySelector(".account-wrapper");
+    const menu = document.getElementById("accountDropdown");
+
+    if(wrapper && !wrapper.contains(e.target)){
+        menu.style.display = "none";
     }
 });
 </script>
@@ -438,13 +570,49 @@ document.addEventListener("click", function(e){
             <span class="badge">3</span>
         </div>
         <!-- บัญชี -->
-        <div class="account-box">
-            <div class="avatar">
-                <img src="14769.jpg" alt="profile">
-            </div>
-            <span class="account-text">บัญชีของคุณ</span>
-            <span class="arrow">▾</span>
+        <div class="account-wrapper">
+    <div class="account-box" onclick="toggleAccountMenu()">
+        <div class="avatar">
+            <img src="14769.jpg" alt="profile">
         </div>
+        <span class="account-text">บัญชีของคุณ</span>
+        <span class="arrow">▾</span>
+    </div>
+
+    <!-- Account Dropdown (แบบโค้ดแรก) -->
+    <div class="account-dropdown" id="accountDropdown">
+
+        <div class="account-header">
+            <div class="account-avatar">
+                <img src="14769.jpg">
+            </div>
+            <div>
+                <div class="account-name">ชื่อ Mr.</div>
+                <div class="account-role">นิสิต</div>
+            </div>
+        </div>
+
+        <div class="account-section">
+            <div class="section-title">เลือกแอปพลิเคชัน</div>
+
+            <a href="reg.html" class="account-item">
+                <div class="circle-icon"></div>
+                ระบบ reg
+            </a>
+
+            <a href="ge-online.html" class="account-item">
+                <div class="circle-icon"></div>
+                ระบบ ge-online
+            </a>
+        </div>
+
+        <a href="logout.html" class="account-logout">
+            ออกจากระบบ
+        </a>
+
+    </div>
+</div>
+
     </div>
 </div>
         </div>

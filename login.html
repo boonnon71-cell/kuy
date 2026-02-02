@@ -108,7 +108,164 @@ input::placeholder{
 .office365:hover{
     text-decoration: underline;
 }
+/* ===== Alert Modal ===== */
+.alert-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn .3s ease;
+}
+
+.alert-card{
+    background: #fff;
+    width: 360px;
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    animation: popUp .35s ease;
+}
+
+.alert-icon{
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.alert-card h3{
+    margin: 0 0 8px;
+    color: #8a00c2;
+}
+
+.alert-card p{
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.alert-btn{
+    background: #8a00c2;
+    color: #fff;
+    border: none;
+    padding: 10px 26px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.alert-btn:hover{
+    background: #7400a5;
+}
+
+@keyframes popUp{
+    from{transform: scale(.8); opacity: 0;}
+    to{transform: scale(1); opacity: 1;}
+}
+.password-wrapper{
+    position: relative;
+}
+
+.password-wrapper input{
+    padding-right: 45px;
+}
+
+.toggle-password{
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #ffffff; /* สีขาว */
+    opacity: 0.8;
+}
+
+.toggle-password:hover{
+    opacity: 1;
+}
+
+.password-wrapper{
+    position: relative;
+    margin-bottom: 22px; /* ย้าย margin มาไว้ที่ wrapper */
+}
+
+.password-wrapper input{
+    margin-bottom: 0;     /* ❌ เอา margin ล่างออก */
+    padding-right: 45px;
+}
+
+.toggle-password{
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #ffffff;
+    opacity: 0.85;
+}
+
+.toggle-password:hover{
+    opacity: 1;
+}
+
 </style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("loginBtn").addEventListener("click", function () {
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        // 🔐 กำหนด user / password ที่ถูกต้อง
+        const correctEmail = "68023559@up.ac.th";
+        const correctPassword = "fiw301022@";
+
+        // ตรวจช่องว่าง
+        if(email === "" || password === ""){
+            showAlert("กรุณากรอกอีเมลและรหัสผ่านให้ครบ");
+            return;
+        }
+
+        // ตรวจข้อมูล
+        if(email !== correctEmail || password !== correctPassword){
+            showAlert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+            return;
+        }
+
+        // ✅ ผ่านการเข้าสู่ระบบ
+        window.location.href = "login-gmail/index.html";
+    });
+});
+
+function showAlert(message){
+    document.getElementById("alertMessage").innerText = message;
+    document.getElementById("alertBox").style.display = "flex";
+}
+
+function closeAlert(){
+    document.getElementById("alertBox").style.display = "none";
+}
+
+function togglePassword(){
+    const passInput = document.getElementById("password");
+    const icon = document.querySelector(".toggle-password");
+
+    if(passInput.type === "password"){
+        passInput.type = "text";
+        icon.textContent = "👁";     // เปิดดูรหัส
+    }else{
+        passInput.type = "password";
+        icon.textContent = "👁‍🗨";   // ซ่อนรหัส
+    }
+}
+
+</script>
+
+
 </head>
 <body>
 <div class="header">
@@ -117,14 +274,30 @@ input::placeholder{
 </div>
 <div class="container">
     <div class="login-box">
-        <label>ชื่อผู้ใช้งาน</label>
-        <input type="text" placeholder="ชื่อผู้ใช้งาน">
+        <label>อีเมล</label>
+        <input type="email" id="email" placeholder="อีเมล">
+
         <label>รหัสผ่าน</label>
-        <input type="password" placeholder="รหัสผ่าน">
-        <button class="btn-login">เข้าสู่ระบบ</button>
+        <div class="password-wrapper">
+            <input type="password" id="password" placeholder="รหัสผ่าน">
+            <span class="toggle-password" onclick="togglePassword()">👁‍🗨</span>
+        </div>
+
+        <button class="btn-login" id="loginBtn">เข้าสู่ระบบ</button>
         <div class="divider">ลงชื่อเข้าใช้ด้วย</div>
         <a href="login-gmail/gmail.html" class="office365">OFFICE 365</a>
     </div>
 </div>
+
+<!-- Alert Overlay -->
+<div class="alert-overlay" id="alertBox">
+    <div class="alert-card">
+        <div class="alert-icon">⚠️</div>
+        <h3>เข้าสู่ระบบไม่สำเร็จ</h3>
+        <p id="alertMessage">กรุณากรอกอีเมลและรหัสผ่านให้ครบ</p>
+        <button class="alert-btn" onclick="closeAlert()">ตกลง</button>
+    </div>
+</div>
+
 </body>
 </html>
