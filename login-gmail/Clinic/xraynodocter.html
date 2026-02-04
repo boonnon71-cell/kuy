@@ -62,9 +62,6 @@ body{
     border-bottom: 1px solid #ddd;
 }
 .breadcrumb{
-    display: flex;
-    align-items: center;
-    gap: 12px;   /* ⭐ ระยะห่างระหว่าง รวม / ปี 4 / ปี 5 */
     font-size: 14px;
     color: #444;
 }
@@ -143,10 +140,6 @@ body{
 /* Button */
 .patient-action{
     margin-left: 20px;
-    position: relative;   /* ⭐ สำคัญ */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
 }
 .btn-confirm{
     background: #8a00c2;
@@ -338,23 +331,13 @@ body{
     background: #ccc;
 }
 .goal-link{
-    color: #1976ff;
-    text-decoration: none;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.goal-link:hover{
-    text-decoration: underline;
-}
-.goal-link2{
     color: #000000;
     text-decoration: none;
     font-weight: 500;
     cursor: pointer;
 }
 
-.goal-link2:hover{
+.goal-link:hover{
     text-decoration: underline;
 }
 /* ===== Welcome Banner ===== */
@@ -524,108 +507,11 @@ body{
     color: #8a00c2;   /* สีม่วงตามปุ่ม */
     margin-bottom: 14px;
 }
-.account-logout{
-    display: block;              /* ให้เหมือน div */
-    text-decoration: none;       /* ตัดเส้นใต้ */
-    color: red;                  /* สีเดิม */
-    text-align: center;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid red;
-    border-radius: 4px;          /* ถ้าเดิมไม่มี ลบได้ */
-    cursor: pointer;
-}
-
-.account-logout:hover{
-    background: rgba(255,0,0,0.08);
-}
-.account-item,
-.account-logout{
-    text-decoration: none;
-    color: inherit;
-}
 .breadcrumb a.active-page{
     color: #444;
     pointer-events: none;
     cursor: default;
 }
-
-.btn-confirm.status{
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-}
-
-/* วงกลม */
-.status-dot{
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-}
-
-.status.done{
-    background: #8a00c2;
-}
-
-.status.done .status-dot{
-    background: #00e676;
-}
-
-.status.recall{
-    background: #8a00c2;
-}
-
-.status.recall .status-dot{
-    background: #ff0000;
-}
-
-@keyframes pulse{
-    0%{transform: scale(1); opacity: 1;}
-    50%{transform: scale(1.5); opacity: .6;}
-    100%{transform: scale(1); opacity: 1;}
-}
-.status.treating .status-dot{
-    animation: pulse 1.2s infinite;
-}
-.status.recall .status-dot{
-    animation: pulse 1.2s infinite;
-}
-.status.done .status-dot{
-    animation: pulse 1.2s infinite;
-}
-
-.btn-edit{
-    margin-top: 8px;
-    background: #1976ff;
-    border: none;
-    color: #fff;
-    padding: 6px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.btn-edit:hover{
-    background: #155ed1;
-}
-
-/* input วันนัด */
-.edit-date{
-  position: absolute;   /* ⭐ ไม่ดัน layout */
-    top: 42px;            /* ระยะจากปุ่ม */
-    right: 0;
-
-    padding: 6px 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 13px;
-    width: 150px;
-
-    display: none;
-    z-index: 10;
-}
-
 </style>
 <script>
 function togglePatientMenu(){
@@ -710,67 +596,6 @@ document.addEventListener("click", function(e){
         menu.style.display = "none";
     }
 });
-
-function toggleEditDate(btn){
-    const input = btn.nextElementSibling;
-    input.style.display = (input.style.display === "none") ? "block" : "none";
-}
-
-function updateAppointment(input){
-    const date = input.value;
-    if(!date) return;
-
-    // แปลงเป็นวันที่ไทยแบบง่าย
-    const d = new Date(date);
-    const thaiDate = d.toLocaleDateString("th-TH", {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-    });
-
-    // หา div "นัดผู้ป่วยวันที่"
-    const card = input.closest(".patient-card");
-    const info = card.querySelectorAll(".patient-info div");
-
-    info.forEach(div=>{
-        if(div.innerText.includes("นัดผู้ป่วยวันที่")){
-            div.innerText = "นัดผู้ป่วยวันที่: " + thaiDate;
-        }
-    });
-
-    input.style.display = "none";
-}
-function updateAppointmentText(input){
-    const value = input.value.trim();
-    if(!value) return;
-
-    // คาดรูปแบบ dd/mm/yyyy
-    const parts = value.split("/");
-    if(parts.length !== 3){
-        alert("กรุณากรอกวันที่รูปแบบ วว/ดด/ปปปป");
-        return;
-    }
-
-    const [day, month, year] = parts;
-
-    if(day.length !== 2 || month.length !== 2 || year.length !== 4){
-        alert("รูปแบบวันที่ไม่ถูกต้อง");
-        return;
-    }
-
-    const thaiDate = `${day}/${month}/${year}`;
-
-    const card = input.closest(".patient-card");
-    const info = card.querySelectorAll(".patient-info div");
-
-    info.forEach(div=>{
-        if(div.innerText.includes("นัดผู้ป่วยวันที่")){
-            div.innerText = "นัดผู้ป่วยวันที่: " + thaiDate;
-        }
-    });
-
-    input.style.display = "none";
-}
 </script>
 
 </head>
@@ -779,14 +604,14 @@ function updateAppointmentText(input){
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
-            <img src="Up.d copy.png" alt="UP Logo">
+            <img src="Up.d.png" alt="UP Logo">
         </div>
         <a href="../index.html" >หน้าหลัก</a>
         <div class="clinic-menu" onclick="toggleClinicMenu()">
     คลินิก ▾
     <div class="clinic-dropdown" id="clinicDropdown">
-    <a href="../Clinic/xray/xray.html" class="dropdown-item">ทันตรังสี</a>
-    <a href="clinic/emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
+    <a href="../Clinic/xray.html" class="active" class="dropdown-item">ทันตรังสี</a>
+    <a href="emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
     <a href="clinic/prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
     <a href="clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
     <a href="clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
@@ -799,19 +624,26 @@ function updateAppointmentText(input){
 </div>
 </div>
 
-        <a href="#" class="active">รายชื่อแพทย์</a>
-        <a href="../record/historyindex.html">ประวัติการรักษา</a>
-        <a href="../Chat/Chat.html">แชท</a>
+        <a href="namedocter/docterindex.html">รายชื่อแพทย์</a>
+        <a href="record/historyindex.html">ประวัติการรักษา</a>
+        <a href="Chat/Chat.html">แชท</a>
     </div>
     <!-- Content -->
     <div class="content">
         <div class="topbar">
             <div class="breadcrumb">
-    <span class="goal-link" onclick="location.href='#'">
-        รวม
+    <span class="patient-menu" onclick="togglePatientMenu()">
+        ผู้ป่วย ▾
+        <div class="patient-dropdown" id="patientDropdown">
+            <div class="dropdown-item">ผู้ป่วยที่ยังไม่มีแพทย์ดูแล</div>
+            <div class="dropdown-item"
+                onclick="location.href='../Clinic/xraytoday.html'">
+                ผู้ป่วยที่ทำการรักษาวันนี้
+            </div>
+        </div>
     </span>
-    <a href="docter4.html" class="goal-link2">ปี 4</a>
-    <a href="docter5.html" class="goal-link2">ปี 5</a>
+    <a href="../patientsdocter.html" class="goal-link">ผู้ป่วยที่คุณดูแล</a>
+    <a href="../target.html" class="goal-link">เป้าหมายของคุณ</a>
 </div>
 <div class="user-menu">
     <div class="user-group">
@@ -846,21 +678,20 @@ function updateAppointmentText(input){
         <div class="account-section">
             <div class="section-title">เลือกแอปพลิเคชัน</div>
 
-            <a href="reg.html" class="account-item">
+            <div class="account-item">
                 <div class="circle-icon"></div>
                 ระบบ reg
-            </a>
+            </div>
 
-            <a href="ge-online.html" class="account-item">
+            <div class="account-item">
                 <div class="circle-icon"></div>
                 ระบบ ge-online
-            </a>
+            </div>
         </div>
 
-            <a href="logout.html" class="account-logout">
-                ออกจากระบบ
-            </a>
-
+        <div class="account-logout">
+            ออกจากระบบ
+        </div>
 
     </div>
 </div>
@@ -871,7 +702,10 @@ function updateAppointmentText(input){
 
         </div>
         <div class="main">
-            
+            <div class="no-doctor-title">
+                ผู้ป่วยที่ยังไม่มีแพทย์ดูแล
+            </div  >
+
             <!-- Patient Card -->
             <div class="patient-card">
                 <div class="patient-photo">
@@ -879,20 +713,23 @@ function updateAppointmentText(input){
 </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นายสิทธินนท์ บุญปั๋น</div>
-                    <div>เพศ: ชาย </div>
-                    <div>รหัสนิสิต: 28 กุมภาพันธ์ 2569</div>
-                    <br>
+                    <div>เพศ: ชาย | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 28 กุมภาพันธ์ 2569</div>
+                    <div>วันที่ผู้ป่วยว่าง: พุธ บ่าย</div>
                     <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
-                    <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
-                    </br>
+                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
+                    </div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นทพ. ณิชาภัทร ตรัยรัตนเมธี</span>
+                    </div>
                 </div>
                 <div class="patient-action">
-                    <button class="btn-confirm status done">
-                    <span class="status-dot"></span>
-                    อยู่
+                <button class="btn-confirm"
+                onclick="openModal('ผู้ป่วยชาย อายุ 20 ปี')">
+                    ยืนยันการรับผู้ป่วย
                 </button>
-
                 </div>
             </div>
                         <div class="patient-card">
@@ -901,17 +738,22 @@ function updateAppointmentText(input){
 </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นางสาวปัญจรัตน์ ทองนา</div>
-                    <div>เพศ: หญิง </div>
-                    <div>รหัสนิสิต: 7 มกราคม 2569</div>
-                    <br>
+                    <div>เพศ: หญิง | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 7 มกราคม 2569</div>
+                    <div>วันที่ผู้ป่วยว่าง: จันทร์ เช้า</div>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมจัดฟัน</div>
-                    <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
+                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมบูรณะ</div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
+                    </div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นพ. ธนภัทร ศรีวัฒนพร</span>
+                    </div>
                 </div>
                 <div class="patient-action">
-                    <button class="btn-confirm status done">
-                    <span class="status-dot"></span>
-                        อยู่
+                    <button class="btn-confirm"
+                        onclick="openModal('ผู้ป่วยหญิง อายุ 19 ปี')">
+                        ยืนยันการรับผู้ป่วย
                     </button>
                 </div>
             </div>
@@ -921,39 +763,48 @@ function updateAppointmentText(input){
 </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นางสาวอรัญญาพร จีนย้าย</div>
-                    <div>เพศ: หญิง </div>
-                    <div>รหัสนิสิต: 23 ธันวาคม 2568</div>
-                    <br>
-                    <div>คลินิกที่ทำการรักษา: ไม่อยู่โรงพยาบาล</div>
-                    <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
+                    <div>เพศ: หญิง | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 23 ธันวาคม 2568</div>
+                    <div>วันที่ผู้ป่วยว่าง: อังคาร ทั้งวัน</div>
+                    <div>คลินิกที่ทำการรักษา: ศัลยกรรมช่องปาก</div>
+                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมประดิษฐ์</div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
+                    </div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
+                    </div>
                 </div>
                 <div class="patient-action">
-                    <button class="btn-confirm status recall">
-                    <span class="status-dot"></span>
-                        ไม่อยู่
+                    <button class="btn-confirm"
+                        onclick="openModal('ผู้ป่วยหญิง อายุ 19 ปี')">
+                        ยืนยันการรับผู้ป่วย
                     </button>
                 </div>
             </div>
                         <div class="patient-card">
                 <div class="patient-photo">
-    <img src="images/patient1.jpg" alt="patient">
+    <img src="ฟิวส์.jpg" alt="patient">
 </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
-                    <div>เพศ: ชาย </div>
-                    <div>รหัสนิสิต: 18 ธันวาคม 2568</div>
-                    <br>
+                    <div>เพศ: ชาย | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 18 ธันวาคม 2568</div>
+                    <div>วันที่ผู้ป่วยว่าง: พฤหัสบดี เช้า</div>
                     <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
-                    <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
+                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
+                    </div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
+                    </div>
                 </div>
                 <div class="patient-action">
-                    <button class="btn-confirm status done">
-                    <span class="status-dot"></span>
-                    อยู่
+                    <button class="btn-confirm"
+                    onclick="openModal('ผู้ป่วยชาย อายุ 19 ปี')">
+                    ยืนยันการรับผู้ป่วย
                 </button>
-
                 </div>
             </div>
                         <div class="patient-card">
@@ -962,24 +813,39 @@ function updateAppointmentText(input){
 </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นายคามาโดะ ทันจิโร่</div>
-                    <div>เพศ: ชาย </div>
-                    <div>รหัสนิสิต: 3 ธันวาคม 2568</div>
-                    <br>
-                    <div>คลินิกที่ทำการรักษา: ไม่อยู่โรงพยาบาล</div>
-                    <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
-                    
+                    <div>เพศ: ชาย | อายุ: 17 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 3 ธันวาคม 2568</div>
+                    <div>วันที่ผู้ป่วยว่าง: พุธ เช้า</div>
+                    <div>คลินิกที่ทำการรักษา: ทันตกรรมครอบครัว</div>
+                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
+                    </div>
+                    <div>
+                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
+                    </div>
                 </div>
                 <div class="patient-action">
-                    <button class="btn-confirm status recall">
-                    <span class="status-dot"></span>
-                        ไม่อยู่
+                    <button class="btn-confirm"
+                    onclick="openModal('ผู้ป่วยชาย อายุ 17 ปี')">
+                        ยืนยันการรับผู้ป่วย
                     </button>
                 </div>
             </div>
                 </div>
             </div>
         </div>
+        <!-- ===== Confirm Modal ===== -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+        <h3>ยืนยันการรับผู้ป่วย</h3>
+        <p>คุณแน่ใจใช่ไหมที่จะรับผู้ป่วยคนนี้</p>
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
+            <button class="btn-confirm" onclick="confirmAccept()">ยืนยัน</button>
+        </div>
+    </div>
+</div>
 
 
 </body>
