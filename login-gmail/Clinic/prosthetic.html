@@ -532,7 +532,71 @@ body{
     pointer-events: none;
     cursor: default;
 }
+.game-notify{
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 420px;
+    height: 90px;
+    background: linear-gradient(135deg,#ff3b7d,#7f2bff);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    color: white;
+    z-index: 20000;
+    animation: slideDown .6s ease-out forwards;
+}
 
+.game-avatar{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,.7);
+    margin-right: 14px;
+    flex-shrink: 0;
+}
+
+.game-avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.game-content{
+    flex: 1;
+}
+
+.game-title{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.game-subtitle{
+    font-size: 14px;
+    opacity: .9;
+}
+
+.game-kill{
+    font-size: 13px;
+    font-weight: 700;
+    opacity: .85;
+}
+
+/* animation */
+@keyframes slideDown{
+    from{
+        transform: translate(-50%, -40px);
+        opacity: 0;
+    }
+    to{
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
 </style>
 <script>
 function togglePatientMenu(){
@@ -590,18 +654,27 @@ function confirmAccept(){
 
     localStorage.setItem("myPatients", JSON.stringify(myPatients));
 
-    // ลบการ์ดผู้ป่วยออกจากหน้านี้
-    if(selectedCard){
-        selectedCard.remove();
-    }
+closeModal();
+//removePatientsByClinic(selectedPatient.clinic);
+// แจ้งเตือนแบบเกม
+showAcceptNotify(selectedPatient);
 
-    closeModal();
+// หน่วงนิดนึงก่อนเปลี่ยนหน้า
+setTimeout(()=>{
+    window.location.href = "../patientsdocter.html";
+}, 1200);
+function showAcceptNotify(patient){
+    const notify = document.getElementById("acceptNotify");
+    const img = document.getElementById("notifyImg");
 
-    // แจ้งเตือน
-    alert("รับผู้ป่วยเรียบร้อยแล้ว");
+    img.src = patient.image || "default.jpg";
 
-    // ไปหน้าผู้ป่วยที่คุณดูแล
-    window.location.href = "patientsdocterconfirm.html";
+    notify.style.display = "flex";
+
+    setTimeout(()=>{
+        notify.style.display = "none";
+    }, 3500);
+}
 }
 function closeWelcome(){
     const el = document.getElementById('welcome');
@@ -650,20 +723,20 @@ document.addEventListener("click", function(e){
     <a href="xray.html"  class="dropdown-item">ทันตรังสี</a>
     <a href="emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
     <a href="#" class="active" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
-    <a href="clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
-    <a href="clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
-    <a href="clinic/restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
-    <a href="clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
-    <a href="clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
-    <a href="clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
-    <a href="clinic/periodontology.html" class="dropdown-item">ปริทันตวิทยา</a>
-    <a href="clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
+    <a href="family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
+    <a href="comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
+    <a href="restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
+    <a href="ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
+    <a href="endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
+    <a href="oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
+    <a href="periodontology.html" class="dropdown-item">ปริทันตวิทยา</a>
+    <a href="occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
 </div>
 </div>
 
         <a href="../namedocter/docterindex.html">รายชื่อแพทย์</a>
         <a href="../record/historyindex.html">ประวัติการรักษา</a>
-        <a href="Chat/Chat.html">แชท</a>
+        <a href="../Chat/Chat.html">แชท</a>
     </div>
     <!-- Content -->
     <div class="content">
@@ -929,6 +1002,17 @@ document.addEventListener("click", function(e){
             <button class="btn-confirm" onclick="confirmAccept()">ยืนยัน</button>
         </div>
     </div>
+</div>
+<!-- ===== Game Notification ===== -->
+<div class="game-notify" id="acceptNotify" style="display:none">
+    <div class="game-avatar">
+        <img id="notifyImg" src="" alt="avatar">
+    </div>
+    <div class="game-content">
+        <div class="game-title">สำเร็จ</div>
+        <div class="game-subtitle">รับผู้ป่วยเรียบร้อยแล้ว</div>
+    </div>
+    <div class="game-kill">OK</div>
 </div>
 </body>
 </html>

@@ -532,6 +532,72 @@ body{
     pointer-events: none;
     cursor: default;
 }
+/* ===== Game Notify ===== */
+.game-notify{
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 420px;
+    height: 90px;
+    background: linear-gradient(135deg,#ff3b7d,#7f2bff);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    color: white;
+    z-index: 20000;
+    animation: slideDown .6s ease-out forwards;
+}
+
+.game-avatar{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,.7);
+    margin-right: 14px;
+    flex-shrink: 0;
+}
+
+.game-avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.game-content{
+    flex: 1;
+}
+
+.game-title{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.game-subtitle{
+    font-size: 14px;
+    opacity: .9;
+}
+
+.game-kill{
+    font-size: 13px;
+    font-weight: 700;
+    opacity: .85;
+}
+
+/* animation */
+@keyframes slideDown{
+    from{
+        transform: translate(-50%, -40px);
+        opacity: 0;
+    }
+    to{
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
 
 </style>
 <script>
@@ -590,18 +656,32 @@ function confirmAccept(){
 
     localStorage.setItem("myPatients", JSON.stringify(myPatients));
 
-    // ลบการ์ดผู้ป่วยออกจากหน้านี้
-    if(selectedCard){
-        selectedCard.remove();
-    }
 
-    closeModal();
 
-    // แจ้งเตือน
-    alert("รับผู้ป่วยเรียบร้อยแล้ว");
 
-    // ไปหน้าผู้ป่วยที่คุณดูแล
-    window.location.href = "patientsdocterconfirm.html";
+closeModal();
+// 🔥 ลบผู้ป่วยทั้งหมดในคลินิกเดียวกัน
+removePatientsByClinic(selectedPatient.clinic);
+// แจ้งเตือนแบบเกม
+showAcceptNotify(selectedPatient);
+
+// หน่วงนิดนึงก่อนเปลี่ยนหน้า
+setTimeout(()=>{
+    window.location.href = "patientsdocter.html";
+}, 1200);
+function showAcceptNotify(patient){
+    const notify = document.getElementById("acceptNotify");
+    const img = document.getElementById("notifyImg");
+
+    img.src = patient.image || "default.jpg";
+
+    notify.style.display = "flex";
+
+    setTimeout(()=>{
+        notify.style.display = "none";
+    }, 3500);
+}
+
 }
 function closeWelcome(){
     const el = document.getElementById('welcome');
@@ -633,6 +713,20 @@ document.addEventListener("click", function(e){
         menu.style.display = "none";
     }
 });
+function removePatientsByClinic(clinicName){
+    if(!clinicName) return;
+
+    const targetClinic = clinicName.trim();
+    const cards = document.querySelectorAll(".patient-card");
+
+    cards.forEach(card => {
+        const text = card.innerText;
+        if(text.includes(targetClinic)){
+            card.remove();
+        }
+    });
+}
+
 </script>
 
 </head>
@@ -942,6 +1036,17 @@ document.addEventListener("click", function(e){
             </div>
         </div>
     </div>
+</div>
+<!-- ===== Game Notification ===== -->
+<div class="game-notify" id="acceptNotify" style="display:none">
+    <div class="game-avatar">
+        <img id="notifyImg" src="" alt="avatar">
+    </div>
+    <div class="game-content">
+        <div class="game-title">สำเร็จ</div>
+        <div class="game-subtitle">รับผู้ป่วยเรียบร้อยแล้ว</div>
+    </div>
+    <div class="game-kill">OK</div>
 </div>
 
 </body>

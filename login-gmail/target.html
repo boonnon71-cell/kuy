@@ -464,6 +464,94 @@ body{
 .account-logout:hover{
     background: rgba(255,0,0,0.08);
 }
+/* ===== Game Notify ===== */
+.game-notify{
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 420px;
+    height: 90px;
+    background: linear-gradient(135deg,#ff3b7d,#7f2bff);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    color: white;
+    z-index: 20000;
+    animation: slideDown .6s ease-out forwards;
+}
+
+.game-avatar{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,.7);
+    margin-right: 14px;
+    flex-shrink: 0;
+}
+
+.game-avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.game-content{
+    flex: 1;
+}
+
+.game-title{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.game-subtitle{
+    font-size: 14px;
+    opacity: .9;
+}
+
+.game-kill{
+    font-size: 13px;
+    font-weight: 700;
+    opacity: .85;
+}
+
+/* animation */
+@keyframes slideDown{
+    from{
+        transform: translate(-50%, -40px);
+        opacity: 0;
+    }
+    to{
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+.clinic-item{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.clinic-icon{
+    width: 22px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.clinic-name{
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.clinic-detail{
+    opacity: .8;
+    white-space: nowrap;
+}
 
 </style>
 <script>
@@ -554,24 +642,76 @@ function closeModal(){
 function confirmAccept(){
     let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
 
-    // เพิ่มผู้ป่วยใหม่ไว้บนสุด
+    // เพิ่มผู้ป่วยใหม่
     myPatients.unshift(selectedPatient);
-
     localStorage.setItem("myPatients", JSON.stringify(myPatients));
 
-    // ลบการ์ดผู้ป่วยออกจากหน้านี้
-    if(selectedCard){
-        selectedCard.remove();
-    }
-
+    // ปิด modal
     closeModal();
+    updateGoalAfterAccept(selectedPatient.clinic);
+    // 🔔 แจ้งเตือนแบบเกม
+    showAcceptNotify(selectedPatient);
 
-    // แจ้งเตือน
-    alert("รับผู้ป่วยเรียบร้อยแล้ว");
+// 🔥 ลบผู้ป่วยทั้งหมดในคลินิกเดียวกัน
+    removePatientsByClinic(selectedPatient.clinic);
 
-    // ไปหน้าผู้ป่วยที่คุณดูแล
-    window.location.href = "patientsdocterconfirm.html";
+    // หน่วงก่อนเปลี่ยนหน้า
+    setTimeout(()=>{
+        window.location.href = "patientsdocter.html";
+    }, 1200);
 }
+
+function showAcceptNotify(patient){
+    const notify = document.getElementById("acceptNotify");
+    const img = document.getElementById("notifyImg");
+
+    img.src = patient.image || "default.jpg";
+
+    notify.style.display = "flex";
+
+    setTimeout(()=>{
+        notify.style.display = "none";
+    }, 3500);
+}
+function updateGoalAfterAccept(clinicName){
+    const goalCountEl = document.getElementById("goalCount");
+    const goalList = document.querySelector("#goalAlert ul");
+
+    if(!goalCountEl || !goalList || !clinicName) return;
+
+    const target = clinicName.trim();
+    const items = goalList.querySelectorAll("li");
+
+    let removed = false;
+
+    items.forEach(li => {
+        const liClinic = (li.dataset.clinic || "").trim();
+        if(liClinic === target){
+            li.remove();
+            removed = true;
+        }
+    });
+
+    if(removed){
+        let count = parseInt(goalCountEl.innerText);
+        count = Math.max(0, count - 1);
+        goalCountEl.innerText = count;
+        localStorage.setItem("goalRemaining", count);
+    }
+}
+
+function removePatientsByClinic(clinicName){
+    const cards = document.querySelectorAll(".patient-card");
+
+    cards.forEach(card => {
+        const clinicText = card.innerText;
+
+        if(clinicText.includes(clinicName)){
+            card.remove();
+        }
+    });
+}
+
 </script>
 
 </head>
@@ -686,7 +826,7 @@ function confirmAccept(){
     <div class="goal-inline">
         <div class="goal-left">
             ปีนี้คุณต้องทำคนไข้
-            <span class="goal-count">2</span>
+            <span class="goal-count" id="goalCount">2</span>
             คน
         </div>
 
@@ -722,7 +862,7 @@ function confirmAccept(){
                     name: 'นายสิทธินนท์ บุญปั๋น',
                     gender: 'ชาย',
                     age: 19,
-                    clinic: ' เอนโดดอนติกส์',
+                    clinic: 'เอนโดดอนติกส์',
                     lastVisit: '7 มกราคม 2569',
                     available: ' จันทร์ เช้า',
                     image: 'นนท์.jpg'
@@ -756,7 +896,7 @@ function confirmAccept(){
                     name: 'นางสาวปัญจรัตน์ ทองนา',
                     gender: 'หญิง',
                     age: 19,
-                    clinic: ' ปริทันตวิทยา',
+                    clinic: 'ปริทันตวิทยา',
                     lastVisit: '7 มกราคม 2569',
                     available: ' จันทร์ เช้า',
                     image: 'โมจิ.jpg'
@@ -790,7 +930,7 @@ function confirmAccept(){
                     name: 'นางสาวอรัญญาพร จีนย้าย',
                     gender: 'หญิง',
                     age: 19,
-                    clinic: ' ปริทันตวิทยา',
+                    clinic: 'ปริทันตวิทยา',
                     lastVisit: '23 ธันวาคม 2568',
                     available: ' อังคาร ทั้งวัน',
                     image: 'ต้องตา.jpg'
@@ -825,7 +965,7 @@ function confirmAccept(){
                     name: 'นายอติวิชญ์ คำมูลใจ',
                     gender: 'ชาย',
                     age: 19,
-                    clinic: ' ปริทันตวิทยา',
+                    clinic: 'ปริทันตวิทยา',
                     lastVisit: '18 ธันวาคม 2568',
                     available: ' พฤหัสบดี เช้า',
                     image: 'ต้องตา.jpg'
@@ -859,7 +999,7 @@ function confirmAccept(){
                     name: 'นายคามาโดะ ทันจิโร่',
                     gender: 'ชาย',
                     age: 17,
-                    clinic: ' เอนโดดอนติกส์',
+                    clinic: 'เอนโดดอนติกส์',
                     lastVisit: '3 ธันวาคม 2568',
                     available: ' พุธ เช้า',
                     image: 'ทันจิโร่.jpg'
@@ -890,14 +1030,35 @@ function confirmAccept(){
             คุณยังขาดผู้ป่วยอีก <b style="color:#d32f2f">2 คน</b><br><br>
             <b>เคสที่ยังขาด:</b>
             <ul style="margin-top:8px">
-                <li>🦷 ปริทันตวิทยา : ขูดหินปูน (1 เคส)</li>
-                <li>😷 เอนโดดอนติกส์ : ถอนฟันคุด (1 เคส)</li>
+                <li class="clinic-item" data-clinic="ปริทันตวิทยา">
+                    <span class="clinic-icon">🦷</span>
+                    <span class="clinic-name">ปริทันตวิทยา</span>
+                    <span class="clinic-detail">ขูดหินปูน (1 เคส)</span>
+                </li>
+
+                <li class="clinic-item" data-clinic="เอนโดดอนติกส์">
+                    <span class="clinic-icon">😷</span>
+                    <span class="clinic-name">เอนโดดอนติกส์</span>
+                    <span class="clinic-detail">ถอนฟันคุด (1 เคส)</span>
+                </li>
             </ul>
+
         </p>
         <div class="modal-actions">
             <button class="btn-confirm" onclick="closeGoalAlert()">รับทราบ</button>
         </div>
     </div>
+</div>
+<!-- ===== Game Notification ===== -->
+<div class="game-notify" id="acceptNotify" style="display:none">
+    <div class="game-avatar">
+        <img id="notifyImg" src="" alt="avatar">
+    </div>
+    <div class="game-content">
+        <div class="game-title">สำเร็จ</div>
+        <div class="game-subtitle">รับผู้ป่วยเรียบร้อยแล้ว</div>
+    </div>
+    <div class="game-kill">OK</div>
 </div>
 
 </body>

@@ -410,6 +410,17 @@ body{
     0%,100%{box-shadow:0 0 18px rgba(139,92,246,.5)}
     50%{box-shadow:0 0 35px rgba(56,189,248,.9)}
 }
+@keyframes slideDown{
+    from{
+        transform: translate(-50%, -40px);
+        opacity: 0;
+    }
+    to{
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
 /* ===== Account Dropdown ===== */
 .account-wrapper{
     position: relative;
@@ -532,6 +543,73 @@ body{
     pointer-events: none;
     cursor: default;
 }
+/* ===== Game Notification ===== */
+.game-notify{
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    height: 90px;
+    background: linear-gradient(135deg,#ff3b7d,#7f2bff);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    color: white;
+    cursor: grab;
+
+    user-select: none;
+    z-index: 20000;
+}
+
+.game-notify:active{
+    cursor: grabbing;
+}
+
+.game-avatar{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;                 /* สำคัญ */
+    background: #fff;
+    border: 3px solid rgba(255,255,255,.6);
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.game-avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;                /* รูปไม่ยืด */
+}
+.game-avatar{
+    box-shadow: 0 0 12px rgba(255,255,255,.6);
+}
+
+
+.game-content{
+    flex:1;
+}
+
+.game-title{
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.game-subtitle{
+    font-size: 13px;
+    opacity: .9;
+    margin-top: 4px;
+}
+
+.game-kill{
+    font-size: 22px;
+    font-weight: 900;
+    text-shadow: 0 0 10px rgba(255,255,255,.6);
+}
 
 </style>
 <script>
@@ -633,6 +711,8 @@ document.addEventListener("click", function(e){
         menu.style.display = "none";
     }
 });
+
+
 </script>
 
 </head>
@@ -650,20 +730,20 @@ document.addEventListener("click", function(e){
     <a href="../Clinic/xray.html"  class="dropdown-item">ทันตรังสี</a>
     <a href="#" class="active" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
     <a href="prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
-    <a href="clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
-    <a href="clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
-    <a href="clinic/restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
-    <a href="clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
-    <a href="clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
-    <a href="clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
-    <a href="clinic/periodontology.html" class="dropdown-item">ปริทันตวิทยา</a>
-    <a href="clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
+    <a href="family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
+    <a href="comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
+    <a href="restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
+    <a href="ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
+    <a href="endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
+    <a href="oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
+    <a href="periodontology.html" class="dropdown-item">ปริทันตวิทยา</a>
+    <a href="occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
 </div>
 </div>
 
         <a href="../namedocter/docterindex.html">รายชื่อแพทย์</a>
         <a href="../record/historyindex.html">ประวัติการรักษา</a>
-        <a href="Chat/Chat.html">แชท</a>
+        <a href="../Chat/Chat.html">แชท</a>
     </div>
     <!-- Content -->
     <div class="content">
@@ -672,15 +752,15 @@ document.addEventListener("click", function(e){
     <span class="patient-menu" onclick="togglePatientMenu()">
         ผู้ป่วย ▾
         <div class="patient-dropdown" id="patientDropdown">
-            <div class="dropdown-item"
-                onclick="location.href='../Clinic/emergencynodocter.html'">
+            <div class="dropdown-item" onclick="showEmergencyNotify()">
                 ผู้ป่วยที่ยังไม่มีแพทย์ดูแล
             </div>
 
-            <div class="dropdown-item"
-                onclick="location.href='today.html'">
+
+            <div class="dropdown-item" onclick="showEmergencyNotify()">
                 ผู้ป่วยที่ทำการรักษาวันนี้
             </div>
+
         </div>
     </span>
     <a href="../patientsdocter.html" class="goal-link">ผู้ป่วยที่คุณดูแล</a>
@@ -754,30 +834,12 @@ document.addEventListener("click", function(e){
                     <div>ชื่อ-สกุล: นายสิทธินนท์ บุญปั๋น</div>
                     <div>เพศ: ชาย | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 28 กุมภาพันธ์ 2569</div>
-                    <div>วันที่ผู้ป่วยว่าง: พุธ บ่าย</div>
+                    <br>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมรังสี</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
+                    <br>
                     <div>
                         <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
                     </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นทพ. ณิชาภัทร ตรัยรัตนเมธี</span>
-                    </div>
-                </div>
-                <div class="patient-action">
-                <button class="btn-confirm"
-                onclick="openModal({
-                    id: 'p001',
-                    name: 'นายสิทธินนท์ บุญปั๋น',
-                    gender: 'ชาย',
-                    age: 19,
-                    clinic: 'ทันตกรรมรังสี',
-                    lastVisit: '28 กุมภาพันธ์ 2569',
-                    available: 'พุธ บ่าย',
-                    image: 'นนท์.jpg'
-                }, this)">
-                    ยืนยันการรับผู้ป่วย
-                </button>
                 </div>
             </div>
                         <div class="patient-card">
@@ -788,30 +850,12 @@ document.addEventListener("click", function(e){
                     <div>ชื่อ-สกุล: นางสาวปัญจรัตน์ ทองนา</div>
                     <div>เพศ: หญิง | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 7 มกราคม 2569</div>
-                    <div>วันที่ผู้ป่วยว่าง: จันทร์ เช้า</div>
+                    <br>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมรังสี</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมบูรณะ</div>
+                    <br>
                     <div>
                         <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
                     </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นพ. ธนภัทร ศรีวัฒนพร</span>
-                    </div>
-                </div>
-                <div class="patient-action">
-                    <button class="btn-confirm"
-                        onclick="openModal({
-                    id: 'p001',
-                    name: 'นางสาวปัญจรัตน์ ทองนา',
-                    gender: 'หญิง',
-                    age: 19,
-                    clinic: ' ทันตกรรมรังสี',
-                    lastVisit: '7 มกราคม 2569',
-                    available: ' จันทร์ เช้า',
-                    image: 'โมจิ.jpg'
-                }, this)">
-                        ยืนยันการรับผู้ป่วย
-                    </button>
                 </div>
             </div>
                         <div class="patient-card">
@@ -822,113 +866,93 @@ document.addEventListener("click", function(e){
                     <div>ชื่อ-สกุล: นางสาวอรัญญาพร จีนย้าย</div>
                     <div>เพศ: หญิง | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 23 ธันวาคม 2568</div>
-                    <div>วันที่ผู้ป่วยว่าง: อังคาร ทั้งวัน</div>
+                    <br>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมรังสี</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมประดิษฐ์</div>
+                    <br>
                     <div>
                         <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
                     </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
-                    </div>
-                </div>
-                <div class="patient-action">
-                    <button class="btn-confirm"
-                        onclick="openModal({
-                    id: 'p001',
-                    name: 'นางสาวอรัญญาพร จีนย้าย',
-                    gender: 'หญิง',
-                    age: 19,
-                    clinic: ' ทันตกรรมรังสี',
-                    lastVisit: '23 ธันวาคม 2568',
-                    available: ' อังคาร ทั้งวัน',
-                    image: 'ต้องตา.jpg'
-                }, this)">
-                        ยืนยันการรับผู้ป่วย
-                    </button>
                 </div>
             </div>
                         <div class="patient-card">
                 <div class="patient-photo">
-    <img src="ฟิวส์.jpg" alt="patient">
-</div>
+                    <img src="ฟิวส์.jpg" alt="patient">
+                </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
                     <div>เพศ: ชาย | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 18 ธันวาคม 2568</div>
-                    <div>วันที่ผู้ป่วยว่าง: พฤหัสบดี เช้า</div>
+                    <br>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมรังสี</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
+                    <br>
                     <div>
                         <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
                     </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
-                    </div>
-                </div>
-                <div class="patient-action">
-                    <button class="btn-confirm"
-                    onclick="openModal({
-                    id: 'p001',
-                    name: 'นายอติวิชญ์ คำมูลใจ',
-                    gender: 'ชาย',
-                    age: 19,
-                    clinic: ' ทันตกรรมรังสี',
-                    lastVisit: '18 ธันวาคม 2568',
-                    available: ' พฤหัสบดี เช้า',
-                    image: 'ต้องตา.jpg'
-                }, this)">
-                    ยืนยันการรับผู้ป่วย
-                </button>
                 </div>
             </div>
                         <div class="patient-card">
                 <div class="patient-photo">
-    <img src="ทันจิโร่.jpg" alt="patient">
-</div>
+                    <img src="ทันจิโร่.jpg" alt="patient">
+                </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นายคามาโดะ ทันจิโร่</div>
                     <div>เพศ: ชาย | อายุ: 17 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 3 ธันวาคม 2568</div>
-                    <div>วันที่ผู้ป่วยว่าง: พุธ เช้า</div>
+                    <br>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมรังสี</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
+                    <br>
                     <div>
                         <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
                     </div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
-                    </div>
-                </div>
-                <div class="patient-action">
-                    <button class="btn-confirm"
-                    onclick="openModal({
-                    id: 'p001',
-                    name: 'นายคามาโดะ ทันจิโร่',
-                    gender: 'ชาย',
-                    age: 17,
-                    clinic: ' ทันตกรรมรังสี',
-                    lastVisit: '3 ธันวาคม 2568',
-                    available: ' พุธ เช้า',
-                    image: 'ทันจิโร่.jpg'
-                }, this)">
-                        ยืนยันการรับผู้ป่วย
-                    </button>
                 </div>
             </div>
                 </div>
             </div>
         </div>
-        <!-- ===== Confirm Modal ===== -->
-<div class="modal-overlay" id="confirmModal">
-    <div class="modal-box">
-        <h3>ยืนยันการรับผู้ป่วย</h3>
-        <p>คุณแน่ใจใช่ไหมที่จะรับผู้ป่วยคนนี้</p>
-        <div class="modal-actions">
-            <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
-            <button class="btn-confirm" onclick="confirmAccept()">ยืนยัน</button>
+<div class="game-notify" id="gameNotify" style="display:none">
+    <div class="game-avatar">
+        <img src="Up.d.png" alt="avatar">
+    </div>
+    <div class="game-content">
+        <div class="game-title">Emergency Clinic</div>
+        <div class="game-subtitle">
+            เนื่องจากเป็นคลินิกทันตกรรมฉุกเฉิน<br>
+            จะรักษาเป็นรายวันเท่านั้น
         </div>
     </div>
+    <div class="game-kill">INFO</div>
 </div>
+<script>
+const notify = document.getElementById("gameNotify");
+let dragging = false, offsetX, offsetY;
+
+function showEmergencyNotify(){
+    notify.style.display = "flex";
+    notify.style.animation = "slideDown .6s ease-out forwards";
+
+    setTimeout(()=>{
+        notify.style.display = "none";
+    },4000);
+}
+
+
+notify.addEventListener("mousedown", e=>{
+    dragging = true;
+    offsetX = e.clientX - notify.offsetLeft;
+    offsetY = e.clientY - notify.offsetTop;
+});
+
+document.addEventListener("mousemove", e=>{
+    if(!dragging) return;
+    notify.style.left = e.clientX - offsetX + "px";
+    notify.style.top  = e.clientY - offsetY + "px";
+    notify.style.transform = "none";
+});
+
+document.addEventListener("mouseup", ()=>{
+    dragging = false;
+});
+</script>
+
 </body>
 </html>

@@ -315,6 +315,27 @@ document.addEventListener("click", function(e){
         clinicDropdown.style.display = "none";
     }
 });
+function goBack(){
+    const clinic = localStorage.getItem("fromClinic");
+
+    switch(clinic){
+        case "xray":
+            window.location.href = "../Clinic/xray.html";
+            break;
+        case "endo":
+            window.location.href = "../Clinic/endo.html";
+            break;
+        case "ortho":
+            window.location.href = "../Clinic/ortho.html";
+            break;
+        case "emergency":
+            window.location.href = "../Clinic/emergency.html";
+            break;
+        default:
+            // เผื่อกรณีไม่มีค่า
+            window.location.href = "../Chat/Chat.html";
+    }
+}
 </script>
 
 </head>
@@ -356,7 +377,8 @@ document.addEventListener("click", function(e){
         <header class="topbar">
             <!-- Left : Patient -->
     <div class="chat-top-left">
-        <div class="back-btn" onclick="window.location.href='../Chat/Chat.html'">←</div>
+        <div class="back-btn" onclick="goBack()">←</div>
+
 
 
 

@@ -577,49 +577,6 @@ body{
         opacity: 1;
     }
 }
-.patient-card.clickable{
-    cursor: pointer;
-    transition: transform .25s ease, box-shadow .25s ease;
-}
-
-.patient-card.clickable:hover{
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 8px 20px rgba(0,0,0,.35);
-}
-
-/* จุด pulse แบบหน้าแชท */
-.status-dot{
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #4caf50;
-    position: relative;
-}
-
-.status-dot::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:50%;
-    background: inherit;
-    animation: pulse 1.5s infinite;
-    opacity:.7;
-}
-
-@keyframes pulse{
-    0%{transform:scale(1);opacity:.7}
-    100%{transform:scale(2);opacity:0}
-}
-.patient-card.clickable{
-    cursor: pointer;
-    transition: transform .25s cubic-bezier(.4,0,.2,1),
-                box-shadow .25s cubic-bezier(.4,0,.2,1);
-}
-
-.patient-card.clickable:active{
-    transform: scale(.98);
-}
-
 </style>
 <script>
 function togglePatientMenu(){
@@ -734,20 +691,6 @@ document.addEventListener("click", function(e){
         menu.style.display = "none";
     }
 });
-const name = localStorage.getItem("currentPatient");
-if(name){
-    document.getElementById("patientName").innerText = name;
-}
-function openChat(name){
-    localStorage.setItem("currentPatient", name);
-    localStorage.setItem("fromClinic", "xray");
-    // เอฟเฟกต์นิด ๆ
-    document.body.style.opacity = ".5";
-
-    setTimeout(()=>{
-        window.location.href = "../Chat/Chat2.html";
-    },200);
-}
 </script>
 
 </head>
@@ -762,10 +705,10 @@ function openChat(name){
         <div class="clinic-menu" onclick="toggleClinicMenu()">
     คลินิก ▾
     <div class="clinic-dropdown" id="clinicDropdown">
-    <a href="../Clinic/xray.html" class="active" class="dropdown-item">ทันตรังสี</a>
+    <a href="../Clinic/xray.html"  class="dropdown-item">ทันตรังสี</a>
     <a href="emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
-    <a href="prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
-    <a href="family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
+    <a href="../Clinic/prosthetic.html"  class="dropdown-item">ทันตกรรมประดิษฐ์</a>
+    <a href="family.html" class="active" class="dropdown-item">ทันตกรรมครอบครัว</a>
     <a href="comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
     <a href="restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
     <a href="ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
@@ -788,11 +731,11 @@ function openChat(name){
         ผู้ป่วย ▾
         <div class="patient-dropdown" id="patientDropdown">
             <div class="dropdown-item"
-                onclick="location.href='../Clinic/xray.html'">
+            onclick="location.href='../Clinic/family.html'">
                 ผู้ป่วยที่ยังไม่มีแพทย์ดูแล
             </div>
             <div class="dropdown-item"
-                onclick="location.href='../Clinic/xraytoday.html'">
+                onclick="location.href='../Clinic/familytoday.html'">
                 ผู้ป่วยที่ทำการรักษาวันนี้
             </div>
         </div>
@@ -862,8 +805,7 @@ function openChat(name){
             </div  >
 
             <!-- Patient Card -->
-            <div class="patient-card clickable"
-                onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+            <div class="patient-card">
                 <div class="patient-photo">
     <img src="นนท์.jpg" alt="patient">
 </div>
@@ -883,7 +825,7 @@ function openChat(name){
                 </div>
                 <div class="patient-action">
                 <button class="btn-confirm"
-                onclick="event.stopPropagation(); openModal({
+                onclick="openModal({
                     id: 'p001',
                     name: 'นายสิทธินนท์ บุญปั๋น',
                     gender: 'ชาย',
@@ -897,8 +839,7 @@ function openChat(name){
                 </button>
                 </div>
             </div>
-                        <div class="patient-card clickable"
-                            onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+                        <div class="patient-card">
                 <div class="patient-photo">
     <img src="โมจิ.jpg" alt="patient">
 </div>
@@ -918,7 +859,7 @@ function openChat(name){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                        onclick="event.stopPropagation(); openModal({
+                        onclick="openModal({
                     id: 'p001',
                     name: 'นางสาวปัญจรัตน์ ทองนา',
                     gender: 'หญิง',
@@ -932,8 +873,7 @@ function openChat(name){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card clickable"
-                            onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+                        <div class="patient-card">
                 <div class="patient-photo">
     <img src="ต้องตา.jpg" alt="patient">
 </div>
@@ -953,7 +893,7 @@ function openChat(name){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                    onclick="event.stopPropagation(); openModal({
+                        onclick="openModal({
                     id: 'p001',
                     name: 'นางสาวอรัญญาพร จีนย้าย',
                     gender: 'หญิง',
@@ -967,8 +907,7 @@ function openChat(name){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card clickable"
-                            onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+                        <div class="patient-card">
                 <div class="patient-photo">
     <img src="ฟิวส์.jpg" alt="patient">
 </div>
@@ -988,7 +927,7 @@ function openChat(name){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                    onclick="event.stopPropagation(); openModal({
+                    onclick="openModal({
                     id: 'p001',
                     name: 'นายอติวิชญ์ คำมูลใจ',
                     gender: 'ชาย',
@@ -1002,8 +941,7 @@ function openChat(name){
                 </button>
                 </div>
             </div>
-                        <div class="patient-card clickable"
-                            onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+                        <div class="patient-card">
                 <div class="patient-photo">
     <img src="ทันจิโร่.jpg" alt="patient">
 </div>
@@ -1023,7 +961,7 @@ function openChat(name){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                    onclick="event.stopPropagation(); openModal({
+                    onclick="openModal({
                     id: 'p001',
                     name: 'นายคามาโดะ ทันจิโร่',
                     gender: 'ชาย',
@@ -1051,6 +989,7 @@ function openChat(name){
         </div>
     </div>
 </div>
+
 <!-- ===== Game Notification ===== -->
 <div class="game-notify" id="acceptNotify" style="display:none">
     <div class="game-avatar">
@@ -1062,6 +1001,5 @@ function openChat(name){
     </div>
     <div class="game-kill">OK</div>
 </div>
-
 </body>
 </html>

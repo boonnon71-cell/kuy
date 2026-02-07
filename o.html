@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kill Banner</title>
+<style>
+    body {
+        background:#0b0f1a;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .kill-banner {
+        position: relative;
+        width: 520px;
+        height: 80px;
+        background: linear-gradient(90deg, #7b3fe4, #2a1c5a);
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        box-shadow: 0 0 20px rgba(123,63,228,0.6);
+        overflow: hidden;
+    }
+
+    /* เส้นเรืองแสง */
+    .kill-banner::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 40px;
+        border: 2px solid rgba(255,255,255,0.15);
+    }
+
+    .avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff4ecd, #4dd8ff);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        color:white;
+        font-weight:bold;
+        font-size:18px;
+        margin-right: 15px;
+        box-shadow: 0 0 10px rgba(255,255,255,0.4);
+    }
+
+    .text {
+        flex:1;
+        color:white;
+    }
+
+    .text .name {
+        font-size:18px;
+        font-weight:600;
+        letter-spacing:1px;
+    }
+
+    .text .sub {
+        font-size:12px;
+        opacity:0.8;
+    }
+
+    .kill {
+        font-size:22px;
+        font-weight:800;
+        color:#ff3b3b;
+        text-shadow:0 0 10px rgba(255,59,59,0.8);
+        margin-left: 15px;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="kill-banner">
+    <div class="avatar">V</div>
+
+    <div class="text">
+        <div class="name">VALHEIN</div>
+        <div class="sub">Dimension Breaker</div>
+    </div>
+
+    <div class="kill">KILL</div>
+</div>
+
+</body>
+</html>

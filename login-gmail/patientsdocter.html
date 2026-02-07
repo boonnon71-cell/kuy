@@ -661,8 +661,8 @@ document.addEventListener("click", function(e){
 
 let selectedPatient = null;
 
-function openModal(patientName){
-    selectedPatient = patientName;
+function openModal(patient){
+    selectedPatient = patient;
     document.getElementById("confirmModal").style.display = "flex";
 }
 
@@ -671,10 +671,20 @@ function closeModal(){
 }
 
 function confirmAccept(){
-    // จำลองบันทึกผู้ป่วยล่าสุด
-    localStorage.setItem("latestPatient", selectedPatient);
+    let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
 
-    // ไปหน้าผู้ป่วยที่คุณดูแล
+    myPatients.unshift({
+        name: selectedPatient.name,
+        gender: selectedPatient.gender,
+        age: selectedPatient.age,
+        clinic: selectedPatient.clinic,
+        lastVisit: selectedPatient.lastVisit,
+        appointment: "",
+        image: selectedPatient.image
+    });
+
+    localStorage.setItem("myPatients", JSON.stringify(myPatients));
+
     window.location.href = "patient-mycare.html";
 }
 function closeWelcome(){
@@ -768,6 +778,77 @@ function updateAppointmentText(input){
 
     input.style.display = "none";
 }
+if(!localStorage.getItem("demoAdded")){
+    let myPatients = JSON.parse(localStorage.getItem("myPatients"));
+
+    // ถ้ายังไม่เคยมีข้อมูลเลย ค่อยใส่ demo
+    if(!myPatients || myPatients.length === 0){
+        myPatients = [{
+            name: "นายสิทธินนท์ บุญปั๋น",
+            gender: "ชาย",
+            age: 19,
+            clinic: "เอนโดดอนติกส์",
+            lastVisit: "28 กุมภาพันธ์ 2569",
+            appointment: "",
+            image: "นนท์.jpg"
+        }];
+
+        localStorage.setItem("myPatients", JSON.stringify(myPatients));
+        localStorage.setItem("demoAdded","1");
+    }
+    };
+
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("myPatientList");
+    const patients = JSON.parse(localStorage.getItem("myPatients")) || [];
+
+    if(patients.length === 0){
+        container.innerHTML = "<p>ยังไม่มีผู้ป่วยที่คุณดูแล</p>";
+        return;
+    }
+
+    patients.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "patient-card";
+
+        card.innerHTML = `
+        <div class="patient-photo">
+            <img src="${p.image}">
+        </div>
+
+        <div class="patient-info">
+            <div>ชื่อ-สกุล: ${p.name}</div>
+            <div>เพศ: ${p.gender} | อายุ: ${p.age} ปี</div>
+            <div>วันที่เข้าตรวจล่าสุด: ${p.lastVisit}</div>
+            <div>นัดผู้ป่วยวันที่: ${p.appointment || ""}</div>
+            <div>คลินิกที่ทำการรักษา: ${p.clinic}</div>
+            <br>
+            <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
+        </div>
+
+        <div class="patient-action">
+            <button class="btn-confirm status ${p.appointment ? 'done' : 'recall'}">
+                <span class="status-dot"></span>
+                ${p.appointment ? 'นัดแล้ว' : 'ยังไม่ได้นัด'}
+            </button>
+
+            <button class="btn-edit" onclick="toggleEditDate(this)">
+                ${p.appointment ? 'แก้ไขวันนัด' : 'เพิ่มวันนัด'}
+            </button>
+
+            <input type="text"
+                class="edit-date"
+                placeholder="วว/ดด/ปปปป"
+                style="display:none"
+                onchange="updateAppointmentText(this)">
+        </div>
+        `;
+
+        container.appendChild(card);
+    });
+});
+//localStorage.removeItem("myPatients");
+//localStorage.clear();
 </script>
 
 </head>
@@ -879,7 +960,7 @@ function updateAppointmentText(input){
 
         </div>
         <div class="main">
-            
+            <div id="myPatientList"></div>
             <!-- Patient Card -->
             <div class="patient-card">
                 <div class="patient-photo">
@@ -977,7 +1058,7 @@ function updateAppointmentText(input){
             </div>
                         <div class="patient-card">
                 <div class="patient-photo">
-    <img src="ฟิวส์.jpg" alt="patient">
+    <img src="images/patient1.jpg" alt="patient">
 </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
@@ -1052,7 +1133,6 @@ function updateAppointmentText(input){
         </div>
     </div>
 </div>
-
 
 </body>
 </html>
