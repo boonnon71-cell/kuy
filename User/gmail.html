@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>เข้าสู่ระบบ</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    body {
+        margin: 0;
+        height: 100vh;
+        background: url("หอประชุมพญางำเมือง_638544951942604029.jpg") center/cover no-repeat;
+        position: relative;
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+    }
+
+    /* ===== HEADER (เหมือนโค้ดที่ 1) ===== */
+    .header {
+        position: relative;
+        z-index: 2;
+        padding: 20px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #fff;
+    }
+
+    .header .title {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .header img {
+        height: 70px;
+    }
+
+    /* ===== CARD ===== */
+    .card {
+        position: relative;
+        z-index: 2;
+        background: #fff;
+        width: 720px;
+        margin: 40px auto 0;
+        padding: 40px;
+        border-radius: 10px;
+    }
+
+    .label {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    input {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #999;
+        padding: 10px 4px;
+        font-size: 15px;
+        outline: none;
+    }
+
+    .actions {
+        margin-top: 30px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    button {
+        padding: 8px 22px;
+        border: none;
+        border-radius: 2px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .btn-back {
+        background: #e0e0e0;
+    }
+
+    .btn-next {
+        background: #1976ff;
+        color: #fff;
+    }
+
+.container{
+    position: relative;
+    z-index: 2;
+    height: calc(100vh - 100px); /* เผื่อพื้นที่ header */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.alert-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.alert-card{
+    background: #fff;
+    width: 360px;
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.alert-icon{
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.alert-card h3{
+    margin: 0 0 8px;
+    color: #1976ff;
+}
+
+.alert-card p{
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.alert-btn{
+    background: #1976ff;
+    color: #fff;
+    border: none;
+    padding: 10px 26px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+</style>
+
+</head>
+<script>
+function nextStep(){
+    const email = document.getElementById("email").value.trim();
+    const correctEmail = "68023559@up.ac.th";
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(email === ""){
+        showAlert("กรุณากรอกอีเมล");
+        return;
+    }
+
+    if(!emailPattern.test(email)){
+        showAlert("รูปแบบอีเมลไม่ถูกต้อง");
+        return;
+    }
+
+    if(!email.endsWith("@up.ac.th")){
+        showAlert("กรุณาใช้อีเมล @up.ac.th");
+        return;
+    }
+
+    if(email !== correctEmail){
+        showAlert("อีเมลไม่ถูกต้อง");
+        return;
+    }
+
+    window.location.href = "password.html";
+}
+
+function showAlert(msg){
+    document.getElementById("alertMessage").innerText = msg;
+    document.getElementById("alertBox").style.display = "flex";
+}
+
+function closeAlert(){
+    document.getElementById("alertBox").style.display = "none";
+}
+</script>
+
+<body>
+
+<div class="header">
+    <div class="title">โรงพยาบาลทันตกรรมมหาวิทยาลัยพะเยา</div>
+    <img src="Up.d.png" alt="UP Logo">
+</div>
+
+<div class="card">
+
+    <div class="label">ลงชื่อเข้าใช้</div>
+    <input type="text" id="email" placeholder="อีเมล หมายเลขโทรศัพท์">
+
+    <div class="actions">
+        <button class="btn-back"
+        onclick="window.location.href='../loginUser.html'">
+    ย้อนกลับ
+</button>
+        <button type="button" class="btn-next" onclick="nextStep()">
+    ถัดไป
+</button>
+    </div>
+</div>
+
+<!-- Alert Overlay -->
+<div class="alert-overlay" id="alertBox">
+    <div class="alert-card">
+        <div class="alert-icon">⚠️</div>
+        <h3>เข้าสู่ระบบไม่สำเร็จ</h3>
+        <p id="alertMessage"></p>
+        <button class="alert-btn" onclick="closeAlert()">ตกลง</button>
+    </div>
+</div>
+
+</body>
+</html>

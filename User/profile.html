@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>กรอกข้อมูลผู้ป่วย</title>
+<style>
+body{
+    margin:0;
+    background:#1e1e1e;
+    font-family:"Segoe UI",Tahoma,sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+}
+.card{
+    background:#fff;
+    padding:30px;
+    border-radius:16px;
+    width:420px;
+}
+h2{
+    margin-top:0;
+    text-align:center;
+}
+label{
+    font-size:14px;
+    font-weight:600;
+}
+input,select{
+    width:100%;
+    padding:10px;
+    margin:8px 0 16px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:20px;
+    background:#8a00c2;
+    color:#fff;
+    font-size:15px;
+    cursor:pointer;
+}
+button:hover{background:#7400a5;}
+/* ===== Game Notify ===== */
+.game-notify{
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 420px;
+    height: 90px;
+    background: linear-gradient(135deg,#ff3b7d,#7f2bff);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    color: white;
+    z-index: 20000;
+    animation: slideDown .6s ease-out forwards;
+}
+
+.game-avatar{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,.7);
+    margin-right: 14px;
+    flex-shrink: 0;
+}
+
+.game-avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.game-content{
+    flex: 1;
+}
+
+.game-title{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.game-subtitle{
+    font-size: 14px;
+    opacity: .9;
+}
+
+.game-kill{
+    font-size: 13px;
+    font-weight: 700;
+    opacity: .85;
+}
+
+/* animation */
+@keyframes slideDown{
+    from{
+        transform: translate(-50%, -40px);
+        opacity: 0;
+    }
+    to{
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>ข้อมูลผู้ป่วย</h2>
+
+    <label>ชื่อ-สกุล หรือ เลขบัตรประชาชน</label>
+    <input type="text" id="name" placeholder="กรอกชื่อ หรือ เลขบัตร">
+
+    <label>วันที่ผู้ป่วยว่าง</label>
+    <select id="day">
+        <option value="">-- เลือกวัน --</option>
+        <option>จันทร์</option>
+        <option>อังคาร</option>
+        <option>พุธ</option>
+        <option>พฤหัสบดี</option>
+    </select>
+
+    <label>ช่วงเวลาที่ว่าง</label>
+    <select id="time">
+        <option value="">-- เลือกช่วงเวลา --</option>
+        <option>เช้า</option>
+        <option>บ่าย</option>
+        <option>ทั้งวัน</option>
+    </select>
+
+    <button onclick="saveProfile()">ดูคิวผู้ป่วย</button>
+</div>
+
+<script>
+
+function saveProfile(){
+    const name = document.getElementById("name").value.trim();
+    const day = document.getElementById("day").value;
+    const time = document.getElementById("time").value;
+
+    // ❌ ข้อมูลไม่ครบ
+    if(!name || !day || !time){
+        showFormNotify(
+            "ข้อมูลไม่ครบ",
+            "กรุณากรอกข้อมูลให้ครบทุกช่อง",
+            "warning.png"
+        );
+        return;
+    }
+
+    // ✅ เช็กชื่อ-นามสกุล
+    const nameParts = name.split(/\s+/);
+    if(nameParts.length < 2){
+        showFormNotify(
+            "ชื่อไม่สมบูรณ์",
+            "กรุณากรอกชื่อและนามสกุลให้ครบ",
+            "warning.png"
+        );
+        return;
+    }
+
+    // ✅ บันทึกข้อมูล
+    const profile = {
+        name: name,
+        availableDay: day,
+        availableTime: time
+    };
+
+    localStorage.setItem("patientProfile", JSON.stringify(profile));
+    localStorage.setItem("profileCompleted", "1");
+    localStorage.setItem("searchPatientName", name);
+
+    // ✅ แจ้งเตือนสำเร็จ
+    showFormNotify(
+        "สำเร็จ",
+        "บันทึกข้อมูลผู้ป่วยเรียบร้อย",
+        "success.png"
+    );
+
+    // ✅ หน่วงแล้วค่อยเปลี่ยนหน้า
+    setTimeout(()=>{
+        window.location.href = "index.html";
+    }, 1200);
+}
+
+function showFormNotify(title, text, img){
+    const notify = document.getElementById("formNotify");
+    const notifyTitle = document.getElementById("formNotifyTitle");
+    const notifyText = document.getElementById("formNotifyText");
+    const notifyImg = document.getElementById("formNotifyImg");
+
+    notifyTitle.textContent = title;
+    notifyText.textContent = text;
+    notifyImg.src = img || "warning.png"; // รูปเตือน
+
+    notify.style.display = "flex";
+
+    setTimeout(()=>{
+        notify.style.display = "none";
+    }, 3000);
+}
+
+</script>
+<div class="game-notify" id="formNotify" style="display:none">
+    <div class="game-avatar">
+        <img id="formNotifyImg" src="" alt="icon">
+    </div>
+    <div class="game-content">
+        <div class="game-title" id="formNotifyTitle"></div>
+        <div class="game-subtitle" id="formNotifyText"></div>
+    </div>
+    <div class="game-kill"></div>
+</div>
+
+</body>
+</html>
