@@ -577,6 +577,48 @@ body{
         opacity: 1;
     }
 }
+.patient-card.clickable{
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.patient-card.clickable:hover{
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(0,0,0,.35);
+}
+
+/* จุด pulse แบบหน้าแชท */
+.status-dot{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4caf50;
+    position: relative;
+}
+
+.status-dot::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background: inherit;
+    animation: pulse 1.5s infinite;
+    opacity:.7;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);opacity:.7}
+    100%{transform:scale(2);opacity:0}
+}
+.patient-card.clickable{
+    cursor: pointer;
+    transition: transform .25s cubic-bezier(.4,0,.2,1),
+                box-shadow .25s cubic-bezier(.4,0,.2,1);
+}
+
+.patient-card.clickable:active{
+    transform: scale(.98);
+}
 </style>
 <script>
 function togglePatientMenu(){
@@ -691,6 +733,21 @@ document.addEventListener("click", function(e){
         menu.style.display = "none";
     }
 });
+const name = localStorage.getItem("currentPatient");
+if(name){
+    document.getElementById("patientName").innerText = name;
+}
+
+function openChat(name, photo){
+    localStorage.setItem("chat_name", name);
+    localStorage.setItem("chat_photo", photo);
+    localStorage.setItem("fromClinic", "orthonodocter");
+
+    document.body.style.opacity = ".5";
+    setTimeout(()=>{
+        window.location.href = "../Chat/Chat2.html";
+    },200);
+}
 </script>
 
 </head>
@@ -805,7 +862,11 @@ document.addEventListener("click", function(e){
             </div  >
 
             <!-- Patient Card -->
-            <div class="patient-card">
+            <div class="patient-card clickable"
+            onclick="openChat(
+                'นายสิทธินนท์ บุญปั๋น',
+                'นนท์.jpg'
+            )">
                 <div class="patient-photo">
     <img src="นนท์.jpg" alt="patient">
 </div>
@@ -839,7 +900,11 @@ document.addEventListener("click", function(e){
                 </button>
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card clickable"
+                onclick="openChat(
+                    'นางสาวปัญจรัตน์ ทองนา',
+                    'โมจิ.jpg'
+                )">
                 <div class="patient-photo">
     <img src="โมจิ.jpg" alt="patient">
 </div>
@@ -873,7 +938,11 @@ document.addEventListener("click", function(e){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card clickable"
+                        onclick="openChat(
+                            'นางสาวอรัญญาพร จีนย้าย',
+                            'ต้องตา.jpg'
+                        )">
                 <div class="patient-photo">
     <img src="ต้องตา.jpg" alt="patient">
 </div>
@@ -907,7 +976,11 @@ document.addEventListener("click", function(e){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card clickable"
+                            onclick="openChat(
+                                'นายอติวิชญ์ คำมูลใจ',
+                                'ฟิวส์.jpg'
+                        )">
                 <div class="patient-photo">
     <img src="ฟิวส์.jpg" alt="patient">
 </div>
@@ -941,7 +1014,11 @@ document.addEventListener("click", function(e){
                 </button>
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card clickable"
+                            onclick="openChat(
+                                'นายคามาโดะ ทันจิโร่',
+                                'ทันจิโร่.jpg'
+                        )">
                 <div class="patient-photo">
     <img src="ทันจิโร่.jpg" alt="patient">
 </div>

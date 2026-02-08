@@ -322,19 +322,93 @@ function goBack(){
         case "xray":
             window.location.href = "../Clinic/xray.html";
             break;
+
+            case "xraynodocter":
+            window.location.href = "../Clinic/xraynodocter.html";
+            break;
+
+            case "prosthetic":
+            window.location.href = "../Clinic/prosthetic.html";
+            break;
+
+            case "prostheticnodocter":
+            window.location.href = "../Clinic/prostheticnodocter.html";
+            break;
+
+            case "family":
+            window.location.href = "../Clinic/family.html";
+            break;
+
+            case "familynodocter":
+            window.location.href = "../Clinic/familynodocter.html";
+            break;
+
+            case "comprehensive":
+            window.location.href = "../Clinic/comprehensive.html";
+            break;
+
+            case "comprehensivenodocter":
+            window.location.href = "../Clinic/comprehensivenodocter.html";
+            break;
+
+            case "restorative":
+            window.location.href = "../Clinic/restorative.html";
+            break;
+
+            case "restorativenodocter":
+            window.location.href = "../Clinic/restorativenodocter.html";
+            break;
+            
+            case "ortho":
+            window.location.href = "../Clinic/ortho.html";
+            break;
+
+            case "orthonodocter":
+            window.location.href = "../Clinic/orthonodocter.html";
+            break;
+
         case "endo":
             window.location.href = "../Clinic/endo.html";
             break;
-        case "ortho":
-            window.location.href = "../Clinic/ortho.html";
+
+            case "endonodocter":
+            window.location.href = "../Clinic/endonodocter.html";
             break;
-        case "emergency":
-            window.location.href = "../Clinic/emergency.html";
+        
+        case "oral-surgery":
+            window.location.href = "../Clinic/oral-surgery.html";
+            break;
+
+        case "oral-surgerynodocter":
+            window.location.href = "../Clinic/oral-surgerynodocter.html";
+            break;
+
+        case "periodontology":
+            window.location.href = "../Clinic/periodontology.html";
+            break;
+
+        case "periodontologynodocter":
+            window.location.href = "../Clinic/periodontologynodocter.html";
+            break;
+
+        case "occlusion":
+            window.location.href = "../Clinic/occlusion.html";
+            break;
+
+        case "occlusionnodocter":
+            window.location.href = "../Clinic/occlusionnodocter.html";
             break;
         default:
             // เผื่อกรณีไม่มีค่า
             window.location.href = "../Chat/Chat.html";
     }
+}
+window.onload = function(){
+    const name = localStorage.getItem("chat_name");
+    const photo = localStorage.getItem("chat_photo");
+
+    if(name) document.getElementById("patientName").textContent = name;
+    if(photo) document.getElementById("patientPhoto").src = photo;
 }
 </script>
 
@@ -352,17 +426,17 @@ function goBack(){
         <div class="clinic-menu" onclick="toggleClinicMenu()">
             คลินิก ▾
     <div class="clinic-dropdown" id="clinicDropdown">
-    <a href="clinic/xray.html" class="dropdown-item">ทันตรังสี</a>
-    <a href="clinic/emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
-    <a href="clinic/prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
-    <a href="clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
-    <a href="clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
-    <a href="clinic/restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
-    <a href="clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
-    <a href="clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
-    <a href="clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
-    <a href="clinic/drug.html" class="dropdown-item">ประกันตัวยา</a>
-    <a href="clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
+    <a href="../Clinic/xray.html" class="dropdown-item">ทันตรังสี</a>
+    <a href="../Clinic/emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
+    <a href="../Clinic/prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
+    <a href="../Clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
+    <a href="../Clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
+    <a href="../Clinic/restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
+    <a href="../Clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
+    <a href="../Clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
+    <a href="../Clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
+    <a href="../Clinic/periodontology.html" class="dropdown-item">ปริทันตวิทยา</a>
+    <a href="../Clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
 </div>
 </div>
         <a href="../namedocter/docterindex.html">รายชื่อแพทย์</a>
@@ -384,9 +458,10 @@ function goBack(){
 
         <div class="patient-info">
             <div class="patient-avatar">
-                <img src="นนท์.jpg">
-            </div>
-            <span class="patient-name">สิทธินนท์ บุญปั๋น</span>
+    <img id="patientPhoto" src="">
+</div>
+<span class="patient-name" id="patientName"></span>
+
         </div>
     </div>
             <div class="user-group">
@@ -415,6 +490,24 @@ function goBack(){
     </section>
 
 </div>
+<script>
+window.onload = function(){
+    const name = localStorage.getItem("chat_name");
+    const photo = localStorage.getItem("chat_photo");
+
+    if(name){
+        document.getElementById("patientName").textContent = name;
+    }else{
+        document.getElementById("patientName").textContent = "ไม่พบชื่อผู้ป่วย";
+    }
+
+    if(photo){
+        document.getElementById("patientPhoto").src = photo;
+    }else{
+        document.getElementById("patientPhoto").src = "default.png";
+    }
+};
+</script>
 
 </body>
 </html>

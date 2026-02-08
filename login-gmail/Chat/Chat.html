@@ -494,6 +494,13 @@ document.addEventListener("click", function(e){
         menu.style.display = "none";
     }
 });
+function openChat(name, photo, clinic){
+    localStorage.setItem("chat_name", name);
+    localStorage.setItem("chat_photo", photo);
+    localStorage.setItem("fromClinic", clinic);
+
+    window.location.href = "../Chat/Chat2.html";
+}
 </script>
 
 </head>
@@ -508,17 +515,17 @@ document.addEventListener("click", function(e){
         <div class="clinic-menu" onclick="toggleClinicMenu()">
     คลินิก ▾
     <div class="clinic-dropdown" id="clinicDropdown">
-    <a href="clinic/xray.html" class="dropdown-item">ทันตรังสี</a>
-    <a href="clinic/emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
-    <a href="clinic/prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
-    <a href="clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
-    <a href="clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
-    <a href="clinic/restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
-    <a href="clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
-    <a href="clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
-    <a href="clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
-    <a href="clinic/drug.html" class="dropdown-item">ประกันตัวยา</a>
-    <a href="clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
+    <a href="../Clinic/xray.html" class="dropdown-item">ทันตรังสี</a>
+    <a href="../Clinic/emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
+    <a href="../Clinic/prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
+    <a href="../Clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
+    <a href="../Clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
+    <a href="../Clinic/restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
+    <a href="../Clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
+    <a href="../Clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
+    <a href="../Clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
+    <a href="../Clinic/periodontology.html" class="dropdown-item">ปริทันตวิทยา</a>
+    <a href="../Clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
 </div>
 </div>
 
@@ -591,7 +598,11 @@ document.addEventListener("click", function(e){
         <div class="main">
             <!-- Patient Card -->
             <div class="patient-card"
-                onclick="window.location.href='Chat2.html'">
+                onclick="openChat(
+                    'สิทธินนท์ บุญปั๋น',
+                    'นนท์.jpg',
+                    'periodontology'
+                )">
                 <div class="patient-photo">
     <img src="นนท์.jpg" alt="patient">
 </div>
@@ -619,22 +630,29 @@ document.addEventListener("click", function(e){
 
                 </div>
             </div>
-                        <div class="patient-card">
-                <div class="patient-photo"></div>
+                        <div class="patient-card"
+                            onclick="openChat(
+                                'ปัญจรัตน์ ทองนา',
+                                'โมจิ.jpg',
+                                'periodontology'
+                        )">
+                <div class="patient-photo">
+                        <img src="โมจิ.jpg" alt="patient">
+                </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล:</div>
-                    <div>เพศ: ชาย | อายุ: 20</div>
-                    <div>วันที่เข้าตรวจล่าสุด:</div>
-                    <div>วันที่รับช่วงงาน:</div>
-                    <div>คลินิกที่ทำการรักษา:</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
+                    <div>ชื่อ-สกุล: นางสาวปัญจรัตน์ ทองนา</div>
+                    <div>เพศ: หญิง | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 7 มกราคม 2569</div>
+                    <div>วันที่ผู้ป่วยว่าง: จันทร์ เช้า</div>
+                    <div>คลินิกที่ทำการรักษา: ทันตกรรมจัดฟัน</div>
+                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมบูรณะ</div>
                     <div>
-                        แพทย์ผู้ดูแล :
-                        <span class="doctor">ยังไม่มีแพทย์ดูแล</span>
+                        
+                        <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
                     </div>
                     <div>
-                        แพทย์ผู้ดูแลก่อนหน้า :
-                        <span class="doctor">นพ. ธนภัทร ศรีวัฒนพร</span>
+                        
+                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นพ. ธนภัทร ศรีวัฒนพร</span>
                     </div>
                 </div>
                 <div class="patient-action">
@@ -644,22 +662,29 @@ document.addEventListener("click", function(e){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card">
-                <div class="patient-photo"></div>
+                        <div class="patient-card"
+                            onclick="openChat(
+                                'อรัญญาพร จีนย้าย',
+                                'ต้องตา.jpg',
+                                'periodontology'
+                        )">
+                <div class="patient-photo">
+                        <img src="ต้องตา.jpg" alt="patient">
+                </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล:</div>
-                    <div>เพศ: ชาย | อายุ: 20</div>
+                    <div>ชื่อ-สกุล: นางสาวอรัญญาพร จีนย้าย</div>
+                    <div>เพศ: หญิง | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด:</div>
-                    <div>วันที่รับช่วงงาน:</div>
-                    <div>คลินิกที่ทำการรักษา:</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
+                    <div>วันที่ผู้ป่วยว่าง: อังคาร ทั้งวัน</div>
+                    <div>คลินิกที่ทำการรักษา: ศัลยกรรมช่องปาก</div>
+                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมประดิษฐ์</div>
                     <div>
-                        แพทย์ผู้ดูแล :
-                        <span class="doctor">ยังไม่มีแพทย์ดูแล</span>
+                        
+                        <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
                     </div>
                     <div>
-                        แพทย์ผู้ดูแลก่อนหน้า :
-                        <span class="doctor">นพ. ธนภัทร ศรีวัฒนพร</span>
+                        
+                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นพ. ธนภัทร ศรีวัฒนพร</span>
                     </div>
                 </div>
                 <div class="patient-action">
@@ -670,22 +695,29 @@ document.addEventListener("click", function(e){
 
                 </div>
             </div>
-                        <div class="patient-card">
-                <div class="patient-photo"></div>
+                        <div class="patient-card"
+                        onclick="openChat(
+                            'อติวิชญ์ คำมูลใจ',
+                            'ฟิวส์.jpg',
+                            'periodontology'
+                        )">
+                <div class="patient-photo">
+                        <img src="ฟิวส์.jpg" alt="patient">
+                </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล:</div>
-                    <div>เพศ: ชาย | อายุ: 20</div>
-                    <div>วันที่เข้าตรวจล่าสุด:</div>
-                    <div>วันที่รับช่วงงาน:</div>
-                    <div>คลินิกที่ทำการรักษา:</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
+                    <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
+                    <div>เพศ: ชาย | อายุ: 19 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 18 ธันวาคม 2568</div>
+                    <div>วันที่ผู้ป่วยว่าง: พฤหัสบดี เช้า</div>
+                    <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
+                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
                     <div>
-                        แพทย์ผู้ดูแล :
-                        <span class="doctor">ยังไม่มีแพทย์ดูแล</span>
+                        
+                        <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
                     </div>
                     <div>
-                        แพทย์ผู้ดูแลก่อนหน้า :
-                        <span class="doctor">นพ. ธนภัทร ศรีวัฒนพร</span>
+                        
+                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นพ. ธนภัทร ศรีวัฒนพร</span>
                     </div>
                 </div>
                 <div class="patient-action">
@@ -695,22 +727,29 @@ document.addEventListener("click", function(e){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card">
-                <div class="patient-photo"></div>
+                        <div class="patient-card"
+                            onclick="openChat(
+                                'คามาโดะ ทันจิโร่',
+                                'ทันจิโร่.jpg',
+                                'periodontology'
+                        )">
+                <div class="patient-photo">
+                        <img src="ทันจิโร่.jpg" alt="patient">
+                </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล:</div>
-                    <div>เพศ: ชาย | อายุ: 20</div>
-                    <div>วันที่เข้าตรวจล่าสุด:</div>
-                    <div>วันที่รับช่วงงาน:</div>
-                    <div>คลินิกที่ทำการรักษา:</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
+                    <div>ชื่อ-สกุล: นายคามาโดะ ทันจิโร่</div>
+                    <div>เพศ: ชาย | อายุ: 17 ปี</div>
+                    <div>วันที่เข้าตรวจล่าสุด: 3 ธันวาคม 2568</div>
+                    <div>วันที่ผู้ป่วยว่าง: พุธ เช้า</div>
+                    <div>คลินิกที่ทำการรักษา: ทันตกรรมครอบครัว</div>
+                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
                     <div>
-                        แพทย์ผู้ดูแล :
-                        <span class="doctor">ยังไม่มีแพทย์ดูแล</span>
+                        
+                        <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
                     </div>
                     <div>
-                        แพทย์ผู้ดูแลก่อนหน้า :
-                        <span class="doctor">นพ. ธนภัทร ศรีวัฒนพร</span>
+                        
+                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นพ. ธนภัทร ศรีวัฒนพร</span>
                     </div>
                 </div>
                 <div class="patient-action">

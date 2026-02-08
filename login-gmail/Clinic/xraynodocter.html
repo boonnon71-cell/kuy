@@ -738,12 +738,12 @@ const name = localStorage.getItem("currentPatient");
 if(name){
     document.getElementById("patientName").innerText = name;
 }
-function openChat(name){
-    localStorage.setItem("currentPatient", name);
+function openChat(name, photo){
+    localStorage.setItem("chat_name", name);
+    localStorage.setItem("chat_photo", photo);
     localStorage.setItem("fromClinic", "xray");
-    // เอฟเฟกต์นิด ๆ
-    document.body.style.opacity = ".5";
 
+    document.body.style.opacity = ".5";
     setTimeout(()=>{
         window.location.href = "../Chat/Chat2.html";
     },200);
@@ -863,7 +863,10 @@ function openChat(name){
 
             <!-- Patient Card -->
             <div class="patient-card clickable"
-                onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+                onclick="openChat(
+    'นายสิทธินนท์ บุญปั๋น',
+    'นนท์.jpg'
+)">
                 <div class="patient-photo">
     <img src="นนท์.jpg" alt="patient">
 </div>
@@ -898,7 +901,10 @@ function openChat(name){
                 </div>
             </div>
                         <div class="patient-card clickable"
-                            onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+                        onclick="openChat(
+    'นางสาวปัญจรัตน์ ทองนา',
+    'โมจิ.jpg'
+)">
                 <div class="patient-photo">
     <img src="โมจิ.jpg" alt="patient">
 </div>
@@ -933,7 +939,10 @@ function openChat(name){
                 </div>
             </div>
                         <div class="patient-card clickable"
-                            onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+                            onclick="openChat(
+    'นางสาวอรัญญาพร จีนย้าย',
+    'ต้องตา.jpg'
+)">
                 <div class="patient-photo">
     <img src="ต้องตา.jpg" alt="patient">
 </div>
@@ -968,7 +977,10 @@ function openChat(name){
                 </div>
             </div>
                         <div class="patient-card clickable"
-                            onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+                            onclick="openChat(
+    'นายอติวิชญ์ คำมูลใจ',
+    'ฟิวส์.jpg'
+)">
                 <div class="patient-photo">
     <img src="ฟิวส์.jpg" alt="patient">
 </div>
@@ -1003,7 +1015,10 @@ function openChat(name){
                 </div>
             </div>
                         <div class="patient-card clickable"
-                            onclick="openChat('นายสิทธินนท์ บุญปั๋น')">
+                            onclick="openChat(
+    'นายคามาโดะ ทันจิโร่',
+    'ทันจิโร่.jpg'
+)">
                 <div class="patient-photo">
     <img src="ทันจิโร่.jpg" alt="patient">
 </div>
@@ -1021,7 +1036,7 @@ function openChat(name){
                         <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
                     </div>
                 </div>
-                <div class="patient-action">
+                <div class="patient-action clickable">
                     <button class="btn-confirm"
                     onclick="event.stopPropagation(); openModal({
                     id: 'p001',
