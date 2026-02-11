@@ -214,31 +214,41 @@ input::placeholder{
 
 </style>
 <script>
+    const users = [
+    { email: "68023559@up.ac.th", password: "fiw301022@", type: "old", name: "นายสิทธินนท์ บุญปั๋น" },
+    { email: "68023324@up.ac.th", password: "Eiei8888!", type: "new", name: "ผู้ใช้ใหม่" }
+];
+
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("loginBtn").addEventListener("click", function () {
+document.getElementById("loginBtn").addEventListener("click", function () {
 
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-        // 🔐 กำหนด user / password ที่ถูกต้อง
-        const correctEmail = "68023559@up.ac.th";
-        const correctPassword = "fiw301022@";
+    if(email === "" || password === ""){
+        showAlert("กรุณากรอกอีเมลและรหัสผ่านให้ครบ");
+        return;
+    }
 
-        // ตรวจช่องว่าง
-        if(email === "" || password === ""){
-            showAlert("กรุณากรอกอีเมลและรหัสผ่านให้ครบ");
-            return;
-        }
+    const user = users.find(u => u.email === email && u.password === password);
 
-        // ตรวจข้อมูล
-        if(email !== correctEmail || password !== correctPassword){
-            showAlert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
-            return;
-        }
+    if(!user){
+        showAlert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+        return;
+    }
 
-        // ✅ ผ่านการเข้าสู่ระบบ
+    // ✅ login สำเร็จ
+    localStorage.setItem("currentUser", user.name);
+    localStorage.setItem("userEmail", user.email);
+
+    if(user.type === "old"){
+        localStorage.setItem("profileCompleted", "1");
         window.location.href = "User/index.html";
-    });
+    }else{
+        localStorage.removeItem("profileCompleted");
+        window.location.href = "User/profile.html";
+    }
+});
 });
 
 function showAlert(message){
@@ -262,21 +272,6 @@ function togglePassword(){
         icon.textContent = "👁";   // ซ่อนรหัส
     }
 }
-// สมมติ login แล้วรู้ชื่อ
-const loginName = "นายสิทธินนท์ บุญปั๋น";
-
-// ผู้ป่วยเก่าที่เคยกรอกข้อมูลแล้ว
-const oldPatients = ["นายสิทธินนท์ บุญปั๋น"];
-
-localStorage.setItem("currentUser", loginName);
-
-if(oldPatients.includes(loginName)){
-    localStorage.setItem("profileCompleted", "1");
-    window.location.href = "index.html";   // เข้าหน้าหลักได้เลย
-}else{
-    localStorage.removeItem("profileCompleted");
-    window.location.href = "profile.html"; // ไปหน้ากรอกข้อมูล
-}
 function submitProfile(){
     const name = document.getElementById("fullname").value.trim();
     const citizen = document.getElementById("citizen").value.trim();
@@ -287,6 +282,19 @@ function submitProfile(){
         alert("กรุณากรอกข้อมูลให้ครบ");
         return;
     }
+    // ✅ ผ่านการเข้าสู่ระบบ
+const loginName = "นายสิทธินนท์ บุญปั๋น";
+const oldPatients = ["นายสิทธินนท์ บุญปั๋น"];
+
+localStorage.setItem("currentUser", loginName);
+
+if(oldPatients.includes(loginName)){
+    localStorage.setItem("profileCompleted", "1");
+    window.location.href = "index.html";
+}else{
+    localStorage.removeItem("profileCompleted");
+    window.location.href = "profile.html";
+}
 
     const profile = {
         name: name || localStorage.getItem("currentUser"),

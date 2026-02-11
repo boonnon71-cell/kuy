@@ -762,6 +762,9 @@ if(name){
 function openChat(name, photo){
     localStorage.setItem("chat_name", name);
     localStorage.setItem("chat_photo", photo);
+
+    // ⭐ บอกให้ชัดว่ามาจากคลินิก
+    localStorage.setItem("chat_from", "clinic");
     localStorage.setItem("fromClinic", "xray");
 
     document.body.style.opacity = ".5";

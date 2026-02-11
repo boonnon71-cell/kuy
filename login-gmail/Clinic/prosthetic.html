@@ -751,6 +751,9 @@ document.addEventListener("click", function(e){
 function openChat(name, photo){
     localStorage.setItem("chat_name", name);
     localStorage.setItem("chat_photo", photo);
+
+    // ⭐ บอกให้ชัดว่ามาจากคลินิก
+    localStorage.setItem("chat_from", "clinic");
     localStorage.setItem("fromClinic", "prosthetic");
 
     document.body.style.opacity = ".5";
@@ -788,7 +791,13 @@ function openChat(name, photo){
 
         <a href="../namedocter/docterindex.html">รายชื่อแพทย์</a>
         <a href="../record/historyindex.html">ประวัติการรักษา</a>
-        <a href="../Chat/Chat.html">แชท</a>
+        <a href="../Chat/Chat.html"
+            onclick="
+                localStorage.setItem('chat_from','clinic');
+                localStorage.setItem('fromClinic','prosthetic');
+            ">
+            แชท
+        </a>
     </div>
     <!-- Content -->
     <div class="content">

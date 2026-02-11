@@ -775,7 +775,13 @@ function openChat(name, photo){
 
         <a href="../namedocter/docterindex.html">รายชื่อแพทย์</a>
         <a href="../record/historyindex.html">ประวัติการรักษา</a>
-        <a href="Chat/Chat.html">แชท</a>
+        <a href="../Chat/Chat.html"
+            onclick="
+                localStorage.setItem('chat_from','clinic');
+                localStorage.setItem('fromClinic','prostheticnodocter');
+            ">
+            แชท
+        </a>
     </div>
     <!-- Content -->
     <div class="content">

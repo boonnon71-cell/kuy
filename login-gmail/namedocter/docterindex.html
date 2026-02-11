@@ -118,6 +118,12 @@ body{
     display: flex;
     align-items: flex-start;
     margin-bottom: 18px;
+    cursor: pointer;
+}
+.patient-card:hover{
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    transition: 0.2s;
 }
 .patient-photo{
     width: 90px;
@@ -297,7 +303,7 @@ body{
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 30000;
 }
 
 .modal-box{
@@ -626,6 +632,72 @@ body{
     z-index: 10;
 }
 
+/* ===== Doctor Contact Modal ===== */
+.doctor-modal{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20000;
+}
+
+.doctor-box{
+    background: #ffffff;
+    width: 380px;
+    padding: 24px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    animation: fadeIn .3s ease;
+}
+
+.doctor-box h3{
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.doctor-role{
+    font-size: 14px;
+    color: #8a00c2;
+    margin-bottom: 20px;
+}
+
+/* social buttons */
+.social-group{
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+
+.social-btn{
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.fb{ background:#1877f2; }
+.ig{ background:#e1306c; }
+.tw{ background:#000; }
+
+.social-btn:hover{
+    opacity:.8;
+}
+
+.close-doctor{
+    margin-top: 20px;
+    background:#ddd;
+    border:none;
+    padding:6px 14px;
+    border-radius:20px;
+    cursor:pointer;
+}
+
 </style>
 <script>
 function togglePatientMenu(){
@@ -771,6 +843,57 @@ function updateAppointmentText(input){
 
     input.style.display = "none";
 }
+// ===== Global Telephone =====
+let currentDoctorTel = "";
+
+// ===== Doctor Database =====
+const doctorDatabase = {
+    "นทพ. ณิชาภัทร ตรัยรัตนเมธี": {
+        fb: "https://facebook.com/",
+        ig: "https://www.instagram.com/nichapa6t?igsh=bHI3YXNzMzkya3h0",
+        tel: "086-935-3769"
+    },
+    "นทพ. บุริศร์ อาทิตย์สาม": {
+        fb: "https://www.facebook.com/share/1FPYPV76Qh/",
+        ig: "https://www.instagram.com/plug.buris?igsh=am5wZnIxNmhuenlt",
+        tel: "088-226-7767"
+    },
+    "นทพ. สุภาษิต ปัญญาบุตร": {
+        fb: "https://facebook.com/",
+        ig: "https://instagram.com/",
+        tel: "089-999-9999"
+    }
+};
+
+function openDoctorContact(name){
+    const modal = document.getElementById("doctorModal");
+    const doctorName = document.getElementById("doctorName");
+
+    doctorName.innerText = name;
+
+    const doctor = doctorDatabase[name];
+
+    if(doctor){
+        document.getElementById("doctorFB").href = doctor.fb;
+        document.getElementById("doctorIG").href = doctor.ig;
+        currentDoctorTel = doctor.tel;
+    }
+
+    modal.style.display = "flex";
+}
+
+function closeDoctorModal(){
+    document.getElementById("doctorModal").style.display = "none";
+}
+
+function showDoctorTel(){
+    document.getElementById("telNumber").innerText = currentDoctorTel;
+    document.getElementById("telModal").style.display = "flex";
+}
+
+function closeTelModal(){
+    document.getElementById("telModal").style.display = "none";
+}
 </script>
 
 </head>
@@ -873,18 +996,19 @@ function updateAppointmentText(input){
         <div class="main">
             
             <!-- Patient Card -->
-            <div class="patient-card">
+            <div class="patient-card" onclick="event.stopPropagation(); openDoctorContact('นทพ. ณิชาภัทร ตรัยรัตนเมธี')">
+
                 <div class="patient-photo">
-    <img src="นนท์.jpg" alt="patient">
+    <img src="14769.jpg" alt="patient">
 </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล: นายสิทธินนท์ บุญปั๋น</div>
-                    <div>เพศ: ชาย </div>
-                    <div>รหัสนิสิต: 28 กุมภาพันธ์ 2569</div>
+                    <div>ชื่อ-สกุล: นางสาวณิชาภัทร ตรัยรัตนเมธี</div>
+                    <div>เพศ: หญิง </div>
+                    <div>รหัสนิสิต: 650</div>
                     <br>
                     <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
                     <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
+                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : ดร.</span>
                     </br>
                 </div>
                 <div class="patient-action">
@@ -895,18 +1019,18 @@ function updateAppointmentText(input){
 
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card" onclick="event.stopPropagation(); openDoctorContact('นทพ. บุริศร์ อาทิตย์สาม')">
                 <div class="patient-photo">
-    <img src="โมจิ.jpg" alt="patient">
+    <img src="S__45047825.jpg" alt="patient">
 </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล: นางสาวปัญจรัตน์ ทองนา</div>
-                    <div>เพศ: หญิง </div>
-                    <div>รหัสนิสิต: 7 มกราคม 2569</div>
+                    <div>ชื่อ-สกุล: นายบุริศร์ อาทิตย์สาม</div>
+                    <div>เพศ: ชาย </div>
+                    <div>รหัสนิสิต: 650</div>
                     <br>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมจัดฟัน</div>
                     <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
+                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : ดร.</span>
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm status done">
@@ -915,18 +1039,18 @@ function updateAppointmentText(input){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card" onclick="event.stopPropagation(); openDoctorContact('นทพ. สุภาษิต ปัญญาบุตร')">
                 <div class="patient-photo">
-    <img src="ต้องตา.jpg" alt="patient">
+    <img src="แดน.jpg" alt="patient">
 </div>
                 <div class="patient-info">
-                    <div>ชื่อ-สกุล: นางสาวอรัญญาพร จีนย้าย</div>
-                    <div>เพศ: หญิง </div>
-                    <div>รหัสนิสิต: 23 ธันวาคม 2568</div>
+                    <div>ชื่อ-สกุล: นายสุภาษิต ปัญญาบุตร</div>
+                    <div>เพศ: ชาย </div>
+                    <div>รหัสนิสิต: 650</div>
                     <br>
                     <div>คลินิกที่ทำการรักษา: ไม่อยู่โรงพยาบาล</div>
                     <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
+                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : ดร.</span>
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm status recall">
@@ -980,6 +1104,33 @@ function updateAppointmentText(input){
                 </div>
             </div>
         </div>
+
+<!-- ===== Doctor Contact Modal ===== -->
+<div class="doctor-modal" id="doctorModal">
+    <div class="doctor-box">
+        <h3 id="doctorName">ชื่อแพทย์</h3>
+        <div class="doctor-role">ข้อมูลติดต่อแพทย์</div>
+
+        <div class="social-group">
+            <a id="doctorFB" href="#" target="_blank" class="social-btn fb">Facebook</a>
+            <a id="doctorIG" href="#" target="_blank" class="social-btn ig">Instagram</a>
+            <button id="doctorTel" class="social-btn tw" onclick="showDoctorTel()">Telephone</button>
+
+        </div>
+
+        <button class="close-doctor" onclick="closeDoctorModal()">ปิด</button>
+    </div>
+</div>
+<!-- ===== Telephone Popup ===== -->
+<div class="modal-overlay" id="telModal">
+    <div class="modal-box">
+        <h3>เบอร์ติดต่อ</h3>
+        <p id="telNumber">-</p>
+        <div class="modal-actions">
+            <button class="btn-confirm" onclick="closeTelModal()">ปิด</button>
+        </div>
+    </div>
+</div>
 
 
 </body>

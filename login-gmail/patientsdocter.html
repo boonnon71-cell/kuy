@@ -751,23 +751,39 @@ function updateAppointmentText(input){
     const value = input.value.trim();
     if(!value) return;
 
-    // คาดรูปแบบ dd/mm/yyyy
     const parts = value.split("/");
     if(parts.length !== 3){
         alert("กรุณากรอกวันที่รูปแบบ วว/ดด/ปปปป");
         return;
     }
 
-    const [day, month, year] = parts;
+    let [day, month, year] = parts;
 
     if(day.length !== 2 || month.length !== 2 || year.length !== 4){
         alert("รูปแบบวันที่ไม่ถูกต้อง");
         return;
     }
 
-    const thaiDate = `${day}/${month}/${year}`;
+    // แปลง พ.ศ. เป็น ค.ศ.
+    const christianYear = parseInt(year) - 543;
 
+    const isoDate = `${christianYear}-${month}-${day}`;
+
+    // หา index คนไข้
     const card = input.closest(".patient-card");
+    const nameText = card.querySelector(".patient-info div").innerText;
+    const name = nameText.replace("ชื่อ-สกุล: ","");
+
+    let patients = JSON.parse(localStorage.getItem("myPatients")) || [];
+
+    const index = patients.findIndex(p => p.name === name);
+    if(index !== -1){
+        patients[index].appointment = isoDate;
+        localStorage.setItem("myPatients", JSON.stringify(patients));
+    }
+
+    // แสดงผลแบบไทย
+    const thaiDate = `${day}/${month}/${year}`;
     const info = card.querySelectorAll(".patient-info div");
 
     info.forEach(div=>{
@@ -777,7 +793,10 @@ function updateAppointmentText(input){
     });
 
     input.style.display = "none";
+
+    alert("บันทึกวันนัดสำเร็จ");
 }
+
 if(!localStorage.getItem("demoAdded")){
     let myPatients = JSON.parse(localStorage.getItem("myPatients"));
 
@@ -849,6 +868,98 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //localStorage.removeItem("myPatients");
 //localStorage.clear();
+
+
+/* ==============================
+   ระบบแจ้งเตือนหลายคนในวันเดียวกัน
+================================= */
+
+/* ==============================
+   แจ้งเตือนจากข้อมูลบนหน้า HTML เลย
+================================= */
+
+function checkAppointmentFromCards(){
+
+    const cards = document.querySelectorAll(".patient-card");
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    let notifyList = [];
+
+    cards.forEach(card => {
+
+        const infoDivs = card.querySelectorAll(".patient-info div");
+
+        let name = "";
+        let appointmentText = "";
+
+        infoDivs.forEach(div=>{
+            if(div.innerText.includes("ชื่อ-สกุล")){
+                name = div.innerText.replace("ชื่อ-สกุล: ","").trim();
+            }
+
+            if(div.innerText.includes("นัดผู้ป่วยวันที่")){
+                appointmentText = div.innerText.replace("นัดผู้ป่วยวันที่: ","").trim();
+            }
+        });
+
+        if(!appointmentText) return; // ไม่มีวันนัด ข้าม
+
+        const appointmentDate = new Date(appointmentText);
+        appointmentDate.setHours(0,0,0,0);
+
+        if(isNaN(appointmentDate)) return;
+
+        const diffTime = appointmentDate - today;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        if(diffDays === 5 || diffDays === 3){
+
+            const thaiDate = appointmentDate.toLocaleDateString("th-TH", {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+
+            notifyList.push({
+                name: name,
+                daysLeft: diffDays,
+                date: thaiDate
+            });
+        }
+
+    });
+
+    if(notifyList.length > 0){
+        showCardNotification(notifyList);
+    }
+}
+
+function showCardNotification(list){
+
+    const notify = document.getElementById("gameNotify");
+    const notifyTitle = document.getElementById("notifyTitle");
+    const notifyText = document.getElementById("notifyText");
+
+    notifyTitle.innerText = "แจ้งเตือนวันนัดผู้ป่วย";
+
+    let message = "";
+
+    list.forEach(item=>{
+        message += `• ${item.name} (อีก ${item.daysLeft} วัน - ${item.date})\n`;
+    });
+
+    notifyText.innerText = message.trim();
+
+    notify.style.display = "flex";
+}
+
+/* เรียกตอนโหลดหน้า */
+window.addEventListener("load", function(){
+    checkAppointmentFromCards();
+});
+
+
 </script>
 
 </head>
@@ -970,7 +1081,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div>ชื่อ-สกุล: นายสิทธินนท์ บุญปั๋น</div>
                     <div>เพศ: ชาย | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 28 กุมภาพันธ์ 2569</div>
-                    <div>นัดผู้ป่วยวันที่: 3 กุมภาพันธ์ 2569</div>
+                    <div>นัดผู้ป่วยวันที่: 2026-02-13</div>
                     <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
                     <br>
                         <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
@@ -1002,7 +1113,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div>ชื่อ-สกุล: นางสาวปัญจรัตน์ ทองนา</div>
                     <div>เพศ: หญิง | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 7 มกราคม 2569</div>
-                    <div>นัดผู้ป่วยวันที่: 2 กุมภาพันธ์ 2569</div>
+                    <div>นัดผู้ป่วยวันที่: </div>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมจัดฟัน</div>
                     <br>
                         <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
@@ -1033,7 +1144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div>ชื่อ-สกุล: นางสาวอรัญญาพร จีนย้าย</div>
                     <div>เพศ: หญิง | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 23 ธันวาคม 2568</div>
-                    <div>นัดผู้ป่วยวันที่:</div>
+                    <div>นัดผู้ป่วยวันที่: </div>
                     <div>คลินิกที่ทำการรักษา: ศัลยกรรมช่องปาก</div>
                     <br>
                         <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
@@ -1058,13 +1169,13 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
                         <div class="patient-card">
                 <div class="patient-photo">
-    <img src="images/patient1.jpg" alt="patient">
+    <img src="ฟิวส์.jpg" alt="patient">
 </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
                     <div>เพศ: ชาย | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 18 ธันวาคม 2568</div>
-                    <div>นัดผู้ป่วยวันที่: 11 มกราคม 2569</div>
+                    <div>นัดผู้ป่วยวันที่: 2026-02-16</div>
                     <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
                     <br>
                         <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
@@ -1096,7 +1207,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div>ชื่อ-สกุล: นายคามาโดะ ทันจิโร่</div>
                     <div>เพศ: ชาย | อายุ: 17 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 3 ธันวาคม 2568</div>
-                    <div>นัดผู้ป่วยวันที่:</div>
+                    <div>นัดผู้ป่วยวันที่: </div>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมครอบครัว</div>
                     <br>
                         <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
@@ -1130,6 +1241,18 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="modal-actions">
             <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
             <button class="btn-confirm" onclick="confirmAccept()">ยืนยัน</button>
+        </div>
+    </div>
+</div>
+<!-- ===== Appointment Notify ===== -->
+<div class="modal-overlay" id="gameNotify" style="display:none;">
+    <div class="modal-box">
+        <h3 id="notifyTitle"></h3>
+        <p id="notifyText"></p>
+        <div class="modal-actions">
+            <button class="btn-confirm" onclick="document.getElementById('gameNotify').style.display='none'">
+                ตกลง
+            </button>
         </div>
     </div>
 </div>

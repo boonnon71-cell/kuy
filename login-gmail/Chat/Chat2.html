@@ -316,93 +316,25 @@ document.addEventListener("click", function(e){
     }
 });
 function goBack(){
+    const from = localStorage.getItem("chat_from");
     const clinic = localStorage.getItem("fromClinic");
 
-    switch(clinic){
-        case "xray":
-            window.location.href = "../Clinic/xray.html";
-            break;
-
-            case "xraynodocter":
-            window.location.href = "../Clinic/xraynodocter.html";
-            break;
-
-            case "prosthetic":
-            window.location.href = "../Clinic/prosthetic.html";
-            break;
-
-            case "prostheticnodocter":
-            window.location.href = "../Clinic/prostheticnodocter.html";
-            break;
-
-            case "family":
-            window.location.href = "../Clinic/family.html";
-            break;
-
-            case "familynodocter":
-            window.location.href = "../Clinic/familynodocter.html";
-            break;
-
-            case "comprehensive":
-            window.location.href = "../Clinic/comprehensive.html";
-            break;
-
-            case "comprehensivenodocter":
-            window.location.href = "../Clinic/comprehensivenodocter.html";
-            break;
-
-            case "restorative":
-            window.location.href = "../Clinic/restorative.html";
-            break;
-
-            case "restorativenodocter":
-            window.location.href = "../Clinic/restorativenodocter.html";
-            break;
-            
-            case "ortho":
-            window.location.href = "../Clinic/ortho.html";
-            break;
-
-            case "orthonodocter":
-            window.location.href = "../Clinic/orthonodocter.html";
-            break;
-
-        case "endo":
-            window.location.href = "../Clinic/endo.html";
-            break;
-
-            case "endonodocter":
-            window.location.href = "../Clinic/endonodocter.html";
-            break;
-        
-        case "oral-surgery":
-            window.location.href = "../Clinic/oral-surgery.html";
-            break;
-
-        case "oral-surgerynodocter":
-            window.location.href = "../Clinic/oral-surgerynodocter.html";
-            break;
-
-        case "periodontology":
-            window.location.href = "../Clinic/periodontology.html";
-            break;
-
-        case "periodontologynodocter":
-            window.location.href = "../Clinic/periodontologynodocter.html";
-            break;
-
-        case "occlusion":
-            window.location.href = "../Clinic/occlusion.html";
-            break;
-
-        case "occlusionnodocter":
-            window.location.href = "../Clinic/occlusionnodocter.html";
-            break;
-        default:
-            // เผื่อกรณีไม่มีค่า
-            window.location.href = "../Chat/Chat.html";
+    // มาจากหน้าหลัก
+    if(from === "home"){
+        window.location.href = "../index.html";
+        return;
     }
+
+    // มาจากคลินิก
+    if(from === "clinic" && clinic){
+        window.location.href = `../Clinic/${clinic}.html`;
+        return;
+    }
+
+    // fallback กรณีเข้าตรง / ไม่มีค่า
+    window.location.href = "../Chat/Chat.html";
 }
+
 window.onload = function(){
     const name = localStorage.getItem("chat_name");
     const photo = localStorage.getItem("chat_photo");

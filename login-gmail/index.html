@@ -276,6 +276,15 @@ body{
 .arrow{
     font-size: 14px;
 }
+.patient-card{
+    cursor: pointer;
+}
+
+.patient-card:hover{
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    transition: 0.2s;
+}
 .patient-photo img{
     width: 100%;
     height: 100%;
@@ -290,7 +299,7 @@ body{
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 30000;
 }
 
 .modal-box{
@@ -598,6 +607,71 @@ body{
         opacity: 1;
     }
 }
+/* ===== Doctor Contact Modal ===== */
+.doctor-modal{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20000;
+}
+
+.doctor-box{
+    background: #ffffff;
+    width: 380px;
+    padding: 24px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    animation: fadeIn .3s ease;
+}
+
+.doctor-box h3{
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.doctor-role{
+    font-size: 14px;
+    color: #8a00c2;
+    margin-bottom: 20px;
+}
+
+/* social buttons */
+.social-group{
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+
+.social-btn{
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.fb{ background:#1877f2; }
+.ig{ background:#e1306c; }
+.tw{ background:#000; }
+
+.social-btn:hover{
+    opacity:.8;
+}
+
+.close-doctor{
+    margin-top: 20px;
+    background:#ddd;
+    border:none;
+    padding:6px 14px;
+    border-radius:20px;
+    cursor:pointer;
+}
 
 </style>
 <script>
@@ -727,6 +801,182 @@ function removePatientsByClinic(clinicName){
     });
 }
 
+function openChat(name, photo, clinic){
+    localStorage.setItem("chat_name", name);
+    localStorage.setItem("chat_photo", photo);
+
+    // ⭐ สำคัญมาก
+    localStorage.setItem("chat_from", "home");
+
+    // กันค่าคลินิกเก่าค้าง
+    localStorage.removeItem("fromClinic");
+
+    window.location.href = "Chat/Chat2.html";
+}
+
+
+
+// ===== Global Telephone =====
+let currentDoctorTel = "";
+
+// ===== Doctor Database =====
+const doctorDatabase = {
+    "นทพ. ณิชาภัทร ตรัยรัตนเมธี": {
+        fb: "https://facebook.com/",
+        ig: "https://www.instagram.com/nichapa6t?igsh=bHI3YXNzMzkya3h0",
+        tel: "086-935-3769"
+    },
+    "นทพ. บุริศร์ อาทิตย์สาม": {
+        fb: "https://www.facebook.com/share/1FPYPV76Qh/",
+        ig: "https://www.instagram.com/plug.buris?igsh=am5wZnIxNmhuenlt",
+        tel: "088-226-7767"
+    },
+    "นทพ. สุภาษิต ปัญญาบุตร": {
+        fb: "https://facebook.com/",
+        ig: "https://instagram.com/",
+        tel: "089-999-9999"
+    }
+};
+
+function openDoctorContact(name){
+    const modal = document.getElementById("doctorModal");
+    const doctorName = document.getElementById("doctorName");
+
+    doctorName.innerText = name;
+
+    const doctor = doctorDatabase[name];
+
+    if(doctor){
+        document.getElementById("doctorFB").href = doctor.fb;
+        document.getElementById("doctorIG").href = doctor.ig;
+        currentDoctorTel = doctor.tel;
+    }
+
+    modal.style.display = "flex";
+}
+
+function closeDoctorModal(){
+    document.getElementById("doctorModal").style.display = "none";
+}
+
+function showDoctorTel(){
+    document.getElementById("telNumber").innerText = currentDoctorTel;
+    document.getElementById("telModal").style.display = "flex";
+}
+
+function closeTelModal(){
+    document.getElementById("telModal").style.display = "none";
+}
+/* ==============================
+   แจ้งเตือนจากหน้าหลัก
+   (ดูจากวันที่เข้าตรวจล่าสุด)
+================================= */
+
+function parseThaiDate(text){
+    const months = {
+        "มกราคม":0,"กุมภาพันธ์":1,"มีนาคม":2,"เมษายน":3,
+        "พฤษภาคม":4,"มิถุนายน":5,"กรกฎาคม":6,"สิงหาคม":7,
+        "กันยายน":8,"ตุลาคม":9,"พฤศจิกายน":10,"ธันวาคม":11
+    };
+
+    const parts = text.split(" ");
+    if(parts.length !== 3) return null;
+
+    let day = parseInt(parts[0]);
+    let month = months[parts[1]];
+    let year = parseInt(parts[2]) - 543; // แปลง พ.ศ. → ค.ศ.
+
+    return new Date(year, month, day);
+}
+
+function checkHomeNotifications(){
+
+    const cards = document.querySelectorAll(".patient-card");
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    let alertList = [];
+
+    cards.forEach(card => {
+
+        const divs = card.querySelectorAll(".patient-info div");
+
+        let name = "";
+        let lastVisitText = "";
+
+        divs.forEach(div => {
+
+            if(div.innerText.includes("ชื่อ-สกุล")){
+                name = div.innerText.replace("ชื่อ-สกุล:","").trim();
+            }
+
+            if(div.innerText.includes("วันที่เข้าตรวจล่าสุด")){
+                lastVisitText = div.innerText
+                    .replace("วันที่เข้าตรวจล่าสุด:","")
+                    .trim();
+            }
+
+        });
+
+        if(!lastVisitText) return;
+
+        const visitDate = parseThaiDate(lastVisitText);
+        if(!visitDate) return;
+
+        visitDate.setHours(0,0,0,0);
+
+        const diffDays = Math.floor((today - visitDate) / (1000*60*60*24));
+
+        // 🔥 เงื่อนไขแจ้งเตือน (เกิน 30 วัน)
+        if(diffDays >= 30){
+
+            alertList.push({
+                name: name,
+                days: diffDays
+            });
+
+            // ใส่สีแดงที่การ์ด
+            card.style.border = "2px solid red";
+        }
+
+    });
+
+    updateNotificationUI(alertList);
+}
+
+function updateNotificationUI(list){
+
+    const badge = document.getElementById("notifyBadge");
+    const bell = document.querySelector(".notification");
+
+    if(list.length === 0){
+        badge.style.display = "none";
+        return;
+    }
+
+    badge.innerText = list.length;
+    badge.style.display = "flex";
+
+    // คลิกกระดิ่งเพื่อดูแจ้งเตือน
+    bell.onclick = function(){
+
+        let message = "ผู้ป่วยที่ไม่ได้มาตรวจเกิน 30 วัน\n\n";
+
+        list.forEach(item=>{
+            message += "• " + item.name + 
+                    " (" + item.days + " วัน)\n";
+        });
+
+        alert(message);
+    };
+
+}
+
+/* เรียกตอนโหลดหน้า */
+window.addEventListener("load", function(){
+    checkHomeNotifications();
+});
+
 </script>
 
 </head>
@@ -757,7 +1007,11 @@ function removePatientsByClinic(clinicName){
 
         <a href="namedocter/docterindex.html">รายชื่อแพทย์</a>
         <a href="record/historyindex.html">ประวัติการรักษา</a>
-        <a href="Chat/Chat.html">แชท</a>
+        <a href="Chat/Chat.html"
+            onclick="localStorage.setItem('chat_from','home')">
+            แชท
+        </a>
+
     </div>
     <!-- Content -->
     <div class="content">
@@ -785,7 +1039,7 @@ function removePatientsByClinic(clinicName){
         <!-- กระดิ่ง -->
         <div class="notification">
             🔔
-            <span class="badge">3</span>
+            <span class="badge" id="notifyBadge" style="display:none">0</span>
         </div>
         <!-- บัญชี -->
         <div class="account-wrapper">
@@ -818,7 +1072,7 @@ function removePatientsByClinic(clinicName){
                 ระบบ reg
             </a>
 
-            <a href="ge-online.html" class="account-item">
+            <a href="https://ge.up.ac.th/" class="account-item">
                 <div class="circle-icon"></div>
                 ระบบ ge-online
             </a>
@@ -840,7 +1094,12 @@ function removePatientsByClinic(clinicName){
         <div class="main">
             
             <!-- Patient Card -->
-            <div class="patient-card">
+            <div class="patient-card"
+            onclick="openChat(
+                    'สิทธินนท์ บุญปั๋น',
+                    'นนท์.jpg',
+                    'index'
+                )">
                 <div class="patient-photo">
     <img src="นนท์.jpg" alt="patient">
 </div>
@@ -855,12 +1114,14 @@ function removePatientsByClinic(clinicName){
                         <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
                     </div>
                     <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นทพ. ณิชาภัทร ตรัยรัตนเมธี</span>
+                        <span class="doctor"onclick="event.stopPropagation(); openDoctorContact('นทพ. ณิชาภัทร ตรัยรัตนเมธี')">
+                            แพทย์ผู้ดูแลก่อนหน้า : นทพ. ณิชาภัทร ตรัยรัตนเมธี
+                        </span>
                     </div>
                 </div>
                 <div class="patient-action">
                 <button class="btn-confirm"
-                onclick="openModal({
+                onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นายสิทธินนท์ บุญปั๋น',
                     gender: 'ชาย',
@@ -874,7 +1135,12 @@ function removePatientsByClinic(clinicName){
                 </button>
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card"
+                        onclick="event.stopPropagation(); openChat(
+                    'ปัญจรัตน์ ทองนา',
+                    'โมจิ.jpg',
+                    'index'
+                )">
                 <div class="patient-photo">
     <img src="โมจิ.jpg" alt="patient">
 </div>
@@ -889,12 +1155,15 @@ function removePatientsByClinic(clinicName){
                         <span class="doctor">แพทย์ผู้ดูแล : ยังไม่มีแพทย์ดูแล</span>
                     </div>
                     <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า : นพ. ธนภัทร ศรีวัฒนพร</span>
+                        <span class="doctor"
+                        onclick="event.stopPropagation(); openDoctorContact('นทพ. บุริศร์ อาทิตย์สาม')">
+                            แพทย์ผู้ดูแลก่อนหน้า : นทพ. บุริศร์ อาทิตย์สาม
+                        </span>
                     </div>
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                        onclick="openModal({
+                        onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นางสาวปัญจรัตน์ ทองนา',
                     gender: 'หญิง',
@@ -908,7 +1177,12 @@ function removePatientsByClinic(clinicName){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card"
+                        onclick="openChat(
+                    'อรัญญาพร จีนย้าย',
+                    'ต้องตา.jpg',
+                    'index'
+                )">
                 <div class="patient-photo">
     <img src="ต้องตา.jpg" alt="patient">
 </div>
@@ -923,12 +1197,15 @@ function removePatientsByClinic(clinicName){
                         <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
                     </div>
                     <div>
-                        <span class="doctor">แพทย์ผู้ดูแลก่อนหน้า :นพ. ธนภัทร ศรีวัฒนพร</span>
+                        <span class="doctor"
+                        onclick="event.stopPropagation(); openDoctorContact('นทพ. สุภาษิต ปัญญาบุตร')">
+                        แพทย์ผู้ดูแลก่อนหน้า :นทพ. สุภาษิต ปัญญาบุตร
+                    </span>
                     </div>
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                        onclick="openModal({
+                        onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นางสาวอรัญญาพร จีนย้าย',
                     gender: 'หญิง',
@@ -942,7 +1219,12 @@ function removePatientsByClinic(clinicName){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card"
+                        onclick="openChat(
+                    'อติวิชญ์ คำมูลใจ',
+                    'ฟิวส์.jpg',
+                    'index'
+                )">
                 <div class="patient-photo">
     <img src="ฟิวส์.jpg" alt="patient">
 </div>
@@ -962,7 +1244,7 @@ function removePatientsByClinic(clinicName){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                    onclick="openModal({
+                    onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นายอติวิชญ์ คำมูลใจ',
                     gender: 'ชาย',
@@ -970,13 +1252,18 @@ function removePatientsByClinic(clinicName){
                     clinic: ' ปริทันตวิทยา',
                     lastVisit: '18 ธันวาคม 2568',
                     available: ' พฤหัสบดี เช้า',
-                    image: 'ต้องตา.jpg'
+                    image: 'ฟิวส์.jpg'
                 }, this)">
                     ยืนยันการรับผู้ป่วย
                 </button>
                 </div>
             </div>
-                        <div class="patient-card">
+                        <div class="patient-card"
+                        onclick="openChat(
+                    'คามาโดะ ทันจิโร่',
+                    'ทันจิโร่.jpg',
+                    'index'
+                )">
                 <div class="patient-photo">
     <img src="ทันจิโร่.jpg" alt="patient">
 </div>
@@ -996,7 +1283,7 @@ function removePatientsByClinic(clinicName){
                 </div>
                 <div class="patient-action">
                     <button class="btn-confirm"
-                    onclick="openModal({
+                    onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นายคามาโดะ ทันจิโร่',
                     gender: 'ชาย',
@@ -1047,6 +1334,32 @@ function removePatientsByClinic(clinicName){
         <div class="game-subtitle">รับผู้ป่วยเรียบร้อยแล้ว</div>
     </div>
     <div class="game-kill">OK</div>
+</div>
+<!-- ===== Doctor Contact Modal ===== -->
+<div class="doctor-modal" id="doctorModal">
+    <div class="doctor-box">
+        <h3 id="doctorName">ชื่อแพทย์</h3>
+        <div class="doctor-role">ข้อมูลติดต่อแพทย์</div>
+
+        <div class="social-group">
+            <a id="doctorFB" href="#" target="_blank" class="social-btn fb">Facebook</a>
+            <a id="doctorIG" href="#" target="_blank" class="social-btn ig">Instagram</a>
+            <button id="doctorTel" class="social-btn tw" onclick="showDoctorTel()">Telephone</button>
+
+        </div>
+
+        <button class="close-doctor" onclick="closeDoctorModal()">ปิด</button>
+    </div>
+</div>
+<!-- ===== Telephone Popup ===== -->
+<div class="modal-overlay" id="telModal">
+    <div class="modal-box">
+        <h3>เบอร์ติดต่อ</h3>
+        <p id="telNumber">-</p>
+        <div class="modal-actions">
+            <button class="btn-confirm" onclick="closeTelModal()">ปิด</button>
+        </div>
+    </div>
 </div>
 
 </body>
