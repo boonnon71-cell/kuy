@@ -725,38 +725,36 @@ function closeModal(){
 function confirmAccept(){
     let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
 
-    // เพิ่มผู้ป่วยใหม่ไว้บนสุด
     myPatients.unshift(selectedPatient);
-
     localStorage.setItem("myPatients", JSON.stringify(myPatients));
 
+    closeModal();
+    removePatientsByClinic(selectedPatient.clinic);
 
+    showAcceptNotify(selectedPatient);
 
+    setTimeout(()=>{
+        window.location.href = "patientsdocter.html";
+    },1200);
+}
 
-closeModal();
-// 🔥 ลบผู้ป่วยทั้งหมดในคลินิกเดียวกัน
-removePatientsByClinic(selectedPatient.clinic);
-// แจ้งเตือนแบบเกม
-showAcceptNotify(selectedPatient);
-
-// หน่วงนิดนึงก่อนเปลี่ยนหน้า
-setTimeout(()=>{
-    window.location.href = "patientsdocter.html";
-}, 1200);
 function showAcceptNotify(patient){
     const notify = document.getElementById("acceptNotify");
     const img = document.getElementById("notifyImg");
+    const subtitle = notify.querySelector(".game-subtitle");
 
-    img.src = patient.image || "default.jpg";
+    img.src = patient.image || "Up.d copy.png";
+    subtitle.innerText = "รับผู้ป่วยเรียบร้อยแล้ว";
 
     notify.style.display = "flex";
 
     setTimeout(()=>{
         notify.style.display = "none";
-    }, 3500);
+    },3000);
 }
 
-}
+
+
 function closeWelcome(){
     const el = document.getElementById('welcome');
     el.style.animation = 'fadeIn .5s reverse forwards';
@@ -867,115 +865,41 @@ function showDoctorTel(){
 function closeTelModal(){
     document.getElementById("telModal").style.display = "none";
 }
-/* ==============================
-   แจ้งเตือนจากหน้าหลัก
-   (ดูจากวันที่เข้าตรวจล่าสุด)
-================================= */
+function loadNotificationsFromDoctorPage(){
 
-function parseThaiDate(text){
-    const months = {
-        "มกราคม":0,"กุมภาพันธ์":1,"มีนาคม":2,"เมษายน":3,
-        "พฤษภาคม":4,"มิถุนายน":5,"กรกฎาคม":6,"สิงหาคม":7,
-        "กันยายน":8,"ตุลาคม":9,"พฤศจิกายน":10,"ธันวาคม":11
-    };
+    let list = JSON.parse(localStorage.getItem("upcomingNotifications")) || [];
 
-    const parts = text.split(" ");
-    if(parts.length !== 3) return null;
+    if(list.length === 0) return;
 
-    let day = parseInt(parts[0]);
-    let month = months[parts[1]];
-    let year = parseInt(parts[2]) - 543; // แปลง พ.ศ. → ค.ศ.
-
-    return new Date(year, month, day);
-}
-
-function checkHomeNotifications(){
-
-    const cards = document.querySelectorAll(".patient-card");
-    const today = new Date();
-    today.setHours(0,0,0,0);
-
-    let alertList = [];
-
-    cards.forEach(card => {
-
-        const divs = card.querySelectorAll(".patient-info div");
-
-        let name = "";
-        let lastVisitText = "";
-
-        divs.forEach(div => {
-
-            if(div.innerText.includes("ชื่อ-สกุล")){
-                name = div.innerText.replace("ชื่อ-สกุล:","").trim();
-            }
-
-            if(div.innerText.includes("วันที่เข้าตรวจล่าสุด")){
-                lastVisitText = div.innerText
-                    .replace("วันที่เข้าตรวจล่าสุด:","")
-                    .trim();
-            }
-
-        });
-
-        if(!lastVisitText) return;
-
-        const visitDate = parseThaiDate(lastVisitText);
-        if(!visitDate) return;
-
-        visitDate.setHours(0,0,0,0);
-
-        const diffDays = Math.floor((today - visitDate) / (1000*60*60*24));
-
-        // 🔥 เงื่อนไขแจ้งเตือน (เกิน 30 วัน)
-        if(diffDays >= 30){
-
-            alertList.push({
-                name: name,
-                days: diffDays
-            });
-
-            // ใส่สีแดงที่การ์ด
-            card.style.border = "2px solid red";
-        }
-
-    });
-
-    updateNotificationUI(alertList);
-}
-
-function updateNotificationUI(list){
-
+    // อัปเดต badge
     const badge = document.getElementById("notifyBadge");
-    const bell = document.querySelector(".notification");
-
-    if(list.length === 0){
-        badge.style.display = "none";
-        return;
-    }
-
     badge.innerText = list.length;
     badge.style.display = "flex";
 
-    // คลิกกระดิ่งเพื่อดูแจ้งเตือน
-    bell.onclick = function(){
+    // แสดง Game Notify
+    const notify = document.getElementById("acceptNotify");
+    const subtitle = notify.querySelector(".game-subtitle");
 
-        let message = "ผู้ป่วยที่ไม่ได้มาตรวจเกิน 30 วัน\n\n";
+    let message = "ใกล้ถึงวันนัด:\n";
 
-        list.forEach(item=>{
-            message += "• " + item.name + 
-                    " (" + item.days + " วัน)\n";
-        });
+    list.forEach(p=>{
+        message += `${p.name} อีก ${p.daysLeft} วัน\n`;
+    });
 
-        alert(message);
-    };
+    subtitle.innerText = message;
 
+    notify.style.display = "flex";
+
+    setTimeout(()=>{
+        notify.style.display = "none";
+    },4000);
 }
-
-/* เรียกตอนโหลดหน้า */
 window.addEventListener("load", function(){
-    checkHomeNotifications();
+    loadNotificationsFromDoctorPage();
 });
+
+
+
 
 </script>
 
@@ -991,7 +915,7 @@ window.addEventListener("load", function(){
         <div class="clinic-menu" onclick="toggleClinicMenu()">
     คลินิก ▾
     <div class="clinic-dropdown" id="clinicDropdown">
-    <a href="clinic/xray.html" class="dropdown-item">ทันตรังสี</a>
+    <a href="clinic/xray.html" class="dropdown-item">ทันตกรรมรังสี</a>
     <a href="clinic/emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
     <a href="clinic/prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
     <a href="clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
@@ -1327,13 +1251,13 @@ window.addEventListener("load", function(){
 <!-- ===== Game Notification ===== -->
 <div class="game-notify" id="acceptNotify" style="display:none">
     <div class="game-avatar">
-        <img id="notifyImg" src="" alt="avatar">
+        <img id="notifyImg" src="Up.d copy.png" alt="avatar">
     </div>
     <div class="game-content">
         <div class="game-title">สำเร็จ</div>
         <div class="game-subtitle">รับผู้ป่วยเรียบร้อยแล้ว</div>
     </div>
-    <div class="game-kill">OK</div>
+    <div class="game-kill"></div>
 </div>
 <!-- ===== Doctor Contact Modal ===== -->
 <div class="doctor-modal" id="doctorModal">

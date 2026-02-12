@@ -748,124 +748,103 @@ function updateAppointment(input){
     input.style.display = "none";
 }
 function updateAppointmentText(input){
-    const value = input.value.trim();
+
+    let value = input.value.trim();
     if(!value) return;
 
+    // แทน - ด้วย / เพื่อจัดการง่ายขึ้น
+    value = value.replace(/-/g,"/");
+
     const parts = value.split("/");
+
     if(parts.length !== 3){
-        alert("กรุณากรอกวันที่รูปแบบ วว/ดด/ปปปป");
-        return;
-    }
-
-    let [day, month, year] = parts;
-
-    if(day.length !== 2 || month.length !== 2 || year.length !== 4){
         alert("รูปแบบวันที่ไม่ถูกต้อง");
         return;
     }
 
-    // แปลง พ.ศ. เป็น ค.ศ.
-    const christianYear = parseInt(year) - 543;
+    let year, month, day;
 
-    const isoDate = `${christianYear}-${month}-${day}`;
+    // ===== กรณี ปี มาก่อน (2026/02/15) =====
+    if(parts[0].length === 4){
+        year = parts[0];
+        month = parts[1];
+        day = parts[2];
+    }
+    // ===== กรณี วัน มาก่อน (15/02/2026) =====
+    else if(parts[2].length === 4){
+        day = parts[0];
+        month = parts[1];
+        year = parts[2];
+    }
+    else{
+        alert("รูปแบบวันที่ไม่ถูกต้อง");
+        return;
+    }
 
-    // หา index คนไข้
+    // เติม 0 ถ้าขาด
+    day = day.padStart(2,"0");
+    month = month.padStart(2,"0");
+
+    // ตรวจสอบตัวเลข
+    if(isNaN(day) || isNaN(month) || isNaN(year)){
+        alert("กรุณากรอกเป็นตัวเลขเท่านั้น");
+        return;
+    }
+
+    const isoDate = `${year}-${month}-${day}`;
+
+    // ตรวจสอบว่าวันที่ถูกต้องไหม
+    const testDate = new Date(isoDate);
+    if(isNaN(testDate)){
+        alert("วันที่ไม่ถูกต้อง");
+        return;
+    }
+
+    // ===== บันทึกลง localStorage =====
     const card = input.closest(".patient-card");
     const nameText = card.querySelector(".patient-info div").innerText;
     const name = nameText.replace("ชื่อ-สกุล: ","");
 
     let patients = JSON.parse(localStorage.getItem("myPatients")) || [];
 
-    const index = patients.findIndex(p => p.name === name);
-    if(index !== -1){
-        patients[index].appointment = isoDate;
-        localStorage.setItem("myPatients", JSON.stringify(patients));
-    }
+const index = patients.findIndex(p => p.name === name);
 
-    // แสดงผลแบบไทย
-    const thaiDate = `${day}/${month}/${year}`;
-    const info = card.querySelectorAll(".patient-info div");
+if(index !== -1){
+    // มีอยู่แล้ว → ทับค่า
+    patients[index].appointment = isoDate;
+}else{
+    // ⭐ ยังไม่มี → สร้างใหม่
+    patients.push({
+        name: name,
+        appointment: isoDate
+    });
+}
 
-    info.forEach(div=>{
+localStorage.setItem("myPatients", JSON.stringify(patients));
+
+
+    // ===== แสดงผลในหน้าเป็น YYYY-MM-DD =====
+    const infoDivs = card.querySelectorAll(".patient-info div");
+    infoDivs.forEach(div=>{
         if(div.innerText.includes("นัดผู้ป่วยวันที่")){
-            div.innerText = "นัดผู้ป่วยวันที่: " + thaiDate;
+            div.innerText = "นัดผู้ป่วยวันที่: " + isoDate;
         }
     });
+
+    // ===== เปลี่ยนสถานะปุ่ม =====
+    const statusBtn = card.querySelector(".btn-confirm");
+    statusBtn.classList.remove("recall");
+    statusBtn.classList.add("done");
+    statusBtn.innerHTML = `
+        <span class="status-dot"></span>
+        นัดแล้ว
+    `;
 
     input.style.display = "none";
 
     alert("บันทึกวันนัดสำเร็จ");
 }
 
-if(!localStorage.getItem("demoAdded")){
-    let myPatients = JSON.parse(localStorage.getItem("myPatients"));
-
-    // ถ้ายังไม่เคยมีข้อมูลเลย ค่อยใส่ demo
-    if(!myPatients || myPatients.length === 0){
-        myPatients = [{
-            name: "นายสิทธินนท์ บุญปั๋น",
-            gender: "ชาย",
-            age: 19,
-            clinic: "เอนโดดอนติกส์",
-            lastVisit: "28 กุมภาพันธ์ 2569",
-            appointment: "",
-            image: "นนท์.jpg"
-        }];
-
-        localStorage.setItem("myPatients", JSON.stringify(myPatients));
-        localStorage.setItem("demoAdded","1");
-    }
-    };
-
-document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("myPatientList");
-    const patients = JSON.parse(localStorage.getItem("myPatients")) || [];
-
-    if(patients.length === 0){
-        container.innerHTML = "<p>ยังไม่มีผู้ป่วยที่คุณดูแล</p>";
-        return;
-    }
-
-    patients.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "patient-card";
-
-        card.innerHTML = `
-        <div class="patient-photo">
-            <img src="${p.image}">
-        </div>
-
-        <div class="patient-info">
-            <div>ชื่อ-สกุล: ${p.name}</div>
-            <div>เพศ: ${p.gender} | อายุ: ${p.age} ปี</div>
-            <div>วันที่เข้าตรวจล่าสุด: ${p.lastVisit}</div>
-            <div>นัดผู้ป่วยวันที่: ${p.appointment || ""}</div>
-            <div>คลินิกที่ทำการรักษา: ${p.clinic}</div>
-            <br>
-            <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
-        </div>
-
-        <div class="patient-action">
-            <button class="btn-confirm status ${p.appointment ? 'done' : 'recall'}">
-                <span class="status-dot"></span>
-                ${p.appointment ? 'นัดแล้ว' : 'ยังไม่ได้นัด'}
-            </button>
-
-            <button class="btn-edit" onclick="toggleEditDate(this)">
-                ${p.appointment ? 'แก้ไขวันนัด' : 'เพิ่มวันนัด'}
-            </button>
-
-            <input type="text"
-                class="edit-date"
-                placeholder="วว/ดด/ปปปป"
-                style="display:none"
-                onchange="updateAppointmentText(this)">
-        </div>
-        `;
-
-        container.appendChild(card);
-    });
-});
 //localStorage.removeItem("myPatients");
 //localStorage.clear();
 
@@ -933,6 +912,7 @@ function checkAppointmentFromCards(){
     if(notifyList.length > 0){
         showCardNotification(notifyList);
     }
+    localStorage.setItem("upcomingNotifications", JSON.stringify(notifyList));
 }
 
 function showCardNotification(list){
@@ -956,9 +936,70 @@ function showCardNotification(list){
 
 /* เรียกตอนโหลดหน้า */
 window.addEventListener("load", function(){
-    checkAppointmentFromCards();
+    loadAppointmentsFromStorage();   // ⭐ โหลดค่าจาก localStorage ก่อน
+    checkAppointmentFromCards();     // แล้วค่อยเช็คแจ้งเตือน
 });
 
+function loadAppointmentsFromStorage(){
+
+    let patients = JSON.parse(localStorage.getItem("myPatients")) || [];
+
+    const cards = document.querySelectorAll(".patient-card");
+
+    cards.forEach(card => {
+
+        const nameDiv = card.querySelector(".patient-info div");
+        const name = nameDiv.innerText.replace("ชื่อ-สกุล: ","").trim();
+
+        const patient = patients.find(p => p.name === name);
+
+        if(patient && patient.appointment){
+
+            const infoDivs = card.querySelectorAll(".patient-info div");
+
+            infoDivs.forEach(div=>{
+                if(div.innerText.includes("นัดผู้ป่วยวันที่")){
+                    div.innerText = "นัดผู้ป่วยวันที่: " + patient.appointment;
+                }
+            });
+
+            const statusBtn = card.querySelector(".btn-confirm");
+            statusBtn.classList.remove("recall");
+            statusBtn.classList.add("done");
+            statusBtn.innerHTML = `
+                <span class="status-dot"></span>
+                นัดแล้ว
+            `;
+        }
+
+    });
+}
+
+//function resetSystem(){
+
+    //if(!confirm("ต้องการรีเซ็ตข้อมูลทั้งหมดใช่หรือไม่ ?")){
+        //return;
+    //}
+
+    // ลบข้อมูลเฉพาะระบบนี้
+    //localStorage.removeItem("myPatients");
+    //localStorage.removeItem("upcomingNotifications");
+
+    //alert("รีเซ็ตข้อมูลเรียบร้อยแล้ว");
+
+    // รีโหลดหน้าให้กลับค่าเริ่มต้น
+    //location.reload();
+//}
+window.onload = function () {
+    loadPatientsFromStorage();
+}
+function loadPatientsFromStorage() {
+    const myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
+
+    myPatients.forEach(patient => {
+        addPatientCard(patient); // ฟังก์ชันที่คุณใช้สร้างการ์ด
+    });
+}
 
 </script>
 
@@ -1071,6 +1112,17 @@ window.addEventListener("load", function(){
 
         </div>
         <div class="main">
+            <!--<button onclick="resetSystem()" 
+        style="margin-bottom:15px;
+               background:#d32f2f;
+               color:#fff;
+               border:none;
+               padding:8px 16px;
+               border-radius:8px;
+               cursor:pointer;">
+    รีเซ็ตข้อมูลทั้งหมด
+</button>-->
+
             <div id="myPatientList"></div>
             <!-- Patient Card -->
             <div class="patient-card">
@@ -1081,7 +1133,7 @@ window.addEventListener("load", function(){
                     <div>ชื่อ-สกุล: นายสิทธินนท์ บุญปั๋น</div>
                     <div>เพศ: ชาย | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 28 กุมภาพันธ์ 2569</div>
-                    <div>นัดผู้ป่วยวันที่: 2026-02-13</div>
+                    <div>นัดผู้ป่วยวันที่: 2026-02-15</div>
                     <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
                     <br>
                         <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
@@ -1096,12 +1148,12 @@ window.addEventListener("load", function(){
                     แก้ไขวันนัด
                 </button>
 
-                <input type="text"
-                    class="edit-date"
-                    placeholder="ตัวอย่าง: 20/09/2569"
-                    placeholder="วว/ดด/ปปปป"
-                    style="display:none"
-                    onchange="updateAppointmentText(this)">
+<input type="text"
+    class="edit-date"
+    placeholder="เช่น 2026-02-15 หรือ 15/02/2026"
+    style="display:none"
+    onchange="updateAppointmentText(this)">
+
 
                 </div>
             </div>
@@ -1113,7 +1165,7 @@ window.addEventListener("load", function(){
                     <div>ชื่อ-สกุล: นางสาวปัญจรัตน์ ทองนา</div>
                     <div>เพศ: หญิง | อายุ: 19 ปี</div>
                     <div>วันที่เข้าตรวจล่าสุด: 7 มกราคม 2569</div>
-                    <div>นัดผู้ป่วยวันที่: </div>
+                    <div>นัดผู้ป่วยวันที่: 2026-02-15</div>
                     <div>คลินิกที่ทำการรักษา: ทันตกรรมจัดฟัน</div>
                     <br>
                         <span class="doctor">แพทย์ผู้ดูแล : คุณเป็นผู้ดูแล</span>
@@ -1128,12 +1180,12 @@ window.addEventListener("load", function(){
                     แก้ไขวันนัด
                 </button>
 
-                <input type="text"
-                    class="edit-date"
-                    placeholder="ตัวอย่าง: 20/09/2569"
-                    placeholder="วว/ดด/ปปปป"
-                    style="display:none"
-                    onchange="updateAppointmentText(this)">
+<input type="text"
+    class="edit-date"
+    placeholder="เช่น 2026-02-15 หรือ 15/02/2026"
+    style="display:none"
+    onchange="updateAppointmentText(this)">
+
                 </div>
             </div>
                         <div class="patient-card">
@@ -1159,12 +1211,12 @@ window.addEventListener("load", function(){
                     เพิ่มวันนัด
                 </button>
 
-                <input type="text"
-                    class="edit-date"
-                    placeholder="ตัวอย่าง: 20/09/2569"
-                    placeholder="วว/ดด/ปปปป"
-                    style="display:none"
-                    onchange="updateAppointmentText(this)">
+<input type="text"
+    class="edit-date"
+    placeholder="เช่น 2026-02-15 หรือ 15/02/2026"
+    style="display:none"
+    onchange="updateAppointmentText(this)">
+
                 </div>
             </div>
                         <div class="patient-card">
@@ -1190,12 +1242,12 @@ window.addEventListener("load", function(){
                     แก้ไขวันนัด
                 </button>
 
-                <input type="text"
-                    class="edit-date"
-                    placeholder="ตัวอย่าง: 20/09/2569"
-                    placeholder="วว/ดด/ปปปป"
-                    style="display:none"
-                    onchange="updateAppointmentText(this)">
+<input type="text"
+    class="edit-date"
+    placeholder="เช่น 2026-02-15 หรือ 15/02/2026"
+    style="display:none"
+    onchange="updateAppointmentText(this)">
+
 
                 </div>
             </div>
@@ -1222,12 +1274,12 @@ window.addEventListener("load", function(){
                     เพิ่มวันนัด
                 </button>
 
-                <input type="text"
-                    class="edit-date"
-                    placeholder="ตัวอย่าง: 20/09/2569"
-                    placeholder="วว/ดด/ปปปป"
-                    style="display:none"
-                    onchange="updateAppointmentText(this)">
+<input type="text"
+    class="edit-date"
+    placeholder="เช่น 2026-02-15 หรือ 15/02/2026"
+    style="display:none"
+    onchange="updateAppointmentText(this)">
+
                 </div>
             </div>
                 </div>
