@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>รายชื่อผู้ป่วย</title>
+<title>รายชื่อแพทย์</title>
 <style>
 *{
     box-sizing: border-box;
@@ -697,9 +697,53 @@ body{
     border-radius:20px;
     cursor:pointer;
 }
-
+.account-name-en{
+    font-size: 13px;
+    color: #555;
+    margin-top: 2px;
+}
 </style>
 <script>
+function loadDoctorProfile(){
+
+    const doctorName = localStorage.getItem("doctorName");
+    const doctorNameEN = localStorage.getItem("doctorNameEN");
+    const accountNameEN = document.getElementById("accountDoctorNameEN");
+if(accountNameEN && doctorNameEN){
+    accountNameEN.innerText = doctorNameEN;
+}
+
+    const doctorEmail = localStorage.getItem("doctorEmail");
+
+    if(!doctorName){
+        // ถ้าไม่ได้ login ให้เด้งกลับ
+        window.location.href = "../index.html";
+        return;
+    }
+
+    // ===== Welcome Banner =====
+    const welcomeText = document.getElementById("welcomeDoctorName");
+    if(welcomeText){
+        welcomeText.innerText = doctorName;
+    }
+
+    // ===== Account Dropdown =====
+    const accountName = document.getElementById("accountDoctorName");
+    if(accountName){
+        accountName.innerText = doctorName;
+    }
+
+    // ===== ตัวอย่างกำหนด Role อัตโนมัติ =====
+    const roleText = document.getElementById("accountRole");
+
+    if(doctorEmail && doctorEmail.startsWith("6802")){
+        roleText.innerText = "นักศึกษาทันตแพทย์ ปี 4";
+    }else{
+        roleText.innerText = "อาจารย์";
+    }
+}
+window.addEventListener("load", loadDoctorProfile);
+
 function togglePatientMenu(){
     const menu = document.getElementById("patientDropdown");
     if(menu.style.display === "block"){
@@ -894,6 +938,19 @@ function showDoctorTel(){
 function closeTelModal(){
     document.getElementById("telModal").style.display = "none";
 }
+function goDoctorProfile(name, studentId, imgSrc) {
+
+    const selectedDoctor = {
+        name: name,
+        studentId: studentId,
+        img: imgSrc
+    };
+
+    localStorage.setItem("selectedDoctor", JSON.stringify(selectedDoctor));
+
+    window.location.href = "historydocter.html";
+}
+
 </script>
 
 </head>
@@ -902,7 +959,7 @@ function closeTelModal(){
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
-            <img src="Up.d copy.png" alt="UP Logo">
+            <img src="Up.d.png" alt="UP Logo">
         </div>
         <a href="../index.html" >หน้าหลัก</a>
 
@@ -944,8 +1001,9 @@ function closeTelModal(){
                 <img src="14769.jpg">
             </div>
             <div>
-                <div class="account-name">ชื่อ Mr.</div>
-                <div class="account-role">นิสิต</div>
+                <div class="account-name" id="accountDoctorName"></div>
+                <div class="account-name-en" id="accountDoctorNameEN"></div>
+                <div class="account-role" id="accountRole">อาจารย์</div>
             </div>
         </div>
 
@@ -979,10 +1037,10 @@ function closeTelModal(){
         <div class="main">
             
             <!-- Patient Card -->
-            <div class="patient-card" onclick="event.stopPropagation(); openDoctorContact('นทพ. ณิชาภัทร ตรัยรัตนเมธี')">
-
+        <div class="doctor-card"
+            onclick="goDoctorProfile('นพ.ธีรภัทร์ ใจดี','65012345','doctor1.jpg')">
                 <div class="patient-photo">
-    <img src="14769.jpg" alt="patient">
+    <img src="doctor1.jpg" class="doctor-img">
 </div>
                 <div class="patient-info">
                     <div>ชื่อ-สกุล: นางสาวณิชาภัทร ตรัยรัตนเมธี</div>
@@ -1002,7 +1060,7 @@ function closeTelModal(){
 
                 </div>
             </div>
-                        <div class="patient-card" onclick="event.stopPropagation(); openDoctorContact('นทพ. บุริศร์ อาทิตย์สาม')">
+                        <div class="patient-card" onclick="goDoctorProfile('นทพ. บุริศร์ อาทิตย์สาม')">
                 <div class="patient-photo">
     <img src="S__45047825.jpg" alt="patient">
 </div>
@@ -1022,7 +1080,7 @@ function closeTelModal(){
                     </button>
                 </div>
             </div>
-                        <div class="patient-card" onclick="event.stopPropagation(); openDoctorContact('นทพ. สุภาษิต ปัญญาบุตร')">
+                        <div class="patient-card" onclick="goDoctorProfile('นทพ. สุภาษิต ปัญญาบุตร')">
                 <div class="patient-photo">
     <img src="แดน.jpg" alt="patient">
 </div>

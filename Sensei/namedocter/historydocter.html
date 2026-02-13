@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>หน้าหลัก</title>
+<title>ประวัติแพทย์</title>
 <style>
 *{
     box-sizing: border-box;
@@ -672,116 +672,108 @@ body{
     border-radius:20px;
     cursor:pointer;
 }
-/* ===== Schedule ===== */
-.schedule-wrapper{
-    background:#fff;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,.1);
+/* ===== History Layout ===== */
+.history-container{
+    display: flex;
+    gap: 60px;
 }
 
-.schedule-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:13px;
-    text-align:center;
-}
-
-.schedule-table th,
-.schedule-table td{
-    border:1px solid #999;
-    padding:6px;
-}
-
-.schedule-table th{
-    background:#f3f3f3;
-    font-weight:600;
-}
-
-.slot{
-    background:linear-gradient(135deg,#a000c8,#7f2bff);
-    color:#fff;
-    padding:14px 6px;
-    border-radius:18px;
-    font-weight:600;
-}
-/* ===== Today Highlight ===== */
-.today-row td:first-child{
-    background: #fff3cd;
-    font-weight: 700;
-}
-
-.current-time{
-    background: #e3f2fd !important;
-}
-
-.current-slot{
-    outline: 3px solid #ff9800;
-    box-shadow: 0 0 15px rgba(255,152,0,.7);
-    border-radius: 18px;
-}
-.schedule-detail{
-    margin-top: 25px;
+.history-left{
+    flex: 2;
     font-size: 15px;
+    line-height: 1.8;
+}
+
+.history-right{
+    flex: 1;
+}
+
+.status-box{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.history-photo{
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.status-text{
+    font-weight: 600;
+}
+
+.habit-section label{
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.danger{
+    color: red;
+    font-weight: 600;
+}
+
+.safe{
+    color: green;
+    font-weight: 600;
+}
+.back-btn{
+    background: none;
+    border: none;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.back-btn:hover{
+    opacity: 0.7;
+}
+/* ===== Doctor History Layout ===== */
+.doctor-history-container{
+    display: flex;
+    gap: 60px;
+}
+
+.doctor-history-left{
+    flex: 2;
+    font-size: 15px;
+    line-height: 1.9;
     color: #000;
 }
 
-.schedule-detail p{
-    margin: 6px 0;
+.doctor-history-right{
+    flex: 1;
+    text-align: center;
 }
 
-.schedule-detail ol{
-    margin-top: 10px;
-    padding-left: 20px;
+.doctor-history-photo{
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #999;
+    margin-bottom: 12px;
 }
-.account-name-en{
-    font-size: 13px;
-    color: #555;
-    margin-top: 2px;
+
+.patient-list{
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.patient-row{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
 }
 
 </style>
 <script>
-    function loadDoctorProfile(){
-
-    const doctorName = localStorage.getItem("doctorName");
-    const doctorNameEN = localStorage.getItem("doctorNameEN");
-    const accountNameEN = document.getElementById("accountDoctorNameEN");
-if(accountNameEN && doctorNameEN){
-    accountNameEN.innerText = doctorNameEN;
-}
-
-    const doctorEmail = localStorage.getItem("doctorEmail");
-
-    if(!doctorName){
-        // ถ้าไม่ได้ login ให้เด้งกลับ
-        window.location.href = "../index.html";
-        return;
-    }
-
-    // ===== Welcome Banner =====
-    const welcomeText = document.getElementById("welcomeDoctorName");
-    if(welcomeText){
-        welcomeText.innerText = doctorName;
-    }
-
-    // ===== Account Dropdown =====
-    const accountName = document.getElementById("accountDoctorName");
-    if(accountName){
-        accountName.innerText = doctorName;
-    }
-
-    // ===== ตัวอย่างกำหนด Role อัตโนมัติ =====
-    const roleText = document.getElementById("accountRole");
-
-    if(doctorEmail && doctorEmail.startsWith("6802")){
-        roleText.innerText = "นักศึกษาทันตแพทย์ ปี 4";
-    }else{
-        roleText.innerText = "อาจารย์";
-    }
-}
-window.addEventListener("load", loadDoctorProfile);
-
 function togglePatientMenu(){
     const menu = document.getElementById("patientDropdown");
     if(menu.style.display === "block"){
@@ -832,36 +824,38 @@ function closeModal(){
 function confirmAccept(){
     let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
 
+    // เพิ่มผู้ป่วยใหม่ไว้บนสุด
     myPatients.unshift(selectedPatient);
+
     localStorage.setItem("myPatients", JSON.stringify(myPatients));
 
-    closeModal();
-    removePatientsByClinic(selectedPatient.clinic);
 
-    showAcceptNotify(selectedPatient);
 
-    setTimeout(()=>{
-        window.location.href = "patientsdocter.html";
-    },1200);
-}
 
+closeModal();
+// 🔥 ลบผู้ป่วยทั้งหมดในคลินิกเดียวกัน
+removePatientsByClinic(selectedPatient.clinic);
+// แจ้งเตือนแบบเกม
+showAcceptNotify(selectedPatient);
+
+// หน่วงนิดนึงก่อนเปลี่ยนหน้า
+setTimeout(()=>{
+    window.location.href = "patientsdocter.html";
+}, 1200);
 function showAcceptNotify(patient){
     const notify = document.getElementById("acceptNotify");
     const img = document.getElementById("notifyImg");
-    const subtitle = notify.querySelector(".game-subtitle");
 
-    img.src = patient.image || "Up.d copy.png";
-    subtitle.innerText = "รับผู้ป่วยเรียบร้อยแล้ว";
+    img.src = patient.image || "default.jpg";
 
     notify.style.display = "flex";
 
     setTimeout(()=>{
         notify.style.display = "none";
-    },3000);
+    }, 3500);
 }
 
-
-
+}
 function closeWelcome(){
     const el = document.getElementById('welcome');
     el.style.animation = 'fadeIn .5s reverse forwards';
@@ -1005,133 +999,53 @@ window.addEventListener("load", function(){
     loadNotificationsFromDoctorPage();
 });
 
-function highlightCurrentDateTime(){
+function goBack(){
+    window.location.href = "../namedocter/namedocterindex.html";
+}
 
-    const now = new Date();
+function loadDoctorHistory(){
 
-    const todayIndex = now.getDay(); // 0=อาทิตย์
-    const rowIndex = (todayIndex === 0) ? -1 : todayIndex - 1;
+    const doctorData = JSON.parse(localStorage.getItem("selectedDoctor"));
 
-    const rows = document.querySelectorAll(".schedule-table tbody tr");
+    if(!doctorData) return;
 
-    if(!rows[rowIndex]) return;
+    document.getElementById("doctorName").innerText = doctor.name;
+    document.getElementById("doctorStudentId").innerText = "รหัสนิสิต: " + doctor.studentId;
+    document.getElementById("doctorImg").src = doctor.img;
 
-    const row = rows[rowIndex];
-    row.classList.add("today-row");
+    const listContainer = document.getElementById("doctorPatientList");
+    listContainer.innerHTML = "";
 
-    const hour = now.getHours();
+    if(doctorData.patients && doctorData.patients.length > 0){
 
-    if(hour < 8 || hour >= 17) return;
+        document.getElementById("doctorPatientCount").innerText = doctorData.patients.length;
 
-    const targetHourIndex = hour - 8; 
-    // 08-09 = 0
-    // 09-10 = 1
-    // ...
+        doctorData.patients.forEach((p,index)=>{
 
-    let currentIndex = -1; // เริ่มหลัง column วัน
+            const row = document.createElement("div");
+            row.className = "patient-row";
 
-    const cells = row.querySelectorAll("td");
+            row.innerHTML = `
+                <div>
+                    ${index+1}. ${p.name} 
+                    เคส: ${p.case} 
+                    รักษาที่คลินิก: ${p.clinic}
+                </div>
+                <a href="#" style="color:#1976ff;text-decoration:none;">
+                    ประวัติผู้ป่วย
+                </a>
+            `;
 
-    for(let cell of cells){
+            listContainer.appendChild(row);
+        });
 
-        // ข้าม cell แรก (ชื่อวัน)
-        if(cell === cells[0]) continue;
-
-        const span = parseInt(cell.getAttribute("colspan")) || 1;
-
-        for(let i = 0; i < span; i++){
-            currentIndex++;
-
-            if(currentIndex === targetHourIndex){
-
-                cell.classList.add("current-time");
-
-                const slot = cell.querySelector(".slot");
-                if(slot){
-                    slot.classList.add("current-slot");
-                }
-
-                return;
-            }
-        }
+    }else{
+        document.getElementById("doctorPatientCount").innerText = 0;
     }
 }
 
+window.addEventListener("load", loadDoctorHistory);
 
-window.addEventListener("load", function(){
-    highlightCurrentDateTime();
-});
-
-function updateClinicFromSchedule(){
-
-    const now = new Date();
-
-    const days = ["อาทิตย์","จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์","เสาร์"];
-    const months = [
-        "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
-        "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
-        "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
-    ];
-
-    const dayName = days[now.getDay()];
-    const date = now.getDate();
-    const monthName = months[now.getMonth()];
-    const yearBE = now.getFullYear() + 543;
-
-    document.getElementById("currentDateText").innerText =
-        `วัน ${dayName} ที่ ${date} เดือน ${monthName} พุทธศักราช ${yearBE}`;
-
-    // ===== หาแถวของวันนี้ =====
-    const todayIndex = now.getDay(); // 0=อาทิตย์
-    const rowIndex = (todayIndex === 0) ? -1 : todayIndex - 1;
-
-    const rows = document.querySelectorAll(".schedule-table tbody tr");
-    const studentSection = document.getElementById("studentSection");
-    // ถ้าไม่มีแถว (เช่น ศุกร์ เสาร์ อาทิตย์)
-if(!rows[rowIndex]){
-    document.getElementById("currentPeriodText").innerText =
-        "ไม่มีคลินิกทำการรักษาวันนี้";
-    studentSection.style.display = "none";
-    return;
-}
-
-    const hour = now.getHours();
-
-    // ถ้าอยู่นอกเวลา
-    if(hour < 8 || hour >= 17){
-    document.getElementById("currentPeriodText").innerText =
-        "ไม่มีคลินิกทำการรักษาขณะนี้";
-    studentSection.style.display = "none";
-    return;
-}
-
-    // ===== คำนวณ column =====
-    const colIndex = hour - 7;
-
-    const cells = rows[rowIndex].children;
-
-    if(!cells[colIndex]){
-        document.getElementById("currentPeriodText").innerText =
-            "ไม่มีคลินิกทำการรักษาขณะนี้";
-        return;
-    }
-
-    const slot = cells[colIndex].querySelector(".slot");
-
-    if(slot){
-    const clinicName = slot.innerText.split("\n")[0];
-    document.getElementById("currentPeriodText").innerText =
-        `กำลังให้บริการ: คลินิก ${clinicName}`;
-
-    studentSection.style.display = "block";
-}else{
-    document.getElementById("currentPeriodText").innerText =
-        "ไม่มีคลินิกทำการรักษาขณะนี้";
-    studentSection.style.display = "none";
-}
-}
-window.addEventListener("load", updateClinicFromSchedule);
-setInterval(updateClinicFromSchedule, 60000);
 
 
 
@@ -1143,12 +1057,12 @@ setInterval(updateClinicFromSchedule, 60000);
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
-            <img src="Up.d.png" alt="UP Logo">
+            <img src="Up.d copy.png" alt="UP Logo">
         </div>
-        <a href="#" class="active">หน้าหลัก</a>
+        <a href="../index.html">หน้าหลัก</a>
 
-        <a href="namedocter/namedocterindex.html">รายชื่อแพทย์</a>
-        <a href="Chat/Chat.html"
+        <a href="namedocter/docterindex.html" class="active">รายชื่อแพทย์</a>
+        <a href="../Chat/Chat.html"
             onclick="localStorage.setItem('chat_from','home')">
             แชท
         </a>
@@ -1158,7 +1072,22 @@ setInterval(updateClinicFromSchedule, 60000);
     <div class="content">
         <div class="topbar">
             <div class="breadcrumb">
+    <span class="patient-menu" onclick="togglePatientMenu()">
+        ผู้ป่วย ▾
+        <div class="patient-dropdown" id="patientDropdown">
+            <div class="dropdown-item"
+                onclick="location.href='docternosee.html'">
+                ผู้ป่วยที่ยังไม่มีแพทย์ดูแล
+            </div>
 
+            <div class="dropdown-item"
+                onclick="location.href='today.html'">
+                ผู้ป่วยที่ทำการรักษาวันนี้
+            </div>
+        </div>
+    </span>
+    <a href="patientsdocter.html" class="goal-link">ผู้ป่วยที่คุณดูแล</a>
+    <a href="target.html" class="goal-link">เป้าหมายของคุณ</a>
 </div>
 <div class="user-menu">
     <div class="user-group">
@@ -1185,9 +1114,8 @@ setInterval(updateClinicFromSchedule, 60000);
                 <img src="14769.jpg">
             </div>
             <div>
-                <div class="account-name" id="accountDoctorName"></div>
-                <div class="account-name-en" id="accountDoctorNameEN"></div>
-                <div class="account-role" id="accountRole">อาจารย์</div>
+                <div class="account-name">ชื่อ Mr.</div>
+                <div class="account-role">นิสิต</div>
             </div>
         </div>
 
@@ -1218,138 +1146,69 @@ setInterval(updateClinicFromSchedule, 60000);
 
 
         </div>
-<div class="main">
+<div class="main" style="background:#fff; min-height:100vh; padding:40px 60px;">
 
-    <div class="schedule-wrapper">
-        <table class="schedule-table">
-            <thead>
-                <tr>
-                    <th style="width:100px;">วัน / เวลา</th>
-                    <th>08.00-09.00</th>
-                    <th>09.00-10.00</th>
-                    <th>10.00-11.00</th>
-                    <th>11.00-12.00</th>
-                    <th>12.00-13.00</th>
-                    <th>13.00-14.00</th>
-                    <th>14.00-15.00</th>
-                    <th>15.00-16.00</th>
-                    <th>16.00-17.00</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>จันทร์</td>
-                    <td colspan="2"><div class="slot">ปริทันตวิทยา<br>ทันตกรรมปริทันตวิทยา</div></td>
-                    <td colspan="2"><div class="slot">ปริทันตวิทยา<br>ทันตกรรมปริทันตวิทยา</div></td>
-                    <td></td>
-                    <td colspan="2"><div class="slot">ครอบครัว<br>ทันตกรรมครอบครัว</div></td>
-                    <td colspan="2"><div class="slot">ครอบครัว<br>ทันตกรรมครอบครัว</div></td>
-                </tr>
+    <button class="back-btn" onclick="goBack()">
+        &lt; ประวัติแพทย์
+    </button>
 
-                <tr>
-                    <td>อังคาร</td>
-                    <td colspan="2"><div class="slot">รังสี<br>ทันตกรรมรังสี</div></td>
-                    <td colspan="2"><div class="slot">รังสี<br>ทันตกรรมรังสี</div></td>
-                    <td></td>
-                    <td colspan="2"><div class="slot">ประดิษฐ์<br>ทันตกรรมประดิษฐ์</div></td>
-                    <td colspan="2"><div class="slot">ประดิษฐ์<br>ทันตกรรมประดิษฐ์</div></td>
-                </tr>
+    <div class="doctor-history-container">
 
-                <tr>
-                    <td>พุธ</td>
-                    <td colspan="2"><div class="slot">พร้อมมูล<br>ทันตกรรมพร้อมมูล</div></td>
-                    <td colspan="2"><div class="slot">พร้อมมูล<br>ทันตกรรมพร้อมมูล</div></td>
-                    <td></td>
-                    <td colspan="2"><div class="slot">บดเคี้ยว<br>ทันตกรรมบดเคี้ยว</div></td>
-                    <td colspan="2"><div class="slot">บดเคี้ยว<br>ทันตกรรมบดเคี้ยว</div></td>
-                </tr>
+        <!-- ซ้าย -->
+        <div class="doctor-history-left">
 
-                <tr>
-                    <td>พฤหัสบดี</td>
-                    <td colspan="2"><div class="slot">จัดฟัน<br>ทันตกรรมจัดฟัน</div></td>
-                    <td colspan="2"><div class="slot">จัดฟัน<br>ทันตกรรมจัดฟัน</div></td>
-                    <td></td>
-                    <td colspan="2"><div class="slot">เอนโดดอนติกส์<br>เอนโดดอนติกส์</div></td>
-                    <td colspan="2"><div class="slot">เอนโดดอนติกส์<br>เอนโดดอนติกส์</div></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="schedule-detail">
-        <p><strong id="currentDateText"></strong></p>
-        <p id="currentPeriodText"></p>
-<div id="studentSection">
-    <p>นักศึกษาทันตแพทย์ 8 คน ผู้ป่วย 8 คน</p>
+<p id="doctorName">ชื่อแพทย์:</p>
+<p id="doctorStudentId">รหัสนิสิต:</p>
 
-    <ol>
-        <li>นางสาว</li>
-        <li>นางสาว</li>
-        <li>นางสาว</li>
-        <li>นางสาว</li>
-        <li>นางสาว</li>
-        <li>นาย</li>
-        <li>นาย</li>
-        <li>นาย</li>
-    </ol>
-</div>
+
+        <p style="margin-top:20px;">
+            <strong>ดูแลผู้ป่วยกี่คน :</strong> 
+            <span id="doctorPatientCount"></span> คน
+        </p>
+
+                <div class="patient-list" id="doctorPatientList"></div>
+                <div class="patient-row">
+                    <div>1. นายสิทธินนท์ บุญปั๋น เคส: X01 รักษาที่คลินิก: ทันตกรรมบูรณะ</div>
+                    <a href="#" style="color:#1976ff; text-decoration:none;">ประวัติผู้ป่วย</a>
+                </div>
+
+                <div class="patient-row">
+                    <div>2. นางสาวปัญจรัตน์ ทองนา เคส: E12 รักษาที่คลินิก: เอนโดดอนติกส์</div>
+                    <a href="#" style="color:#1976ff; text-decoration:none;">ประวัติผู้ป่วย</a>
+                </div>
+
+                <div class="patient-row">
+                    <div>3. นางสาวอริญญาพร จินย้าย เคส: P08 รักษาที่คลินิก: ปริทันตวิทยา</div>
+                    <a href="#" style="color:#1976ff; text-decoration:none;">ประวัติผู้ป่วย</a>
+                </div>
+
+                <div class="patient-row">
+                    <div>4. นางสาวโคโฮ ชิโนะ เคส: O02 รักษาที่คลินิก: ทันตกรรมจัดฟัน</div>
+                    <a href="#" style="color:#1976ff; text-decoration:none;">ประวัติผู้ป่วย</a>
+                </div>
+
+                <div class="patient-row">
+                    <div>5. นายคามาโคะ กันจิโร เคส: S03 รักษาที่คลินิก: ศัลยกรรมช่องปาก</div>
+                    <a href="#" style="color:#1976ff; text-decoration:none;">ประวัติผู้ป่วย</a>
+                </div>
+
+            
+
+        </div>
+
+        <!-- ขวา (รูปภาพ) -->
+        <div class="doctor-history-right">
+            <img src="14769.jpg" class="doctor-history-photo">
+            <div style="font-size:14px; font-weight:600;">สถานะ: กำลังดูแลผู้ป่วย</div>
+        </div>
 
     </div>
 
 </div>
+</div>
+
 
             </div>
-        </div>
-        <!-- ===== Confirm Modal ===== -->
-<div class="modal-overlay" id="confirmModal">
-    <div class="modal-box">
-        <h3>ยืนยันการรับผู้ป่วย</h3>
-        <p>คุณแน่ใจใช่ไหมที่จะรับผู้ป่วยคนนี้</p>
-        <div class="modal-actions">
-            <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
-            <button class="btn-confirm" onclick="confirmAccept()">ยืนยัน</button>
-        </div>
-    </div>
-</div>
-<div class="welcome-overlay" id="welcome">
-    <div class="welcome-banner">
-        <div class="close-btn" onclick="closeWelcome()">✕</div>
-        <div class="banner-content">
-            <div class="banner-icon">🦷</div>
-            <div class="banner-text">
-                <h1>WELCOME</h1>
-                <h2>โรงพยาบาลทันตกรรม มหาวิทยาลัยพะเยา</h2>
-                <p>สวัสดี <span id="welcomeDoctorName"></span> 👋</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ===== Doctor Contact Modal ===== -->
-<div class="doctor-modal" id="doctorModal">
-    <div class="doctor-box">
-        <h3 id="doctorName">ชื่อแพทย์</h3>
-        <div class="doctor-role">ข้อมูลติดต่อแพทย์</div>
-
-        <div class="social-group">
-            <a id="doctorFB" href="#" target="_blank" class="social-btn fb">Facebook</a>
-            <a id="doctorIG" href="#" target="_blank" class="social-btn ig">Instagram</a>
-            <button id="doctorTel" class="social-btn tw" onclick="showDoctorTel()">Telephone</button>
-
-        </div>
-
-        <button class="close-doctor" onclick="closeDoctorModal()">ปิด</button>
-    </div>
-</div>
-<!-- ===== Telephone Popup ===== -->
-<div class="modal-overlay" id="telModal">
-    <div class="modal-box">
-        <h3>เบอร์ติดต่อ</h3>
-        <p id="telNumber">-</p>
-        <div class="modal-actions">
-            <button class="btn-confirm" onclick="closeTelModal()">ปิด</button>
-        </div>
-    </div>
-</div>
 
 </body>
 </html>

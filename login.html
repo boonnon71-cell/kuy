@@ -222,26 +222,69 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
 
-        // 🔐 กำหนด user / password ที่ถูกต้อง
-        const correctEmail = "68023559@up.ac.th";
-        const correctPassword = "fiw301022@";
+        // 🔐 กำหนดบัญชีแพทย์
+        const doctors = {
+            "Sittinon@up.ac.th": {
+                password: "fiw301022@",
+                name: "ทพ.สิทธิณนท์ บุญปั๋น",
+                nameEN: "Dr. Sittinon Boonpan",
+                role: "teacher"
+        },
+            "Kittisak12": {
+                password: "123456",
+                name: "ทพ.กิตติศักดิ์ ศรีสุข",
+                nameEN: "Dr. Kittisak Srisuk",
+                role: "teacher"
+        },
+            "68020002@up.ac.th": {
+                password: "123456",
+                name: "ทพญ.พรทิพย์ ใจดี",
+                nameEN: "Dr. Porntip Jaidee",
+                role: "student"   // 👈 อันนี้เป็นนิสิต
+        },
+            "Panjarat@up.ac.th": {
+                password: "123456",
+                name: "ทพญ.ปัญจารัตน์ ทองนา",
+                nameEN: "Dr. Panjarat Heeeee",
+                role: "teacher"
+    }
+};
 
-        // ตรวจช่องว่าง
+
         if(email === "" || password === ""){
             showAlert("กรุณากรอกอีเมลและรหัสผ่านให้ครบ");
             return;
         }
 
-        // ตรวจข้อมูล
-        if(email !== correctEmail || password !== correctPassword){
+        if(!doctors[email] || doctors[email].password !== password){
             showAlert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
             return;
         }
+        // 🔒 อนุญาตเฉพาะอาจารย์เท่านั้น
+// ดึง 2 ตัวแรกของอีเมล
+const prefix = parseInt(email.substring(0, 2));
 
-        // ✅ ผ่านการเข้าสู่ระบบ
+if(
+    email.endsWith("@up.ac.th") &&
+    !isNaN(prefix) &&
+    prefix >= 60 && prefix <= 68
+){
+    showAlert("นิสิตกรุณาเข้าสู่ระบบผ่าน Office 365");
+    return;
+}
+
+
+
+
+        // ✅ บันทึกชื่อแพทย์ไว้ใช้หน้าอื่น
+        localStorage.setItem("doctorName", doctors[email].name);
+        localStorage.setItem("doctorNameEN", doctors[email].nameEN);
+        localStorage.setItem("doctorEmail", email);
+
         window.location.href = "Sensei/index.html";
     });
 });
+
 
 function showAlert(message){
     document.getElementById("alertMessage").innerText = message;
@@ -287,7 +330,7 @@ function togglePassword(){
 
         <button class="btn-login" id="loginBtn">เข้าสู่ระบบ</button>
         <div class="divider">ลงชื่อเข้าใช้ด้วย</div>
-        <a href="login-gmail/gmail.html" class="office365">OFFICE 365</a>
+        <a href="Ser/login-gmail/gmail.html" class="office365">OFFICE 365</a>
     </div>
 </div>
 
