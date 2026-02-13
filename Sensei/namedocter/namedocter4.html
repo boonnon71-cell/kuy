@@ -709,6 +709,18 @@ body{
     const doctorName = localStorage.getItem("doctorName");
     const doctorNameEN = localStorage.getItem("doctorNameEN");
     const accountNameEN = document.getElementById("accountDoctorNameEN");
+    const doctorImage = localStorage.getItem("doctorImage");
+// ===== โหลดรูปโปรไฟล์ =====
+const topAvatar = document.getElementById("topAvatar");
+const dropdownAvatar = document.getElementById("dropdownAvatar");
+
+if(doctorImage){
+    topAvatar.src = doctorImage;
+    dropdownAvatar.src = doctorImage;
+}else{
+    topAvatar.src = "Up.d.png";       // รูป default
+    dropdownAvatar.src = "Up.d.png";
+}
 if(accountNameEN && doctorNameEN){
     accountNameEN.innerText = doctorNameEN;
 }
@@ -951,7 +963,6 @@ function closeTelModal(){
         <a href="../index.html" >หน้าหลัก</a>
 
         <a href="#" class="active">รายชื่อแพทย์</a>
-        <a href="../Chat/Chat.html">แชท</a>
     </div>
     <!-- Content -->
     <div class="content">
@@ -965,16 +976,11 @@ function closeTelModal(){
 </div>
 <div class="user-menu">
     <div class="user-group">
-        <!-- กระดิ่ง -->
-        <div class="notification">
-            🔔
-            <span class="badge">3</span>
-        </div>
         <!-- บัญชี -->
         <div class="account-wrapper">
     <div class="account-box" onclick="toggleAccountMenu()">
         <div class="avatar">
-            <img src="14769.jpg" alt="profile">
+            <img id="topAvatar" src="" alt="profile">
         </div>
         <span class="account-text">บัญชีของคุณ</span>
         <span class="arrow">▾</span>
@@ -985,7 +991,7 @@ function closeTelModal(){
 
         <div class="account-header">
             <div class="account-avatar">
-                <img src="14769.jpg">
+                <img id="dropdownAvatar" src="">
             </div>
             <div>
                 <div class="account-name" id="accountDoctorName"></div>

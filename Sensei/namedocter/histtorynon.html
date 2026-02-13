@@ -733,9 +733,76 @@ body{
 .back-btn:hover{
     opacity: 0.7;
 }
+.edit-btn{
+    background: #1976ff;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.edit-btn:hover{
+    background: #125ed6;
+}
 
 </style>
 <script>
+function loadDoctorProfile(){
+
+    const doctorName = localStorage.getItem("doctorName");
+    const doctorNameEN = localStorage.getItem("doctorNameEN");
+    const accountNameEN = document.getElementById("accountDoctorNameEN");
+    const doctorImage = localStorage.getItem("doctorImage");
+// ===== โหลดรูปโปรไฟล์ =====
+const topAvatar = document.getElementById("topAvatar");
+const dropdownAvatar = document.getElementById("dropdownAvatar");
+
+if(doctorImage){
+    topAvatar.src = doctorImage;
+    dropdownAvatar.src = doctorImage;
+}else{
+    topAvatar.src = "Up.d.png";       // รูป default
+    dropdownAvatar.src = "Up.d.png";
+}
+
+if(accountNameEN && doctorNameEN){
+    accountNameEN.innerText = doctorNameEN;
+}
+
+    const doctorEmail = localStorage.getItem("doctorEmail");
+
+    if(!doctorName){
+        // ถ้าไม่ได้ login ให้เด้งกลับ
+        window.location.href = "../index.html";
+        return;
+    }
+
+    // ===== Welcome Banner =====
+    const welcomeText = document.getElementById("welcomeDoctorName");
+    if(welcomeText){
+        welcomeText.innerText = doctorName;
+    }
+
+    // ===== Account Dropdown =====
+    const accountName = document.getElementById("accountDoctorName");
+    if(accountName){
+        accountName.innerText = doctorName;
+    }
+
+    // ===== ตัวอย่างกำหนด Role อัตโนมัติ =====
+    const roleText = document.getElementById("accountRole");
+
+    if(doctorEmail && doctorEmail.startsWith("6802")){
+        roleText.innerText = "นักศึกษาทันตแพทย์ ปี 4";
+    }else{
+        roleText.innerText = "อาจารย์";
+    }
+}
+window.addEventListener("load", loadDoctorProfile);
+
 function togglePatientMenu(){
     const menu = document.getElementById("patientDropdown");
     if(menu.style.display === "block"){
@@ -750,23 +817,10 @@ document.addEventListener("click", function(e){
     const menu = document.getElementById("patientDropdown");
     const button = document.querySelector(".patient-menu");
 
+    if(!menu || !button) return;
+
     if(!button.contains(e.target)){
         menu.style.display = "none";
-    }
-});
-//คลินิก
-function toggleClinicMenu(){
-    const menu = document.getElementById("clinicDropdown");
-    menu.style.display = (menu.style.display === "block") ? "none" : "block";
-}
-
-/* คลิกที่อื่นแล้วปิด */
-document.addEventListener("click", function(e){
-    const clinicMenu = document.querySelector(".clinic-menu");
-    const clinicDropdown = document.getElementById("clinicDropdown");
-
-    if(clinicMenu && !clinicMenu.contains(e.target)){
-        clinicDropdown.style.display = "none";
     }
 });
 
@@ -783,57 +837,6 @@ function closeModal(){
     document.getElementById("confirmModal").style.display = "none";
 }
 
-function confirmAccept(){
-    let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
-
-    // เพิ่มผู้ป่วยใหม่ไว้บนสุด
-    myPatients.unshift(selectedPatient);
-
-    localStorage.setItem("myPatients", JSON.stringify(myPatients));
-
-
-
-
-closeModal();
-// 🔥 ลบผู้ป่วยทั้งหมดในคลินิกเดียวกัน
-removePatientsByClinic(selectedPatient.clinic);
-// แจ้งเตือนแบบเกม
-showAcceptNotify(selectedPatient);
-
-// หน่วงนิดนึงก่อนเปลี่ยนหน้า
-setTimeout(()=>{
-    window.location.href = "patientsdocter.html";
-}, 1200);
-function showAcceptNotify(patient){
-    const notify = document.getElementById("acceptNotify");
-    const img = document.getElementById("notifyImg");
-
-    img.src = patient.image || "default.jpg";
-
-    notify.style.display = "flex";
-
-    setTimeout(()=>{
-        notify.style.display = "none";
-    }, 3500);
-}
-
-}
-function closeWelcome(){
-    const el = document.getElementById('welcome');
-    el.style.animation = 'fadeIn .5s reverse forwards';
-    setTimeout(()=>{
-        el.remove();
-        //localStorage.setItem("welcomeShown","1");
-    },500);
-}
-
-/* แสดงเฉพาะตอนเข้าใช้งานครั้งแรก */
-window.addEventListener("load",()=>{
-    if(localStorage.getItem("welcomeShown")){
-        const el = document.getElementById("welcome");
-        if(el) el.remove();
-    }
-});
 function toggleAccountMenu(){
     const menu = document.getElementById("accountDropdown");
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
@@ -862,42 +865,12 @@ function removePatientsByClinic(clinicName){
     });
 }
 
-function openChat(name, photo, clinic){
-    localStorage.setItem("chat_name", name);
-    localStorage.setItem("chat_photo", photo);
-
-    // ⭐ สำคัญมาก
-    localStorage.setItem("chat_from", "home");
-
-    // กันค่าคลินิกเก่าค้าง
-    localStorage.removeItem("fromClinic");
-
-    window.location.href = "Chat/Chat2.html";
-}
-
 
 
 // ===== Global Telephone =====
 let currentDoctorTel = "";
 
 // ===== Doctor Database =====
-const doctorDatabase = {
-    "นทพ. ณิชาภัทร ตรัยรัตนเมธี": {
-        fb: "https://facebook.com/",
-        ig: "https://www.instagram.com/nichapa6t?igsh=bHI3YXNzMzkya3h0",
-        tel: "086-935-3769"
-    },
-    "นทพ. บุริศร์ อาทิตย์สาม": {
-        fb: "https://www.facebook.com/share/1FPYPV76Qh/",
-        ig: "https://www.instagram.com/plug.buris?igsh=am5wZnIxNmhuenlt",
-        tel: "088-226-7767"
-    },
-    "นทพ. สุภาษิต ปัญญาบุตร": {
-        fb: "https://facebook.com/",
-        ig: "https://instagram.com/",
-        tel: "089-999-9999"
-    }
-};
 
 function openDoctorContact(name){
     const modal = document.getElementById("doctorModal");
@@ -962,11 +935,74 @@ window.addEventListener("load", function(){
 });
 
 function goBack(){
-    window.location.href = "historyindex.html";
+    window.location.href = "historydocter.html";
+}
+
+let isEditing = false;
+const editableFields = [
+"name","gender","age","weight","height","phone",
+"firstVisit","symptom","firstClinic","firstResult","caseType",
+"referClinic1","firstDoctor","secondResult",
+"treat1","treat2","treat3","treat4",
+"xrayClinic","xrayDoctor","xrayDate",
+"afterEffect","recallDate","finishDate",
+"referClinic2","secondDoctor","thirdResult",
+"treatA","treatB","treatC","treatD"
+];
+
+function toggleEdit(){
+
+    const btn = document.getElementById("editBtn");
+
+    if(!isEditing){
+
+        editableFields.forEach(id => makeEditable(id));
+        btn.innerText = "บันทึก";
+        isEditing = true;
+
+    }else{
+
+        editableFields.forEach(id => saveData(id));
+        btn.innerText = "แก้ไขประวัติ";
+        isEditing = false;
+    }
 }
 
 
+function makeEditable(id){
+    const element = document.getElementById(id);
+    const value = element.innerText;
+    element.innerHTML = `<input type="text" value="${value}" id="input-${id}" style="width:150px;">`;
+}
 
+function saveData(id){
+    const input = document.getElementById("input-"+id);
+    const value = input.value;
+
+    localStorage.setItem("history_"+id, value);
+
+    document.getElementById(id).innerText = value;
+}
+
+/* โหลดค่าที่บันทึกไว้ */
+window.addEventListener("load", function(){
+    const editableFields = [
+"name","gender","age","weight","height","phone",
+"firstVisit","symptom","firstClinic","firstResult","caseType",
+"referClinic1","firstDoctor","secondResult",
+"treat1","treat2","treat3","treat4",
+"xrayClinic","xrayDoctor","xrayDate",
+"afterEffect","recallDate","finishDate",
+"referClinic2","secondDoctor","thirdResult",
+"treatA","treatB","treatC","treatD"
+]
+.forEach(id=>{
+        const saved = localStorage.getItem("history_"+id);
+        if(saved){
+            document.getElementById(id).innerText = saved;
+        }
+    });
+});
 
 
 </script>
@@ -977,67 +1013,22 @@ function goBack(){
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
-            <img src="Up.d copy.png" alt="UP Logo">
+            <img src="Up.d.png" alt="UP Logo">
         </div>
         <a href="../index.html">หน้าหลัก</a>
-        <div class="clinic-menu" onclick="toggleClinicMenu()">
-    คลินิก ▾
-    <div class="clinic-dropdown" id="clinicDropdown">
-    <a href="../clinic/xray.html" class="dropdown-item">ทันตกรรมรังสี</a>
-    <a href="../clinic/emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
-    <a href="../clinic/prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
-    <a href="../clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
-    <a href="../clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
-    <a href="../clinic/restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
-    <a href="../clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
-    <a href="../clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
-    <a href="../clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
-    <a href="../clinic/periodontology.html" class="dropdown-item">ปริทันตวิทยา</a>
-    <a href="../clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
-</div>
-</div>
-
-        <a href="namedocter/docterindex.html">รายชื่อแพทย์</a>
-        <a href="../record/historyindex.html" class="active">ประวัติการรักษา</a>
-        <a href="../Chat/Chat.html"
-            onclick="localStorage.setItem('chat_from','home')">
-            แชท
-        </a>
-
+        <a href="namedocter/docterindex.html" class="active">รายชื่อแพทย์</a>
     </div>
     <!-- Content -->
     <div class="content">
         <div class="topbar">
-            <div class="breadcrumb">
-    <span class="patient-menu" onclick="togglePatientMenu()">
-        ผู้ป่วย ▾
-        <div class="patient-dropdown" id="patientDropdown">
-            <div class="dropdown-item"
-                onclick="location.href='docternosee.html'">
-                ผู้ป่วยที่ยังไม่มีแพทย์ดูแล
-            </div>
-
-            <div class="dropdown-item"
-                onclick="location.href='today.html'">
-                ผู้ป่วยที่ทำการรักษาวันนี้
-            </div>
-        </div>
-    </span>
-    <a href="patientsdocter.html" class="goal-link">ผู้ป่วยที่คุณดูแล</a>
-    <a href="target.html" class="goal-link">เป้าหมายของคุณ</a>
-</div>
+            <div class="breadcrumb"></div>
 <div class="user-menu">
     <div class="user-group">
-        <!-- กระดิ่ง -->
-        <div class="notification">
-            🔔
-            <span class="badge" id="notifyBadge" style="display:none">0</span>
-        </div>
         <!-- บัญชี -->
         <div class="account-wrapper">
     <div class="account-box" onclick="toggleAccountMenu()">
         <div class="avatar">
-            <img src="14769.jpg" alt="profile">
+            <img id="topAvatar" src="" alt="profile">
         </div>
         <span class="account-text">บัญชีของคุณ</span>
         <span class="arrow">▾</span>
@@ -1048,11 +1039,12 @@ function goBack(){
 
         <div class="account-header">
             <div class="account-avatar">
-                <img src="14769.jpg">
+                <img id="dropdownAvatar" src="">
             </div>
             <div>
-                <div class="account-name">ชื่อ Mr.</div>
-                <div class="account-role">นิสิต</div>
+                <div class="account-name" id="accountDoctorName"></div>
+                <div class="account-name-en" id="accountDoctorNameEN"></div>
+                <div class="account-role" id="accountRole">อาจารย์</div>
             </div>
         </div>
 
@@ -1084,9 +1076,19 @@ function goBack(){
 
         </div>
 <div class="main">
-<button class="back-btn" onclick="goBack()">
-    &lt; ประวัติผู้ป่วย
-</button>
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+    
+    <button class="back-btn" onclick="goBack()">
+        &lt; ประวัติผู้ป่วย
+    </button>
+
+    <button class="edit-btn" onclick="toggleEdit()" id="editBtn">
+        แก้ไขประวัติ
+    </button>
+
+
+</div>
+
 
 
     <div class="history-container">
@@ -1094,14 +1096,13 @@ function goBack(){
         <!-- LEFT INFO -->
         <div class="history-left">
 
-            <p><strong>ชื่อ-สกุล:</strong> นายสิทธินนท์ บุญปั๋น</p>
-            <p><strong>เพศ:</strong> ชาย</p>
-            <p><strong>อายุ:</strong> 19 ปี</p>
-            <p><strong>น้ำหนัก:</strong> 50.4 กก.</p>
-            <p><strong>ส่วนสูง:</strong> 180 ซม.</p>
-            <p><strong>เบอร์โทรศัพท์:</strong> 062-263-4564</p>
+            <p><strong>ชื่อ-สกุล:</strong> <span id="name">นายสิทธินนท์ บุญปั๋น</span></p>
+            <p><strong>เพศ:</strong> <span id="gender">ชาย</span></p>
+            <p><strong>อายุ:</strong> <span id="age">19</span> ปี</p>
+            <p><strong>น้ำหนัก:</strong> <span id="weight">50.4</span> กก.</p>
+            <p><strong>ส่วนสูง:</strong> <span id="height">180</span> ซม.</p>
+            <p><strong>เบอร์โทรศัพท์:</strong> <span id="phone">062-263-4564</span></p>
             <p><strong>วันเกิด:</strong> 20/09/2549</p>
-
             <p>
                 <strong>ประวัติการแพ้ยา:</strong> 
                 <span class="danger">ไม่มี</span>
@@ -1113,38 +1114,88 @@ function goBack(){
                 <span class="danger">ไม่มี</span>
             </p>
 
-            <p><strong>วันที่มาทำการรักษาครั้งแรก:</strong> 19 พฤศจิกายน 2568</p>
-            <p><strong>อาการที่มา:</strong> เลือดออกตามลอนฟัน</p>
-            <p><strong>คลินิกแรกที่ทำการรักษา:</strong> ทันตกรรมพิเคราะห์โรค</p>
-            <p><strong>ผลตรวจจากคลินิก:</strong> ปริทันต์อักเสบ</p>
-            <p><strong>ถูกจัดเป็นผู้ป่วยเคส:</strong> เคส P</p>
-            <p><strong>ถูกส่งตัวไปคลินิก:</strong> ปริทันตวิทยา เมื่อวันที่ : 20 พฤศจิกายน 2568</p>
-            <p><strong>แพทย์ผู้ดูแลคนแรก:</strong> นทพ. ณิชาภัทร ตรัยรัตนเมธี</p>
-            <p><strong>ผลตรวจจากคลินิก2(ถ้ามี):</strong> ปริทันต์อักเสบ และฟันคุด</p>
-            <p><strong>ทำการรักษาลำดับเป็นอันดับแรก:</strong> ขูดหินปูน</p>
-            <p><strong>ทำการรักษาลำดับเป็นอันดับสอง(ถ้ามี):</strong> ถอนฟันคุด</p>
-            <p><strong>ทำการรักษาสิ่งใดเป็นอันดับสาม(ถ้ามี) :</strong></p>
-            <p><strong>ทำการรักษาสิ่งใดเป็นอันดับสี(ถ้ามี) :</strong></p>
-            <p><strong>ถูกส่งตัวไปคลินิกรังสี(ถ้ามี) :</strong> ทันตกรรมรังสี เมื่อวันที่ : 24 พฤศจิกายน 2568</p>
-            <p><strong>แพทย์ผู้ดูแลการถ่ายภาพรัสี :</strong> นทพ. ณิชาภัทร ตรัยรัตนเมธี</p>
-            <p><strong>ถ่ายภาพรังสีเสร็จสิ้นเมื่อวันที่ :</strong> 24 พฤศจิกายน 2568</p>
-            <p><strong>หลังทำการรักษาผู้ป่วยมีอาการใดเพิ่มเติม(ถ้ามี) :</strong>
-            <p><strong>วันที่ Recall ผู้ป่วย :</strong>
-            <p><strong>วันที่สิ้นสุดการรักษา :</strong>
-            <p><strong>ถูกส่งตัวไปคลินิก :</strong> ศัลยกรรมช่องปาก เมื่อวันที่ : 18 ธันวาคม 2569
-            <p><strong>แพทย์ผู้ดูแล :</strong> นทพ. สุภาษิต ปัญญาบุตร
-            <p><strong>ผลตรวจจากคลินิก3(ถ้ามี) :</strong> ถอนฟันคุด
-            <p><strong>ทำการรักษาสิ่งใดเป็นอันดับแรก :</strong> ถอนฟันคุด
-            <p><strong>ทำการรักษาสิ่งใดเป็นอันดับสอง(ถ้ามี) :</strong>
-            <p><strong>ทำการรักษาสิ่งใดเป็นอันดับสาม(ถ้ามี) :</strong>
-            <p><strong>ทำการรักษาสิ่งใดเป็นอันดับสี(ถ้ามี) :</strong>
+            <p><strong>วันที่มาทำการรักษาครั้งแรก:</strong> 
+<span id="firstVisit">19 พฤศจิกายน 2568</span></p>
+
+<p><strong>อาการที่มา:</strong> 
+<span id="symptom">เลือดออกตามลอนฟัน</span></p>
+
+<p><strong>คลินิกแรกที่ทำการรักษา:</strong> 
+<span id="firstClinic">ทันตกรรมพิเคราะห์โรค</span></p>
+
+<p><strong>ผลตรวจจากคลินิก:</strong> 
+<span id="firstResult">ปริทันต์อักเสบ</span></p>
+
+<p><strong>ถูกจัดเป็นผู้ป่วยเคส:</strong> 
+<span id="caseType">เคส P</span></p>
+
+<p><strong>ถูกส่งตัวไปคลินิก:</strong> 
+<span id="referClinic1">ปริทันตวิทยา เมื่อวันที่ : 20 พฤศจิกายน 2568</span></p>
+
+<p><strong>แพทย์ผู้ดูแลคนแรก:</strong> 
+<span id="firstDoctor">นทพ. ณิชาภัทร ตรัยรัตนเมธี</span></p>
+
+<p><strong>ผลตรวจจากคลินิก2(ถ้ามี):</strong> 
+<span id="secondResult">ปริทันต์อักเสบ และฟันคุด</span></p>
+
+<p><strong>ทำการรักษาลำดับเป็นอันดับแรก:</strong> 
+<span id="treat1">ขูดหินปูน</span></p>
+
+<p><strong>ทำการรักษาลำดับเป็นอันดับสอง(ถ้ามี):</strong> 
+<span id="treat2">ถอนฟันคุด</span></p>
+
+<p><strong>ทำการรักษาสิ่งใดเป็นอันดับสาม(ถ้ามี):</strong> 
+<span id="treat3"></span></p>
+
+<p><strong>ทำการรักษาสิ่งใดเป็นอันดับสี่(ถ้ามี):</strong> 
+<span id="treat4"></span></p>
+
+<p><strong>ถูกส่งตัวไปคลินิกรังสี(ถ้ามี):</strong> 
+<span id="xrayClinic">ทันตกรรมรังสี เมื่อวันที่ : 24 พฤศจิกายน 2568</span></p>
+
+<p><strong>แพทย์ผู้ดูแลการถ่ายภาพรังสี:</strong> 
+<span id="xrayDoctor">นทพ. ณิชาภัทร ตรัยรัตนเมธี</span></p>
+
+<p><strong>ถ่ายภาพรังสีเสร็จสิ้นเมื่อวันที่:</strong> 
+<span id="xrayDate">24 พฤศจิกายน 2568</span></p>
+
+<p><strong>หลังทำการรักษาผู้ป่วยมีอาการใดเพิ่มเติม(ถ้ามี):</strong> 
+<span id="afterEffect"></span></p>
+
+<p><strong>วันที่ Recall ผู้ป่วย:</strong> 
+<span id="recallDate"></span></p>
+
+<p><strong>วันที่สิ้นสุดการรักษา:</strong> 
+<span id="finishDate"></span></p>
+
+<p><strong>ถูกส่งตัวไปคลินิก:</strong> 
+<span id="referClinic2">ศัลยกรรมช่องปาก เมื่อวันที่ : 18 ธันวาคม 2569</span></p>
+
+<p><strong>แพทย์ผู้ดูแล:</strong> 
+<span id="secondDoctor">นทพ. สุภาษิต ปัญญาบุตร</span></p>
+
+<p><strong>ผลตรวจจากคลินิก3(ถ้ามี):</strong> 
+<span id="thirdResult">ถอนฟันคุด</span></p>
+
+<p><strong>ทำการรักษาสิ่งใดเป็นอันดับแรก:</strong> 
+<span id="treatA">ถอนฟันคุด</span></p>
+
+<p><strong>ทำการรักษาสิ่งใดเป็นอันดับสอง(ถ้ามี):</strong> 
+<span id="treatB"></span></p>
+
+<p><strong>ทำการรักษาสิ่งใดเป็นอันดับสาม(ถ้ามี):</strong> 
+<span id="treatC"></span></p>
+
+<p><strong>ทำการรักษาสิ่งใดเป็นอันดับสี่(ถ้ามี):</strong> 
+<span id="treatD"></span></p>
+
         </div>
 
         <!-- RIGHT INFO -->
         <div class="history-right">
 
             <div class="status-box">
-                <img src="นนท์.jpg" class="history-photo">
+                <img src="non.jpg" class="history-photo">
                 <div class="status-text">สถานะ : กำลังรักษา</div>
             </div>
 

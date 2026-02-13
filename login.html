@@ -228,25 +228,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 password: "fiw301022@",
                 name: "ทพ.สิทธิณนท์ บุญปั๋น",
                 nameEN: "Dr. Sittinon Boonpan",
-                role: "teacher"
+                role: "teacher",
+                image: "non.jpg"   // 👈 เพิ่มรูป
         },
             "Kittisak12": {
                 password: "123456",
                 name: "ทพ.กิตติศักดิ์ ศรีสุข",
                 nameEN: "Dr. Kittisak Srisuk",
-                role: "teacher"
+                role: "teacher",
+                image: "images/kittisak.jpg"
         },
             "68020002@up.ac.th": {
                 password: "123456",
                 name: "ทพญ.พรทิพย์ ใจดี",
                 nameEN: "Dr. Porntip Jaidee",
-                role: "student"   // 👈 อันนี้เป็นนิสิต
+                role: "student",   // 👈 อันนี้เป็นนิสิต
+                image: "images/porntip.jpg"
         },
             "Panjarat@up.ac.th": {
                 password: "123456",
                 name: "ทพญ.ปัญจารัตน์ ทองนา",
                 nameEN: "Dr. Panjarat Heeeee",
-                role: "teacher"
+                role: "teacher",
+                image: "images/porntip.jpg"
     }
 };
 
@@ -280,6 +284,7 @@ if(
         localStorage.setItem("doctorName", doctors[email].name);
         localStorage.setItem("doctorNameEN", doctors[email].nameEN);
         localStorage.setItem("doctorEmail", email);
+        localStorage.setItem("doctorImage", doctors[email].image);
 
         window.location.href = "Sensei/index.html";
     });
