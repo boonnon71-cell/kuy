@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>การแจ้งเตือนการรักษา</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Segoe UI, Tahoma;
+        }
+        
+        body {
+            margin: 0;
+            background: #1e1e1e;
+        }
+        /* Layout */
+        
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        /* Sidebar */
+        
+        .sidebar {
+            width: 240px;
+            background: #fff;
+            padding: 20px 15px;
+            border-right: 1px solid #ddd;
+        }
+        
+        .sidebar a {
+            display: block;
+            padding: 10px 12px;
+            color: #222;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .sidebar a.active {
+            color: #1976ff;
+            font-weight: 600;
+        }
+        
+        .sidebar a:hover {
+            background: #f0f0f0;
+        }
+        /* Content */
+        
+        .content {
+            flex: 1;
+            background: #f3f3f3;
+        }
+        /* Topbar */
+        
+        .topbar {
+            height: 60px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            border-bottom: 1px solid #ddd;
+        }
+        /* Main */
+        
+        .main {
+            padding: 25px;
+        }
+        /* Notification Card */
+        
+        .notify-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            border-left: 6px solid #8a00c2;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .1);
+        }
+        
+        .notify-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 16px;
+        }
+        
+        .notify-meta {
+            font-size: 14px;
+            color: #444;
+        }
+        /* status colors */
+        
+        .status-confirm {
+            border-left-color: #8a00c2;
+        }
+        
+        .status-wait {
+            border-left-color: #ffb300;
+        }
+        
+        .status-appointment {
+            border-left-color: #1976ff;
+        }
+        
+        .status-done {
+            border-left-color: #00c853;
+        }
+        /* notification bell */
+        
+        .notification {
+            position: relative;
+            font-size: 22px;
+            cursor: pointer;
+        }
+        
+        .badge {
+            position: absolute;
+            top: -4px;
+            right: -6px;
+            background: red;
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .account-logout:hover {
+            background: rgba(255, 0, 0, 0.08);
+        }
+        
+        .account-item,
+        .account-logout {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar .logo img {
+            width: 80px;
+        }
+        
+        .reset-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .reset-btn:hover {
+            background: #e53935;
+        }
+    </style>
+
+    <script>
+        function resetNotifications() {
+
+            const confirmReset = confirm("ต้องการลบการแจ้งเตือนทั้งหมดหรือไม่?");
+
+            if (!confirmReset) return;
+
+            localStorage.removeItem("patientStatusHistory");
+
+            alert("ลบการแจ้งเตือนทั้งหมดแล้ว");
+
+            location.reload();
+
+        }
+        const STATUS_HISTORY_KEY = "patientStatusHistory";
+
+        window.addEventListener("load", () => {
+
+            renderStatusNotifications();
+            updateBadge();
+
+        });
+
+        /* ======================
+           แสดงรายการแจ้งเตือน
+        ====================== */
+
+        function renderStatusNotifications() {
+
+            const container = document.getElementById("notificationList");
+
+            let history = JSON.parse(localStorage.getItem(STATUS_HISTORY_KEY)) || [];
+
+            if (history.length === 0) {
+
+                container.innerHTML = `
+<div class="notify-card">
+<div class="notify-title">ยังไม่มีการแจ้งเตือน</div>
+<div class="notify-meta">
+เมื่อแพทย์รับเคสหรือมีการนัดหมาย ระบบจะแสดงที่นี่
+</div>
+</div>
+`;
+
+                return;
+
+            }
+
+            history.reverse();
+
+            container.innerHTML = "";
+
+            history.forEach(item => {
+
+                        const card = document.createElement("div");
+
+                        let statusClass = "status-confirm";
+
+                        if (item.status.includes("รอ"))
+                            statusClass = "status-wait";
+
+                        if (item.status.includes("นัด"))
+                            statusClass = "status-appointment";
+
+                        if (item.status.includes("เสร็จ"))
+                            statusClass = "status-done";
+
+                        card.className = "notify-card " + statusClass;
+
+                        card.innerHTML = `
+
+<div class="notify-title">
+${item.status}
+</div>
+
+<div class="notify-meta">
+
+ผู้ป่วย : ${item.patientName} <br>
+แพทย์ : ${item.doctorName} <br>
+คลินิก : ${item.clinic} <br>
+
+${item.appointment ? `วันนัด : ${item.appointment}<br>` : ""}
+
+อัปเดต : ${item.date} ${item.time}
+
+</div>
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+/* ======================
+   Badge จำนวนแจ้งเตือน
+====================== */
+
+function updateBadge(){
+
+let history=JSON.parse(localStorage.getItem(STATUS_HISTORY_KEY)) || [];
+
+const badge=document.querySelector(".badge");
+
+if(history.length===0){
+badge.style.display="none";
+}else{
+badge.style.display="flex";
+badge.innerText=history.length;
+}
+
+}
+
+/* ======================
+   ฟังก์ชันเพิ่มแจ้งเตือน
+====================== */
+
+function addStatusNotification(data){
+
+let history=JSON.parse(localStorage.getItem(STATUS_HISTORY_KEY)) || [];
+
+const now=new Date();
+
+history.unshift({
+
+patientName:data.patientName,
+doctorName:data.doctorName,
+clinic:data.clinic,
+status:data.status,
+appointment:data.appointment || null,
+date:now.toLocaleDateString("th-TH"),
+time:now.toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"})
+
+});
+
+localStorage.setItem(STATUS_HISTORY_KEY,JSON.stringify(history));
+
+}
+
+/* ตัวอย่าง Demo */
+
+function demoData(){
+
+addStatusNotification({
+patientName:"สมชาย ใจดี",
+doctorName:"นทพ. กิตติ",
+clinic:"เอนโดดอนติกส์",
+status:"แพทย์ยืนยันรับผู้ป่วยแล้ว"
+});
+
+addStatusNotification({
+patientName:"สมชาย ใจดี",
+doctorName:"นทพ. กิตติ",
+clinic:"เอนโดดอนติกส์",
+status:"รอแพทย์นัดหมาย"
+});
+
+addStatusNotification({
+patientName:"สมชาย ใจดี",
+doctorName:"นทพ. กิตติ",
+clinic:"เอนโดดอนติกส์",
+status:"แพทย์นัดหมายแล้ว",
+appointment:"20 มีนาคม 2569"
+});
+
+location.reload();
+
+}
+    </script>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div class="sidebar">
+
+            <div class="logo">
+                <img src="Up.d.png" alt="UP Logo">
+            </div>
+
+            <a href="index.html">หน้าหลัก</a>
+            <a href="Chat/Chatindex.html">แชท</a>
+
+        </div>
+
+        <div class="content">
+            <div class="topbar">
+            </div>
+            <div class="main">
+                <div id="notificationList"></div>
+                <br>
+                <button onclick="resetNotifications()" class="reset-btn">
+        รีเซ็ตการแจ้งเตือน
+    </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -9,35 +9,35 @@
             box-sizing: border-box;
             font-family: "Segoe UI", Tahoma, sans-serif;
         }
-
+        
         body {
             margin: 0;
             background: #1e1e1e;
         }
-
         /* Layout */
+        
         .wrapper {
             display: flex;
             min-height: 100vh;
         }
-
         /* Sidebar */
+        
         .sidebar {
             width: 240px;
             background: #ffffff;
             padding: 20px 15px;
             border-right: 1px solid #ddd;
         }
-
+        
         .sidebar .logo {
             text-align: center;
             margin-bottom: 30px;
         }
-
+        
         .sidebar .logo img {
             width: 80px;
         }
-
+        
         .sidebar a {
             display: block;
             padding: 10px 12px;
@@ -46,23 +46,23 @@
             border-radius: 6px;
             margin-bottom: 6px;
         }
-
+        
         .sidebar a.active {
             color: #1976ff;
             font-weight: 600;
         }
-
+        
         .sidebar a:hover {
             background: #f0f0f0;
         }
-
         /* Content */
+        
         .content {
             flex: 1;
             background: #f3f3f3;
         }
-
         /* Topbar */
+        
         .topbar {
             height: 60px;
             background: #ffffff;
@@ -72,7 +72,7 @@
             padding: 0 25px;
             border-bottom: 1px solid #ddd;
         }
-
+        
         .breadcrumb {
             display: flex;
             align-items: center;
@@ -81,32 +81,32 @@
             font-size: 14px;
             color: #444;
         }
-
+        
         .user-menu {
             display: flex;
             align-items: center;
         }
-
+        
         .user-group {
             display: flex;
             align-items: center;
             gap: 10px;
             /* ระยะห่างเล็ก ๆ แบบในรูป */
         }
-
         /* กระดิ่ง */
+        
         .notification {
             position: relative;
             font-size: 22px;
             cursor: pointer;
             color: #000;
         }
-
+        
         .notification:hover {
             opacity: 0.7;
         }
-
         /* badge */
+        
         .badge {
             position: absolute;
             top: -4px;
@@ -122,13 +122,13 @@
             align-items: center;
             justify-content: center;
         }
-
         /* Main */
+        
         .main {
             padding: 25px;
         }
-
         /* Patient Card */
+        
         .patient-card {
             background: #ffffff;
             border: 1px solid #999;
@@ -139,13 +139,13 @@
             margin-bottom: 18px;
             cursor: pointer;
         }
-
+        
         .patient-card:hover {
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             transform: translateY(-2px);
             transition: 0.2s;
         }
-
+        
         .patient-photo {
             width: 90px;
             height: 90px;
@@ -153,7 +153,7 @@
             border-radius: 6px;
             margin-right: 20px;
         }
-
+        
         .patient-info {
             flex: 1;
             display: grid;
@@ -163,14 +163,14 @@
             font-size: 14px;
             color: #000;
         }
-
         /* สีฟ้าสำหรับแพทย์ */
+        
         .doctor {
             color: #1976ff;
             cursor: pointer;
         }
-
         /* Button */
+        
         .patient-action {
             margin-left: 20px;
             position: relative;
@@ -179,7 +179,7 @@
             flex-direction: column;
             align-items: flex-end;
         }
-
+        
         .btn-confirm {
             background: #8a00c2;
             border: none;
@@ -189,19 +189,19 @@
             cursor: pointer;
             font-size: 14px;
         }
-
+        
         .btn-confirm:hover {
             background: #7400a5;
         }
-
         /* ===== เมนูผู้ป่วย ===== */
+        
         .patient-menu {
             position: relative;
             cursor: pointer;
             font-weight: 600;
         }
-
         /* กล่อง dropdown */
+        
         .patient-dropdown {
             position: absolute;
             top: 48px;
@@ -213,28 +213,27 @@
             min-width: 320px;
             padding: 10px 0;
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
-
             display: none;
             z-index: 999;
         }
-
+        
         .topbar {
             position: relative;
         }
-
         /* รายการด้านใน */
+        
         .dropdown-item {
             padding: 12px 20px;
             font-size: 14px;
             color: #222;
         }
-
+        
         .dropdown-item:hover {
             background: #f3f6ff;
             color: #1976ff;
         }
-
         /* ===== คลินิก (เหมือนผู้ป่วย) ===== */
+        
         .clinic-menu {
             position: relative;
             padding: 10px 12px;
@@ -242,13 +241,13 @@
             cursor: pointer;
             color: #222;
         }
-
+        
         .clinic-menu:hover {
             background: #f0f0f0;
             color: #1976ff;
         }
-
         /* dropdown คลินิก */
+        
         .clinic-dropdown {
             position: absolute;
             top: 44px;
@@ -259,45 +258,41 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
-
             display: none;
             z-index: 999;
         }
-
         /* ใช้ dropdown-item เดิมได้เลย */
+        
         .clinic-dropdown .dropdown-item {
             padding: 10px 14px;
             font-size: 14px;
         }
-
+        
         .clinic-dropdown .dropdown-item:hover {
             background: #f3f6ff;
             color: #1976ff;
         }
-
         /* ===== Account ===== */
+        
         .account-box {
             display: flex;
             align-items: center;
             gap: 10px;
-
             background: #8e24aa;
             /* สีม่วง */
             color: #fff;
-
             padding: 8px 14px;
             border-radius: 999px;
             /* มนทั้งแถบ */
             cursor: pointer;
-
             width: fit-content;
         }
-
+        
         .account-box:hover {
             background: #7b1fa2;
         }
-
         /* วงกลมรูป */
+        
         .avatar {
             width: 36px;
             height: 36px;
@@ -306,33 +301,33 @@
             overflow: hidden;
             flex-shrink: 0;
         }
-
+        
         .avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         /* ข้อความ */
+        
         .account-text {
             font-size: 14px;
             font-weight: 500;
             white-space: nowrap;
         }
-
         /* ลูกศร */
+        
         .arrow {
             font-size: 14px;
         }
-
+        
         .patient-photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 6px;
         }
-
         /* ===== Modal ===== */
+        
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -342,7 +337,7 @@
             justify-content: center;
             z-index: 30000;
         }
-
+        
         .modal-box {
             background: #fff;
             padding: 24px 30px;
@@ -351,24 +346,24 @@
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
-
+        
         .modal-box h3 {
             margin-top: 0;
             margin-bottom: 10px;
         }
-
+        
         .modal-box p {
             font-size: 14px;
             color: #444;
             margin-bottom: 20px;
         }
-
+        
         .modal-actions {
             display: flex;
             justify-content: center;
             gap: 12px;
         }
-
+        
         .btn-cancel {
             background: #ddd;
             border: none;
@@ -376,34 +371,34 @@
             border-radius: 20px;
             cursor: pointer;
         }
-
+        
         .btn-cancel:hover {
             background: #ccc;
         }
-
+        
         .goal-link {
             color: #1976ff;
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
         }
-
+        
         .goal-link:hover {
             text-decoration: underline;
         }
-
+        
         .goal-link2 {
             color: #000000;
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
         }
-
+        
         .goal-link2:hover {
             text-decoration: underline;
         }
-
         /* ===== Welcome Banner ===== */
+        
         .welcome-overlay {
             position: fixed;
             inset: 0;
@@ -414,7 +409,7 @@
             z-index: 10000;
             animation: fadeIn .6s ease forwards;
         }
-
+        
         .welcome-banner {
             position: relative;
             width: 80%;
@@ -426,7 +421,7 @@
             box-shadow: 0 0 25px rgba(139, 92, 246, .6);
             animation: slideIn .8s ease forwards, glowPulse 2.5s infinite;
         }
-
+        
         .close-btn {
             position: absolute;
             top: 14px;
@@ -436,81 +431,77 @@
             cursor: pointer;
             opacity: .7;
         }
-
+        
         .close-btn:hover {
             opacity: 1
         }
-
+        
         .banner-content {
             display: flex;
             align-items: center;
             gap: 20px;
         }
-
+        
         .banner-icon {
             font-size: 48px;
             filter: drop-shadow(0 0 10px #8b5cf6);
         }
-
+        
         .banner-text h1 {
             margin: 0;
             font-size: 36px;
             color: #fff;
             letter-spacing: 2px;
         }
-
+        
         .banner-text h2 {
             margin: 6px 0 0;
             font-size: 18px;
             font-weight: 300;
             color: #c7d2fe;
         }
-
+        
         .banner-text p {
             margin-top: 6px;
             font-size: 14px;
             color: #94a3b8;
         }
-
+        
         @keyframes slideIn {
             from {
                 transform: translateX(-60px);
                 opacity: 0
             }
-
             to {
                 transform: translateX(0);
                 opacity: 1
             }
         }
-
+        
         @keyframes fadeIn {
             from {
                 opacity: 0
             }
-
             to {
                 opacity: 1
             }
         }
-
+        
         @keyframes glowPulse {
-
             0%,
             100% {
                 box-shadow: 0 0 18px rgba(139, 92, 246, .5)
             }
-
             50% {
                 box-shadow: 0 0 35px rgba(56, 189, 248, .9)
             }
         }
-
         /* ===== Account Dropdown ===== */
+        
         .account-wrapper {
             position: relative;
         }
-
+        
         .account-dropdown {
             position: absolute;
             top: 58px;
@@ -522,15 +513,15 @@
             display: none;
             z-index: 1000;
         }
-
         /* Header */
+        
         .account-header {
             display: flex;
             gap: 12px;
             padding: 14px;
             background: #dcdcdc;
         }
-
+        
         .account-avatar {
             width: 46px;
             height: 46px;
@@ -538,32 +529,32 @@
             overflow: hidden;
             background: #000;
         }
-
+        
         .account-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
+        
         .account-name {
             font-weight: 600;
         }
-
+        
         .account-role {
             font-size: 13px;
             color: #8a00c2;
         }
-
         /* Section */
+        
         .account-section {
             padding: 10px 14px;
         }
-
+        
         .section-title {
             font-size: 13px;
             margin-bottom: 8px;
         }
-
+        
         .account-item {
             display: flex;
             align-items: center;
@@ -571,20 +562,20 @@
             padding: 8px 0;
             cursor: pointer;
         }
-
+        
         .account-item:hover {
             background: #f0f0f0;
         }
-
         /* วงกลมไอคอน */
+        
         .circle-icon {
             width: 18px;
             height: 18px;
             border-radius: 50%;
             background: #000;
         }
-
         /* Logout */
+        
         .account-logout {
             text-align: center;
             padding: 10px;
@@ -593,11 +584,11 @@
             color: red;
             cursor: pointer;
         }
-
+        
         .account-logout:hover {
             background: rgba(255, 0, 0, 0.08);
         }
-
+        
         .no-doctor-title {
             font-size: 16px;
             font-weight: 600;
@@ -605,7 +596,7 @@
             /* สีม่วงตามปุ่ม */
             margin-bottom: 14px;
         }
-
+        
         .account-logout {
             display: block;
             /* ให้เหมือน div */
@@ -621,82 +612,80 @@
             /* ถ้าเดิมไม่มี ลบได้ */
             cursor: pointer;
         }
-
+        
         .account-logout:hover {
             background: rgba(255, 0, 0, 0.08);
         }
-
+        
         .account-item,
         .account-logout {
             text-decoration: none;
             color: inherit;
         }
-
+        
         .breadcrumb a.active-page {
             color: #444;
             pointer-events: none;
             cursor: default;
         }
-
+        
         .btn-confirm.status {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             font-weight: 600;
         }
-
         /* วงกลม */
+        
         .status-dot {
             width: 20px;
             height: 20px;
             border-radius: 50%;
         }
-
+        
         .status.done {
             background: #8a00c2;
         }
-
+        
         .status.done .status-dot {
             background: #00e676;
         }
-
+        
         .status.recall {
             background: #8a00c2;
         }
-
+        
         .status.recall .status-dot {
             background: #ff0000;
         }
-
+        
         @keyframes pulse {
             0% {
                 transform: scale(1);
                 opacity: 1;
             }
-
             50% {
                 transform: scale(1.5);
                 opacity: .6;
             }
-
             100% {
                 transform: scale(1);
                 opacity: 1;
             }
         }
-
+        
         .status.treating .status-dot {
             animation: pulse 1.2s infinite;
         }
-
+        
         .status.recall .status-dot {
             animation: pulse 1.2s infinite;
         }
-
+        
         .status.done .status-dot {
             animation: pulse 1.2s infinite;
         }
-
+        
         .btn-edit {
             margin-top: 8px;
             background: #1976ff;
@@ -707,30 +696,28 @@
             cursor: pointer;
             font-size: 13px;
         }
-
+        
         .btn-edit:hover {
             background: #155ed1;
         }
-
         /* input วันนัด */
+        
         .edit-date {
             position: absolute;
             /* ⭐ ไม่ดัน layout */
             top: 42px;
             /* ระยะจากปุ่ม */
             right: 0;
-
             padding: 6px 10px;
             border-radius: 8px;
             border: 1px solid #ccc;
             font-size: 13px;
             width: 150px;
-
             display: none;
             z-index: 10;
         }
-
         /* ===== Doctor Contact Modal ===== */
+        
         .doctor-modal {
             position: fixed;
             inset: 0;
@@ -740,7 +727,7 @@
             justify-content: center;
             z-index: 20000;
         }
-
+        
         .doctor-box {
             background: #ffffff;
             width: 380px;
@@ -750,25 +737,25 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
             animation: fadeIn .3s ease;
         }
-
+        
         .doctor-box h3 {
             margin-top: 0;
             margin-bottom: 6px;
         }
-
+        
         .doctor-role {
             font-size: 14px;
             color: #8a00c2;
             margin-bottom: 20px;
         }
-
         /* social buttons */
+        
         .social-group {
             display: flex;
             justify-content: center;
             gap: 14px;
         }
-
+        
         .social-btn {
             padding: 8px 16px;
             border-radius: 20px;
@@ -778,23 +765,23 @@
             font-weight: 600;
             transition: .2s;
         }
-
+        
         .fb {
             background: #1877f2;
         }
-
+        
         .ig {
             background: #e1306c;
         }
-
+        
         .tw {
             background: #000;
         }
-
+        
         .social-btn:hover {
             opacity: .8;
         }
-
+        
         .close-doctor {
             margin-top: 20px;
             background: #ddd;
@@ -803,7 +790,7 @@
             border-radius: 20px;
             cursor: pointer;
         }
-
+        
         .account-name-en {
             font-size: 13px;
             color: #555;
@@ -817,17 +804,17 @@
             const doctorNameEN = localStorage.getItem("doctorNameEN");
             const accountNameEN = document.getElementById("accountDoctorNameEN");
             const doctorImage = localStorage.getItem("doctorImage");
-// ===== โหลดรูปโปรไฟล์ =====
-const topAvatar = document.getElementById("topAvatar");
-const dropdownAvatar = document.getElementById("dropdownAvatar");
+            // ===== โหลดรูปโปรไฟล์ =====
+            const topAvatar = document.getElementById("topAvatar");
+            const dropdownAvatar = document.getElementById("dropdownAvatar");
 
-if(doctorImage){
-    topAvatar.src = doctorImage;
-    dropdownAvatar.src = doctorImage;
-}else{
-    topAvatar.src = "Up.d.png";       // รูป default
-    dropdownAvatar.src = "Up.d.png";
-}
+            if (doctorImage) {
+                topAvatar.src = doctorImage;
+                dropdownAvatar.src = doctorImage;
+            } else {
+                topAvatar.src = "Up.d.png"; // รูป default
+                dropdownAvatar.src = "Up.d.png";
+            }
             if (accountNameEN && doctorNameEN) {
                 accountNameEN.innerText = doctorNameEN;
             }
@@ -873,7 +860,7 @@ if(doctorImage){
         }
 
         /* คลิกที่อื่นแล้วปิด */
-        document.addEventListener("click", function (e) {
+        document.addEventListener("click", function(e) {
             const menu = document.getElementById("patientDropdown");
             const button = document.querySelector(".patient-menu");
 
@@ -888,7 +875,7 @@ if(doctorImage){
         }
 
         /* คลิกที่อื่นแล้วปิด */
-        document.addEventListener("click", function (e) {
+        document.addEventListener("click", function(e) {
             const clinicMenu = document.querySelector(".clinic-menu");
             const clinicDropdown = document.getElementById("clinicDropdown");
 
@@ -915,6 +902,7 @@ if(doctorImage){
             // ไปหน้าผู้ป่วยที่คุณดูแล
             window.location.href = "patient-mycare.html";
         }
+
         function closeWelcome() {
             const el = document.getElementById('welcome');
             el.style.animation = 'fadeIn .5s reverse forwards';
@@ -931,13 +919,14 @@ if(doctorImage){
                 if (el) el.remove();
             }
         });
+
         function toggleAccountMenu() {
             const menu = document.getElementById("accountDropdown");
             menu.style.display = (menu.style.display === "block") ? "none" : "block";
         }
 
         /* คลิกที่อื่นแล้วปิด */
-        document.addEventListener("click", function (e) {
+        document.addEventListener("click", function(e) {
             const wrapper = document.querySelector(".account-wrapper");
             const menu = document.getElementById("accountDropdown");
 
@@ -975,6 +964,7 @@ if(doctorImage){
 
             input.style.display = "none";
         }
+
         function updateAppointmentText(input) {
             const value = input.value.trim();
             if (!value) return;
@@ -1057,6 +1047,9 @@ if(doctorImage){
         function closeTelModal() {
             document.getElementById("telModal").style.display = "none";
         }
+
+        let selectedDoctorData = null;
+
         function goDoctorProfile(name, studentId, image) {
 
             const doctorData = {
@@ -1065,11 +1058,44 @@ if(doctorImage){
                 image: image
             };
 
+            // กรณี 1 : ณิชาภัทร (ขาด 2 คน)
+            if (name === "นทพ. ณิชาภัทร ตรัยรัตนเมธี") {
+
+                selectedDoctorData = doctorData;
+                document.getElementById("missingPatientModal").style.display = "flex";
+                return;
+            }
+
+            // กรณี 2 : ผู้ป่วยครบแล้ว
+            if (
+                name === "นทพ. บุริศร์ อาทิตย์สาม" ||
+                name === "นทพ. สุภาษิต ปัญญาบุตร"
+            ) {
+                document.getElementById("fullPatientModal").style.display = "flex";
+                return;
+            }
+
+            // กรณีปกติ
             localStorage.setItem("selectedDoctor", JSON.stringify(doctorData));
+            window.location.href = "historydocter.html";
+        }
+
+        function closeMissingModal() {
+            document.getElementById("missingPatientModal").style.display = "none";
+        }
+
+        function goDoctorPage() {
+
+            if (selectedDoctorData) {
+                localStorage.setItem("selectedDoctor", JSON.stringify(selectedDoctorData));
+            }
 
             window.location.href = "historydocter.html";
         }
 
+        function closeFullModal() {
+            document.getElementById("fullPatientModal").style.display = "none";
+        }
     </script>
 
 </head>
@@ -1151,19 +1177,18 @@ if(doctorImage){
             <div class="main">
 
                 <!-- Patient Card -->
-                <div class="patient-card"
-                    onclick="goDoctorProfile('นทพ. ณิชาภัทร ตรัยรัตนเมธี','64012345','14769.jpg')">
+                <div class="patient-card" onclick="goDoctorProfile('นทพ. ณิชาภัทร ตรัยรัตนเมธี','64012345','14769.jpg')">
                     <div class="patient-photo">
                         <img src="14769.jpg" class="doctor-img">
                     </div>
                     <div class="patient-info">
                         <div>ชื่อ-สกุล: นางสาวณิชาภัทร ตรัยรัตนเมธี</div>
                         <div>เพศ: หญิง </div>
-                        <div>รหัสนิสิต: 640</div>
+                        <div>รหัสนิสิต: 64012345</div>
                         <br>
                         <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
                         <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : ดร.</span>
+                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : ดร. พรทิพย์ ใจดี</span>
                     </div>
                     <div class="patient-action">
                         <button class="btn-confirm status done">
@@ -1180,11 +1205,11 @@ if(doctorImage){
                     <div class="patient-info">
                         <div>ชื่อ-สกุล: นายบุริศร์ อาทิตย์สาม</div>
                         <div>เพศ: ชาย </div>
-                        <div>รหัสนิสิต: 640</div>
+                        <div>รหัสนิสิต: 64012345</div>
                         <br>
                         <div>คลินิกที่ทำการรักษา: ทันตกรรมจัดฟัน</div>
                         <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : ดร.</span>
+                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : ดร. กิตติศักดิ์ ศรีสุข</span>
                     </div>
                     <div class="patient-action">
                         <button class="btn-confirm status done">
@@ -1200,53 +1225,11 @@ if(doctorImage){
                     <div class="patient-info">
                         <div>ชื่อ-สกุล: นายสุภาษิต ปัญญาบุตร</div>
                         <div>เพศ: ชาย </div>
-                        <div>รหัสนิสิต: 640</div>
+                        <div>รหัสนิสิต: 64012345</div>
                         <br>
                         <div>คลินิกที่ทำการรักษา: ไม่อยู่โรงพยาบาล</div>
                         <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : ดร.</span>
-                    </div>
-                    <div class="patient-action">
-                        <button class="btn-confirm status recall">
-                            <span class="status-dot"></span>
-                            ไม่อยู่
-                        </button>
-                    </div>
-                </div>
-                <div class="patient-card">
-                    <div class="patient-photo">
-                        <img src="images/patient1.jpg" alt="patient">
-                    </div>
-                    <div class="patient-info">
-                        <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
-                        <div>เพศ: ชาย </div>
-                        <div>รหัสนิสิต: 18 ธันวาคม 2568</div>
-                        <br>
-                        <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
-                        <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
-                    </div>
-                    <div class="patient-action">
-                        <button class="btn-confirm status done">
-                            <span class="status-dot"></span>
-                            อยู่
-                        </button>
-
-                    </div>
-                </div>
-                <div class="patient-card">
-                    <div class="patient-photo">
-                        <img src="ทันจิโร่.jpg" alt="patient">
-                    </div>
-                    <div class="patient-info">
-                        <div>ชื่อ-สกุล: นายคามาโดะ ทันจิโร่</div>
-                        <div>เพศ: ชาย </div>
-                        <div>รหัสนิสิต: 3 ธันวาคม 2568</div>
-                        <br>
-                        <div>คลินิกที่ทำการรักษา: ไม่อยู่โรงพยาบาล</div>
-                        <br>
-                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : คุณเป็นผู้ดูแล</span>
-
+                        <span class="doctor">อาจารย์ผู้ดูแลคลินิก : ดร. พรทิพย์ ใจดี</span>
                     </div>
                     <div class="patient-action">
                         <button class="btn-confirm status recall">
@@ -1286,7 +1269,31 @@ if(doctorImage){
         </div>
     </div>
 
+    <!-- ===== Missing Patient Modal ===== -->
+    <div class="modal-overlay" id="missingPatientModal">
+        <div class="modal-box">
+            <h3>แจ้งเตือน</h3>
+            <p>
+                แพทย์ท่านนี้ยังขาดคนไข้ <b>2 คน</b><br><br> • คลินิกเอ็นโดดอนติกส์<br> • คลินิกศัลยกรรมช่องปาก
+            </p>
 
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeMissingModal()">ยกเลิก</button>
+                <button class="btn-confirm" onclick="goDoctorPage()">ตกลง</button>
+            </div>
+        </div>
+    </div>
 </body>
+<!-- ===== Full Patient Modal ===== -->
+<div class="modal-overlay" id="fullPatientModal">
+    <div class="modal-box">
+        <h3>แจ้งเตือน</h3>
+        <p>แพทย์ท่านนี้มีผู้ป่วยครบแล้ว</p>
+
+        <div class="modal-actions">
+            <button class="btn-confirm" onclick="closeFullModal()">ตกลง</button>
+        </div>
+    </div>
+</div>
 
 </html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>การแจ้งเตือน</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Segoe UI;
+            background: #1e1e1e;
+        }
+        
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        /* sidebar */
+        
+        .sidebar {
+            width: 230px;
+            background: #fff;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+        
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #222;
+            border-radius: 6px;
+        }
+        
+        .sidebar a:hover {
+            background: #f0f0f0;
+        }
+        /* content */
+        
+        .content {
+            flex: 1;
+            background: #f3f3f3;
+        }
+        
+        .topbar {
+            height: 60px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            border-bottom: 1px solid #ddd;
+            font-weight: 600;
+        }
+        /* main */
+        
+        .main {
+            padding: 25px;
+        }
+        /* notify card */
+        
+        .notify-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-left: 6px solid #8a00c2;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
+        }
+        
+        .notify-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .notify-date {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            font-size: 16px;
+            color: #555;
+        }
+        
+        .clear-btn {
+            margin-top: 20px;
+            background: #d32f2f;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .clear-btn:hover {
+            background: #b71c1c;
+        }
+        
+        .back-btn {
+            margin-left: 20px;
+            background: #1976ff;
+            color: #fff;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .back-btn:hover {
+            background: #155ed1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+
+
+        <div class="content">
+
+            <div class="topbar">
+                การแจ้งเตือนทั้งหมด
+
+                <button class="back-btn" onclick="goBack()">
+        ← ย้อนกลับ
+    </button>
+            </div>
+
+            <div class="main">
+
+                <div id="notifyList"></div>
+
+                <button class="clear-btn" onclick="clearNotifications()">
+ล้างการแจ้งเตือนทั้งหมด
+</button>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function loadNotifications() {
+
+            const container = document.getElementById("notifyList");
+
+            const data = JSON.parse(localStorage.getItem("upcomingNotifications")) || [];
+
+            container.innerHTML = "";
+
+            if (data.length === 0) {
+
+                container.innerHTML = `
+        <div class="no-data">
+        ไม่มีการแจ้งเตือน
+        </div>
+        `;
+
+                return;
+            }
+
+            data.forEach(item => {
+
+                let text = "";
+
+                if (item.daysLeft === 0) {
+                    text = "มีนัดวันนี้";
+                } else {
+                    text = "อีก " + item.daysLeft + " วัน";
+                }
+
+                const card = document.createElement("div");
+
+                card.className = "notify-card";
+
+                card.innerHTML = `
+
+        <div class="notify-title">
+        แจ้งเตือนนัดผู้ป่วย
+        </div>
+
+        <div>
+        ผู้ป่วย : <b>${item.name}</b>
+        </div>
+
+        <div>
+        วันนัด : ${item.date}
+        </div>
+
+        <div class="notify-date">
+        ${text}
+        </div>
+
+        `;
+
+                container.appendChild(card);
+
+            });
+
+        }
+
+        function clearNotifications() {
+
+            if (!confirm("ต้องการลบการแจ้งเตือนทั้งหมดหรือไม่")) {
+                return;
+            }
+
+            localStorage.removeItem("upcomingNotifications");
+
+            loadNotifications();
+
+        }
+
+        window.addEventListener("load", loadNotifications);
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+</body>
+
+</html>

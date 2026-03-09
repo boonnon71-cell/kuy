@@ -1,1037 +1,1206 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-<meta charset="UTF-8">
-<title>เป้าหมาย</title>
-<style>
-*{
-    box-sizing: border-box;
-    font-family: "Segoe UI", Tahoma, sans-serif;
-}
-body{
-    margin: 0;
-    background: #1e1e1e;
-}
-/* Layout */
-.wrapper{
-    display: flex;
-    min-height: 100vh;
-}
-/* Sidebar */
-.sidebar{
-    width: 240px;
-    background: #ffffff;
-    padding: 20px 15px;
-    border-right: 1px solid #ddd;
-}
-.sidebar .logo{
-    text-align: center;
-    margin-bottom: 30px;
-}
-.sidebar .logo img{
-    width: 80px;
-}
-.sidebar a{
-    display: block;
-    padding: 10px 12px;
-    color: #222;
-    text-decoration: none;
-    border-radius: 6px;
-    margin-bottom: 6px;
-}
-.sidebar a.active{
-    color: #1976ff;
-    font-weight: 600;
-}
-.sidebar a:hover{
-    background: #f0f0f0;
-}
-/* Content */
-.content{
-    flex: 1;
-    background: #f3f3f3;
-}
-/* Topbar */
-.topbar{
-    height: 60px;
-    background: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    border-bottom: 1px solid #ddd;
-}
-.breadcrumb{
-    font-size: 14px;
-    color: #444;
-}
-.user-menu{
-    display: flex;
-    align-items: center;
-}
-.user-group{
-    display: flex;
-    align-items: center;
-    gap: 10px;   /* ระยะห่างเล็ก ๆ แบบในรูป */
-}
-/* กระดิ่ง */
-.notification{
-    position: relative;
-    font-size: 22px;
-    cursor: pointer;
-    color: #000;
-}
-
-.notification:hover{
-    opacity: 0.7;
-}
-
-/* badge */
-.badge{
-    position: absolute;
-    top: -4px;
-    right: -6px;
-    background: red;
-    color: #fff;
-    font-size: 11px;
-    font-weight: bold;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-/* Main */
-.main{
-    padding: 25px;
-}
-/* Patient Card */
-.patient-card{
-    background: #ffffff;
-    border: 1px solid #999;
-    border-radius: 16px;
-    padding: 20px;
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 18px;
-}
-.patient-photo{
-    width: 90px;
-    height: 90px;
-    border: 1px solid #999;
-    border-radius: 6px;
-    margin-right: 20px;
-}
-.patient-info{
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    row-gap: 8px;
-    column-gap: 30px;
-    font-size: 14px;
-    color: #000;
-}
-/* สีฟ้าสำหรับแพทย์ */
-.doctor{
-    color: #1976ff;
-    cursor: pointer;
-}
-/* Button */
-.patient-action{
-    margin-left: 20px;
-}
-.btn-confirm{
-    background: #8a00c2;
-    border: none;
-    color: #ffffff;
-    padding: 8px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-}
-.btn-confirm:hover{
-    background: #7400a5;
-}
-/* ===== เมนูผู้ป่วย ===== */
-.patient-menu{
-    position: relative;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-/* กล่อง dropdown */
-.patient-dropdown{
-    position: absolute;
-    top: 48px;              /* 🔹 ดันลงมาด้านล่าง */
-    left: 0;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 14px;
-    min-width: 320px;
-    padding: 10px 0;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
-
-    display: none;
-    z-index: 999;
-}
-.topbar{
-    position: relative;
-}
-
-/* รายการด้านใน */
-.dropdown-item{
-    padding: 12px 20px;
-    font-size: 14px;
-    color: #222;
-}
-
-.dropdown-item:hover{
-    background: #f3f6ff;
-    color: #1976ff;
-}
-/* ===== คลินิก (เหมือนผู้ป่วย) ===== */
-.clinic-menu{
-    position: relative;
-    padding: 10px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    color: #222;
-}
-
-.clinic-menu:hover{
-    background: #f0f0f0;
-    color: #1976ff;
-}
-
-/* dropdown คลินิก */
-.clinic-dropdown{
-    position: absolute;
-    top: 44px;          /* ดันลงมาตามรูป */
-    left: 0;
-    width: 220px;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
-
-    display: none;
-    z-index: 999;
-}
-
-/* ใช้ dropdown-item เดิมได้เลย */
-.clinic-dropdown .dropdown-item{
-    padding: 10px 14px;
-    font-size: 14px;
-}
-
-.clinic-dropdown .dropdown-item:hover{
-    background: #f3f6ff;
-    color: #1976ff;
-}
-/* ===== Account ===== */
-.account-box{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    background: #8e24aa; /* สีม่วง */
-    color: #fff;
-
-    padding: 8px 14px;
-    border-radius: 999px; /* มนทั้งแถบ */
-    cursor: pointer;
-
-    width: fit-content;
-}
-
-.account-box:hover{
-    background: #7b1fa2;
-}
-
-/* วงกลมรูป */
-.avatar{
-    width: 36px;
-    height: 36px;
-    background: #fff;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.avatar img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* ข้อความ */
-.account-text{
-    font-size: 14px;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-/* ลูกศร */
-.arrow{
-    font-size: 14px;
-}
-.patient-photo img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 6px;
-}
-/* ===== Modal ===== */
-.modal-overlay{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 30000;
-}
-
-.modal-box{
-    background: #fff;
-    padding: 24px 30px;
-    border-radius: 16px;
-    width: 360px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-}
-
-.modal-box h3{
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-.modal-box p{
-    font-size: 14px;
-    color: #444;
-    margin-bottom: 20px;
-}
-
-.modal-actions{
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-}
-
-.btn-cancel{
-    background: #ddd;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-.btn-cancel:hover{
-    background: #ccc;
-}
-.goal-link{
-    color: #1976ff;
-    text-decoration: none;
-    font-weight: 500;
-    cursor: pointer;
-}
-.goal-link2{
-    color: #000000;
-    text-decoration: none;
-    font-weight: 500;
-    cursor: pointer;
-}
-.goal-link2:hover{
-    text-decoration: underline;
-}
-
-.goal-link:hover{
-    text-decoration: underline;
-}
-.goal-inline{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    border-bottom: 2px solid #1e88e5;
-    padding: 10px 4px;
-    margin-bottom: 18px;
-}
-
-.goal-left{
-    font-size: 15px;
-    color: #000;
-}
-
-.goal-count{
-    font-weight: 700;
-    margin: 0 4px;
-}
-
-.goal-right{
-    font-size: 14px;
-    color: #000;
-}
-/* ===== Account Dropdown ===== */
-.account-wrapper{
-    position: relative;
-}
-
-.account-dropdown{
-    position: absolute;
-    top: 58px;
-    right: 0;
-    width: 260px;
-    background: #e0e0e0;
-    border-radius: 6px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.25);
-    display: none;
-    z-index: 1000;
-}
-
-/* Header */
-.account-header{
-    display: flex;
-    gap: 12px;
-    padding: 14px;
-    background: #dcdcdc;
-}
-
-.account-avatar{
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: #000;
-}
-
-.account-avatar img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.account-name{
-    font-weight: 600;
-}
-
-.account-role{
-    font-size: 13px;
-    color: #8a00c2;
-}
-
-/* Section */
-.account-section{
-    padding: 10px 14px;
-}
-
-.section-title{
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
-.account-item{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    cursor: pointer;
-}
-
-.account-item:hover{
-    background: #f0f0f0;
-}
-
-/* วงกลมไอคอน */
-.circle-icon{
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #000;
-}
-
-/* Logout */
-.account-logout{
-    text-align: center;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid red;
-    color: red;
-    cursor: pointer;
-}
-
-.account-logout:hover{
-    background: rgba(255,0,0,0.08);
-}
-
-/* ===== Game Notify ===== */
-.game-notify{
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 420px;
-    height: 90px;
-    background: linear-gradient(135deg,#ff3b7d,#7f2bff);
-    border-radius: 16px;
-    box-shadow: 0 15px 40px rgba(0,0,0,.5);
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    color: white;
-    z-index: 20000;
-    animation: slideDown .6s ease-out forwards;
-}
-
-.game-avatar{
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid rgba(255,255,255,.7);
-    margin-right: 14px;
-    flex-shrink: 0;
-}
-
-.game-avatar img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.game-content{
-    flex: 1;
-}
-
-.game-title{
-    font-size: 18px;
-    font-weight: 700;
-}
-
-.game-subtitle{
-    font-size: 14px;
-    opacity: .9;
-}
-
-.game-kill{
-    font-size: 13px;
-    font-weight: 700;
-    opacity: .85;
-}
-
-/* animation */
-@keyframes slideDown{
-    from{
-        transform: translate(-50%, -40px);
-        opacity: 0;
-    }
-    to{
-        transform: translate(-50%, 0);
-        opacity: 1;
-    }
-}
-.clinic-item{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-}
-
-.clinic-icon{
-    width: 22px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.clinic-name{
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-.clinic-detail{
-    opacity: .8;
-    white-space: nowrap;
-}
-.doctor-modal{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 20000;
-}
-
-.doctor-box{
-    background: #ffffff;
-    width: 380px;
-    padding: 24px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
-    animation: fadeIn .3s ease;
-}
-
-.doctor-box h3{
-    margin-top: 0;
-    margin-bottom: 6px;
-}
-
-.doctor-role{
-    font-size: 14px;
-    color: #8a00c2;
-    margin-bottom: 20px;
-}
-
-/* social buttons */
-.social-group{
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-}
-
-.social-btn{
-    padding: 8px 16px;
-    border-radius: 20px;
-    text-decoration: none;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    transition: .2s;
-}
-
-.fb{ background:#1877f2; }
-.ig{ background:#e1306c; }
-.tw{ background:#000; }
-
-.social-btn:hover{
-    opacity:.8;
-}
-
-.close-doctor{
-    margin-top: 20px;
-    background:#ddd;
-    border:none;
-    padding:6px 14px;
-    border-radius:20px;
-    cursor:pointer;
-}
-</style>
-<script>
-function togglePatientMenu(){
-    const menu = document.getElementById("patientDropdown");
-    if(menu.style.display === "block"){
-        menu.style.display = "none";
-    }else{
-        menu.style.display = "block";
-    }
-}
-
-/* คลิกที่อื่นแล้วปิด */
-document.addEventListener("click", function(e){
-    const menu = document.getElementById("patientDropdown");
-    const button = document.querySelector(".patient-menu");
-
-    if(!button.contains(e.target)){
-        menu.style.display = "none";
-    }
-});
-//คลินิก
-function toggleClinicMenu(){
-    const menu = document.getElementById("clinicDropdown");
-    menu.style.display = (menu.style.display === "block") ? "none" : "block";
-}
-
-/* คลิกที่อื่นแล้วปิด */
-document.addEventListener("click", function(e){
-    const clinicMenu = document.querySelector(".clinic-menu");
-    const clinicDropdown = document.getElementById("clinicDropdown");
-
-    if(clinicMenu && !clinicMenu.contains(e.target)){
-        clinicDropdown.style.display = "none";
-    }
-});
-
-let selectedPatient = null;
-
-function openModal(patientName){
-    selectedPatient = patientName;
-    document.getElementById("confirmModal").style.display = "flex";
-}
-
-function closeModal(){
-    document.getElementById("confirmModal").style.display = "none";
-}
-
-function confirmAccept(){
-    // จำลองบันทึกผู้ป่วยล่าสุด
-    localStorage.setItem("latestPatient", selectedPatient);
-
-    // ไปหน้าผู้ป่วยที่คุณดูแล
-    window.location.href = "patient-mycare.html";
-}
-window.onload = function(){
-    document.getElementById("goalAlert").style.display = "flex";
-    removeAcceptedPatientsOnLoad();
-    loadGoalFromStorage();
-
-    if(localStorage.getItem("goalRemaining") === null){
-        localStorage.setItem("goalRemaining", 2);
-    }
-
-    // 🔥 ลบคลินิกที่เคยรับไปแล้ว
-    removeClosedClinicsOnLoad();
-}
-
-
-
-function closeGoalAlert(){
-    document.getElementById("goalAlert").style.display = "none";
-}
-function toggleAccountMenu(){
-    const menu = document.getElementById("accountDropdown");
-    menu.style.display = (menu.style.display === "block") ? "none" : "block";
-}
-
-/* คลิกที่อื่นแล้วปิด */
-document.addEventListener("click", function(e){
-    const wrapper = document.querySelector(".account-wrapper");
-    const menu = document.getElementById("accountDropdown");
-
-    if(wrapper && !wrapper.contains(e.target)){
-        menu.style.display = "none";
-    }
-});
-
-function openModal(patient, btn){
-    selectedPatient = patient;
-    selectedCard = btn.closest('.patient-card');
-    document.getElementById("confirmModal").style.display = "flex";
-}
-
-function closeModal(){
-    document.getElementById("confirmModal").style.display = "none";
-}
-
-function confirmAccept(){
-
-    let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
-    myPatients.unshift(selectedPatient);
-    localStorage.setItem("myPatients", JSON.stringify(myPatients));
-
-    let closedClinics = JSON.parse(localStorage.getItem("closedClinics")) || [];
-
-    if(!closedClinics.includes(selectedPatient.clinic)){
-        closedClinics.push(selectedPatient.clinic);
-        localStorage.setItem("closedClinics", JSON.stringify(closedClinics));
-    }
-
-    closeModal();
-    updateGoalAfterAccept(selectedPatient.clinic);
-    showAcceptNotify(selectedPatient);
-
-    removePatientsByClinic(selectedPatient.clinic);
-
-    // ✅ เช็คเป้าหมายแค่ครั้งเดียว
-    let remaining = parseInt(localStorage.getItem("goalRemaining") || 0);
-
-    setTimeout(()=>{
-        if(remaining === 0){
-            showGoalSuccess();   // ใช้ modal อย่างเดียว
+    <meta charset="UTF-8">
+    <title>เป้าหมาย</title>
+    <link rel="icon" type="image/png" href="Up.d copy.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, sans-serif;
         }
-        window.location.href = "patientsdocter.html";
-    }, 1200);
-}
-
-
-
-function showAcceptNotify(patient){
-    const notify = document.getElementById("acceptNotify");
-    const img = document.getElementById("notifyImg");
-
-    img.src = patient.image || "default.jpg";
-
-    notify.style.display = "flex";
-
-    setTimeout(()=>{
-        notify.style.display = "none";
-    }, 3500);
-}
-function updateGoalAfterAccept(clinicName){
-    const goalCountEl = document.getElementById("goalCount");
-    const goalAlert = document.getElementById("goalAlert");
-    const goalList = goalAlert.querySelector("ul");
-    const redText = goalAlert.querySelector("b[style]");
-
-    if(!goalCountEl || !goalList || !clinicName) return;
-
-    const target = clinicName.trim();
-    const items = goalList.querySelectorAll("li");
-
-    let removed = false;
-
-    items.forEach(li => {
-        const liClinic = (li.dataset.clinic || "").trim();
-        if(liClinic === target){
-            li.remove();
-            removed = true;
+        
+        body {
+            margin: 0;
+            background: #1e1e1e;
         }
-    });
-
-    if(removed){
-        let count = parseInt(goalCountEl.innerText);
-        count = Math.max(0, count - 1);
-
-        // ✅ อัปเดตตัวเลขด้านบน
-        goalCountEl.innerText = count;
-        localStorage.setItem("goalRemaining", count);
-
-        // ✅ อัปเดตตัวแดงใน modal
-        if(redText){
-            redText.innerText = count + " คน";
+        /* Layout */
+        
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
         }
-
-        // ✅ ถ้าครบแล้ว ปิด modal ไปเลย
-        if(count === 0){
-            goalAlert.style.display = "none";
-            showGoalSuccess();   // 🔥 เพิ่มบรรทัดนี้
+        /* Sidebar */
+        
+        .sidebar {
+            width: 240px;
+            background: #ffffff;
+            padding: 20px 15px;
+            border-right: 1px solid #ddd;
         }
-    }
-}
-function loadGoalFromStorage(){
-    const goalCountEl = document.getElementById("goalCount");
-    const goalAlert = document.getElementById("goalAlert");
-    const redText = goalAlert.querySelector("b[style]");
-    const saved = localStorage.getItem("goalRemaining");
-
-    if(saved !== null){
-        goalCountEl.innerText = saved;
-
-        if(redText){
-            redText.innerText = saved + " คน";
+        
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 30px;
         }
-
-        if(parseInt(saved) === 0){
-            goalAlert.style.display = "none";
-            setTimeout(showGoalSuccess, 400);
+        
+        .sidebar .logo img {
+            width: 80px;
         }
-    }
-}
-// ===== Global Telephone =====
-let currentDoctorTel = "";
-
-// ===== Doctor Database =====
-const doctorDatabase = {
-    "นทพ. ณิชาภัทร ตรัยรัตนเมธี": {
-        fb: "https://facebook.com/",
-        ig: "https://www.instagram.com/nichapa6t?igsh=bHI3YXNzMzkya3h0",
-        tel: "086-935-3769"
-    },
-    "นทพ. บุริศร์ อาทิตย์สาม": {
-        fb: "https://www.facebook.com/share/1FPYPV76Qh/",
-        ig: "https://www.instagram.com/plug.buris?igsh=am5wZnIxNmhuenlt",
-        tel: "088-226-7767"
-    },
-    "นทพ. สุภาษิต ปัญญาบุตร": {
-        fb: "https://facebook.com/",
-        ig: "https://instagram.com/",
-        tel: "089-999-9999"
-    }
-};
-
-function openDoctorContact(name){
-    const modal = document.getElementById("doctorModal");
-    const doctorName = document.getElementById("doctorName");
-
-    doctorName.innerText = name;
-
-    const doctor = doctorDatabase[name];
-
-    if(doctor){
-        document.getElementById("doctorFB").href = doctor.fb;
-        document.getElementById("doctorIG").href = doctor.ig;
-        currentDoctorTel = doctor.tel;
-    }
-
-    modal.style.display = "flex";
-}
-
-function closeDoctorModal(){
-    document.getElementById("doctorModal").style.display = "none";
-}
-
-function showDoctorTel(){
-    document.getElementById("telNumber").innerText = currentDoctorTel;
-    document.getElementById("telModal").style.display = "flex";
-}
-
-function closeTelModal(){
-    document.getElementById("telModal").style.display = "none";
-}
-
-document.addEventListener("click", function(e){
-    const wrapper = document.querySelector(".account-wrapper");
-    const menu = document.getElementById("accountDropdown");
-
-    if(wrapper && !wrapper.contains(e.target)){
-        menu.style.display = "none";
-    }
-});
-function removePatientsByClinic(clinicName){
-    if(!clinicName) return;
-
-    const targetClinic = clinicName.trim();
-    const cards = document.querySelectorAll(".patient-card");
-
-    cards.forEach(card => {
-
-        // หา div ที่มีคำว่า "คลินิกที่ทำการรักษา"
-        const clinicDiv = Array.from(card.querySelectorAll(".patient-info div"))
-            .find(div => div.innerText.includes("คลินิกที่ทำการรักษา:"));
-
-        if(clinicDiv){
-            const clinicText = clinicDiv.innerText
-                .replace("คลินิกที่ทำการรักษา:", "")
-                .trim();
-
-            if(clinicText === targetClinic){
-                card.remove();
+        
+        .sidebar a {
+            display: block;
+            padding: 10px 12px;
+            color: #222;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .sidebar a.active {
+            color: #1976ff;
+            font-weight: 600;
+        }
+        
+        .sidebar a:hover {
+            background: #f0f0f0;
+        }
+        /* Content */
+        
+        .content {
+            flex: 1;
+            background: #f3f3f3;
+        }
+        /* Topbar */
+        
+        .topbar {
+            height: 60px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .breadcrumb {
+            font-size: 14px;
+            color: #444;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            /* ระยะห่างเล็ก ๆ แบบในรูป */
+        }
+        /* กระดิ่ง */
+        
+        .notification {
+            position: relative;
+            font-size: 22px;
+            cursor: pointer;
+            color: #000;
+        }
+        
+        .notification:hover {
+            opacity: 0.7;
+        }
+        /* badge */
+        
+        .badge {
+            position: absolute;
+            top: -4px;
+            right: -6px;
+            background: red;
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Main */
+        
+        .main {
+            padding: 25px;
+        }
+        /* Patient Card */
+        
+        .patient-card {
+            background: #ffffff;
+            border: 1px solid #999;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+        
+        .patient-photo {
+            width: 90px;
+            height: 90px;
+            border: 1px solid #999;
+            border-radius: 6px;
+            margin-right: 20px;
+        }
+        
+        .patient-info {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 8px;
+            column-gap: 30px;
+            font-size: 14px;
+            color: #000;
+        }
+        /* สีฟ้าสำหรับแพทย์ */
+        
+        .doctor {
+            color: #1976ff;
+            cursor: pointer;
+        }
+        /* Button */
+        
+        .patient-action {
+            margin-left: 20px;
+        }
+        
+        .btn-confirm {
+            background: #8a00c2;
+            border: none;
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-confirm:hover {
+            background: #7400a5;
+        }
+        /* ===== เมนูผู้ป่วย ===== */
+        
+        .patient-menu {
+            position: relative;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        /* กล่อง dropdown */
+        
+        .patient-dropdown {
+            position: absolute;
+            top: 48px;
+            /* 🔹 ดันลงมาด้านล่าง */
+            left: 0;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            min-width: 320px;
+            padding: 10px 0;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+            display: none;
+            z-index: 999;
+        }
+        
+        .topbar {
+            position: relative;
+        }
+        /* รายการด้านใน */
+        
+        .dropdown-item {
+            padding: 12px 20px;
+            font-size: 14px;
+            color: #222;
+        }
+        
+        .dropdown-item:hover {
+            background: #f3f6ff;
+            color: #1976ff;
+        }
+        /* ===== คลินิก (เหมือนผู้ป่วย) ===== */
+        
+        .clinic-menu {
+            position: relative;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #222;
+        }
+        
+        .clinic-menu:hover {
+            background: #f0f0f0;
+            color: #1976ff;
+        }
+        /* dropdown คลินิก */
+        
+        .clinic-dropdown {
+            position: absolute;
+            top: 44px;
+            /* ดันลงมาตามรูป */
+            left: 0;
+            width: 220px;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+            display: none;
+            z-index: 999;
+        }
+        /* ใช้ dropdown-item เดิมได้เลย */
+        
+        .clinic-dropdown .dropdown-item {
+            padding: 10px 14px;
+            font-size: 14px;
+        }
+        
+        .clinic-dropdown .dropdown-item:hover {
+            background: #f3f6ff;
+            color: #1976ff;
+        }
+        /* ===== Account ===== */
+        
+        .account-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #8e24aa;
+            /* สีม่วง */
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 999px;
+            /* มนทั้งแถบ */
+            cursor: pointer;
+            width: fit-content;
+        }
+        
+        .account-box:hover {
+            background: #7b1fa2;
+        }
+        /* วงกลมรูป */
+        
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* ข้อความ */
+        
+        .account-text {
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        /* ลูกศร */
+        
+        .arrow {
+            font-size: 14px;
+        }
+        
+        .patient-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        /* ===== Modal ===== */
+        
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 30000;
+        }
+        
+        .modal-box {
+            background: #fff;
+            padding: 24px 30px;
+            border-radius: 16px;
+            width: 360px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-box h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .modal-box p {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 20px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .btn-cancel {
+            background: #ddd;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        .btn-cancel:hover {
+            background: #ccc;
+        }
+        
+        .goal-link {
+            color: #1976ff;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .goal-link2 {
+            color: #000000;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .goal-link2:hover {
+            text-decoration: underline;
+        }
+        
+        .goal-link:hover {
+            text-decoration: underline;
+        }
+        
+        .goal-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #1e88e5;
+            padding: 10px 4px;
+            margin-bottom: 18px;
+        }
+        
+        .goal-left {
+            font-size: 15px;
+            color: #000;
+        }
+        
+        .goal-count {
+            font-weight: 700;
+            margin: 0 4px;
+        }
+        
+        .goal-right {
+            font-size: 14px;
+            color: #000;
+        }
+        /* ===== Account Dropdown ===== */
+        
+        .account-wrapper {
+            position: relative;
+        }
+        
+        .account-dropdown {
+            position: absolute;
+            top: 58px;
+            right: 0;
+            width: 260px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+            display: none;
+            z-index: 1000;
+        }
+        /* Header */
+        
+        .account-header {
+            display: flex;
+            gap: 12px;
+            padding: 14px;
+            background: #dcdcdc;
+        }
+        
+        .account-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .account-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .account-name {
+            font-weight: 600;
+        }
+        
+        .account-role {
+            font-size: 13px;
+            color: #8a00c2;
+        }
+        /* Section */
+        
+        .account-section {
+            padding: 10px 14px;
+        }
+        
+        .section-title {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+        
+        .account-item:hover {
+            background: #f0f0f0;
+        }
+        /* วงกลมไอคอน */
+        
+        .circle-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #000;
+        }
+        /* Logout */
+        
+        .account-logout {
+            text-align: center;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid red;
+            color: red;
+            cursor: pointer;
+        }
+        
+        .account-logout:hover {
+            background: rgba(255, 0, 0, 0.08);
+        }
+        /* ===== Game Notify ===== */
+        
+        .game-notify {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 420px;
+            height: 90px;
+            background: linear-gradient(135deg, #ff3b7d, #7f2bff);
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .5);
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            color: white;
+            z-index: 20000;
+            animation: slideDown .6s ease-out forwards;
+        }
+        
+        .game-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, .7);
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+        
+        .game-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-content {
+            flex: 1;
+        }
+        
+        .game-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .game-subtitle {
+            font-size: 14px;
+            opacity: .9;
+        }
+        
+        .game-kill {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: .85;
+        }
+        /* animation */
+        
+        @keyframes slideDown {
+            from {
+                transform: translate(-50%, -40px);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
             }
         }
-    });
-}
+        
+        .clinic-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .clinic-icon {
+            width: 22px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .clinic-name {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .clinic-detail {
+            opacity: .8;
+            white-space: nowrap;
+        }
+        
+        .doctor-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 20000;
+        }
+        
+        .doctor-box {
+            background: #ffffff;
+            width: 380px;
+            padding: 24px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+            animation: fadeIn .3s ease;
+        }
+        
+        .doctor-box h3 {
+            margin-top: 0;
+            margin-bottom: 6px;
+        }
+        
+        .doctor-role {
+            font-size: 14px;
+            color: #8a00c2;
+            margin-bottom: 20px;
+        }
+        /* social buttons */
+        
+        .social-group {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+        
+        .social-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .2s;
+        }
+        
+        .fb {
+            background: #1877f2;
+        }
+        
+        .ig {
+            background: #e1306c;
+        }
+        
+        .tw {
+            background: #000;
+        }
+        
+        .social-btn:hover {
+            opacity: .8;
+        }
+        
+        .close-doctor {
+            margin-top: 20px;
+            background: #ddd;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        .account-name {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .name-th {
+            font-size: 14px;
+            /* ลดจากเดิม */
+            font-weight: 600;
+        }
+        
+        .name-en {
+            font-size: 12px;
+            color: #555;
+        }
+        
+        .account-role {
+            font-size: 12px;
+            color: #8a00c2;
+            margin-top: 2px;
+        }
+        
+        .notification {
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .notification:hover {
+            opacity: 0.7;
+        }
+        
+        .account-logout {
+            display: block;
+            /* ให้เหมือน div */
+            text-decoration: none;
+            /* ตัดเส้นใต้ */
+            color: red;
+            /* สีเดิม */
+            text-align: center;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid red;
+            border-radius: 4px;
+            /* ถ้าเดิมไม่มี ลบได้ */
+            cursor: pointer;
+        }
+        
+        .account-logout:hover {
+            background: rgba(255, 0, 0, 0.08);
+        }
+        
+        .account-item,
+        .account-logout {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+    <script>
+        function togglePatientMenu() {
+            const menu = document.getElementById("patientDropdown");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
 
+        /* คลิกที่อื่นแล้วปิด */
+        document.addEventListener("click", function(e) {
+            const menu = document.getElementById("patientDropdown");
+            const button = document.querySelector(".patient-menu");
 
-function openChat(name, photo, clinic){
-    localStorage.setItem("chat_name", name);
-    localStorage.setItem("chat_photo", photo);
-
-    // ⭐ สำคัญมาก
-    localStorage.setItem("chat_from", "home");
-
-    // กันค่าคลินิกเก่าค้าง
-    localStorage.removeItem("fromClinic");
-
-    window.location.href = "Chat/Chat2.html";
-}
-function removeAcceptedPatientsOnLoad(){
-    let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
-    if(myPatients.length === 0) return;
-
-    const cards = document.querySelectorAll(".patient-card");
-
-    cards.forEach(card => {
-        const text = card.innerText;
-
-        myPatients.forEach(p => {
-            if(text.includes(p.name)){
-                card.remove();
+            if (!button.contains(e.target)) {
+                menu.style.display = "none";
             }
         });
-    });
-}
-function removeClosedClinicsOnLoad(){
-    let closedClinics = JSON.parse(localStorage.getItem("closedClinics")) || [];
-    if(closedClinics.length === 0) return;
-
-    closedClinics.forEach(clinic => {
-        removePatientsByClinic(clinic);
-    });
-}
-
-function showGoalSuccess(){
-    document.getElementById("goalSuccessModal").style.display = "flex";
-}
-
-function closeGoalSuccess(){
-    document.getElementById("goalSuccessModal").style.display = "none";
-}
-function checkIfNoPatientsLeft(){
-    const cards = document.querySelectorAll(".patient-card");
-    if(cards.length === 0){
-        showGoalSuccess();
-    }
-}
-function loadGoalFromStorage(){
-    const goalCountEl = document.getElementById("goalCount");
-    const goalAlert = document.getElementById("goalAlert");
-    const redText = goalAlert.querySelector("b[style]");
-    const saved = localStorage.getItem("goalRemaining");
-
-    if(saved !== null){
-        goalCountEl.innerText = saved;
-
-        if(redText){
-            redText.innerText = saved + " คน";
+        //คลินิก
+        function toggleClinicMenu() {
+            const menu = document.getElementById("clinicDropdown");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
         }
-    }
 
-    // 🔥 เพิ่มส่วนนี้
-    let closedClinics = JSON.parse(localStorage.getItem("closedClinics")) || [];
+        /* คลิกที่อื่นแล้วปิด */
+        document.addEventListener("click", function(e) {
+            const clinicMenu = document.querySelector(".clinic-menu");
+            const clinicDropdown = document.getElementById("clinicDropdown");
 
-    closedClinics.forEach(clinic => {
-        const li = goalAlert.querySelector(`li[data-clinic="${clinic}"]`);
-        if(li){
-            li.remove();
+            if (clinicMenu && !clinicMenu.contains(e.target)) {
+                clinicDropdown.style.display = "none";
+            }
+        });
+
+        let selectedPatient = null;
+
+        function openModal(patientName) {
+            selectedPatient = patientName;
+            document.getElementById("confirmModal").style.display = "flex";
         }
-    });
 
-    // ถ้าครบแล้ว
-    if(parseInt(saved) === 0){
-        goalAlert.style.display = "none";
-        setTimeout(showGoalSuccess, 400);
-    }
-}
+        function closeModal() {
+            document.getElementById("confirmModal").style.display = "none";
+        }
 
-function resetDemoData(){
-    localStorage.removeItem("myPatients");
-    localStorage.removeItem("goalRemaining");
-    localStorage.removeItem("latestPatient");
-    localStorage.removeItem("closedClinics");
-    alert("รีเซ็ตข้อมูลเรียบร้อยแล้ว");
-    location.reload();
-}
+        function confirmAccept() {
+            // จำลองบันทึกผู้ป่วยล่าสุด
+            localStorage.setItem("latestPatient", selectedPatient);
+
+            // ไปหน้าผู้ป่วยที่คุณดูแล
+            window.location.href = "patient-mycare.html";
+        }
+        window.onload = function() {
+            document.getElementById("goalAlert").style.display = "flex";
+            removeAcceptedPatientsOnLoad();
+            loadGoalFromStorage();
+
+            if (localStorage.getItem("goalRemaining") === null) {
+                localStorage.setItem("goalRemaining", 2);
+            }
+
+            // 🔥 ลบคลินิกที่เคยรับไปแล้ว
+            removeClosedClinicsOnLoad();
+        }
 
 
 
-</script>
+        function closeGoalAlert() {
+            document.getElementById("goalAlert").style.display = "none";
+        }
+
+        function toggleAccountMenu() {
+            const menu = document.getElementById("accountDropdown");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+
+        /* คลิกที่อื่นแล้วปิด */
+        document.addEventListener("click", function(e) {
+            const wrapper = document.querySelector(".account-wrapper");
+            const menu = document.getElementById("accountDropdown");
+
+            if (wrapper && !wrapper.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+
+        function openModal(patient, btn) {
+            selectedPatient = patient;
+            selectedCard = btn.closest('.patient-card');
+            document.getElementById("confirmModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("confirmModal").style.display = "none";
+        }
+
+        function confirmAccept() {
+            // ===== ส่งแจ้งเตือนให้ผู้ป่วย =====
+            let notifyList = JSON.parse(localStorage.getItem("doctorAcceptNotifications")) || [];
+
+            notifyList.unshift({
+                patientName: selectedPatient.name,
+                doctorName: localStorage.getItem("doctorName") || "แพทย์ไม่ทราบชื่อ",
+                clinic: selectedPatient.clinic,
+                patientImage: selectedPatient.image || "default.jpg",
+                date: new Date().toLocaleString()
+            });
+
+            localStorage.setItem("doctorAcceptNotifications", JSON.stringify(notifyList));
+            let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
+            myPatients.unshift(selectedPatient);
+            localStorage.setItem("myPatients", JSON.stringify(myPatients));
+
+            let closedClinics = JSON.parse(localStorage.getItem("closedClinics")) || [];
+
+            if (!closedClinics.includes(selectedPatient.clinic)) {
+                closedClinics.push(selectedPatient.clinic);
+                localStorage.setItem("closedClinics", JSON.stringify(closedClinics));
+            }
+
+            closeModal();
+            updateGoalAfterAccept(selectedPatient.clinic);
+            showAcceptNotify(selectedPatient);
+
+            removePatientsByClinic(selectedPatient.clinic);
+
+            // ✅ เช็คเป้าหมายแค่ครั้งเดียว
+            let remaining = parseInt(localStorage.getItem("goalRemaining") || 0);
+
+            setTimeout(() => {
+                if (remaining === 0) {
+                    showGoalSuccess(); // ใช้ modal อย่างเดียว
+                }
+                window.location.href = "patientsdocter.html";
+            }, 1200);
+        }
+
+
+
+        function showAcceptNotify(patient) {
+            const notify = document.getElementById("acceptNotify");
+            const img = document.getElementById("notifyImg");
+
+            img.src = patient.image || "default.jpg";
+
+            notify.style.display = "flex";
+
+            setTimeout(() => {
+                notify.style.display = "none";
+            }, 3500);
+        }
+
+        function updateGoalAfterAccept(clinicName) {
+            const goalCountEl = document.getElementById("goalCount");
+            const goalAlert = document.getElementById("goalAlert");
+            const goalList = goalAlert.querySelector("ul");
+            const redText = goalAlert.querySelector("b[style]");
+
+            if (!goalCountEl || !goalList || !clinicName) return;
+
+            const target = clinicName.trim();
+            const items = goalList.querySelectorAll("li");
+
+            let removed = false;
+
+            items.forEach(li => {
+                const liClinic = (li.dataset.clinic || "").trim();
+                if (liClinic === target) {
+                    li.remove();
+                    removed = true;
+                }
+            });
+
+            if (removed) {
+                let count = parseInt(goalCountEl.innerText);
+                count = Math.max(0, count - 1);
+
+                // ✅ อัปเดตตัวเลขด้านบน
+                goalCountEl.innerText = count;
+                localStorage.setItem("goalRemaining", count);
+
+                // ✅ อัปเดตตัวแดงใน modal
+                if (redText) {
+                    redText.innerText = count + " คน";
+                }
+
+                // ✅ ถ้าครบแล้ว ปิด modal ไปเลย
+                if (count === 0) {
+                    goalAlert.style.display = "none";
+                    showGoalSuccess(); // 🔥 เพิ่มบรรทัดนี้
+                }
+            }
+        }
+
+        function loadGoalFromStorage() {
+            const goalCountEl = document.getElementById("goalCount");
+            const goalAlert = document.getElementById("goalAlert");
+            const redText = goalAlert.querySelector("b[style]");
+            const saved = localStorage.getItem("goalRemaining");
+
+            if (saved !== null) {
+                goalCountEl.innerText = saved;
+
+                if (redText) {
+                    redText.innerText = saved + " คน";
+                }
+
+                if (parseInt(saved) === 0) {
+                    goalAlert.style.display = "none";
+                    setTimeout(showGoalSuccess, 400);
+                }
+            }
+        }
+        // ===== Global Telephone =====
+        let currentDoctorTel = "";
+
+        // ===== Doctor Database =====
+        const doctorDatabase = {
+            "นทพ. ณิชาภัทร ตรัยรัตนเมธี": {
+                fb: "https://facebook.com/",
+                ig: "https://www.instagram.com/nichapa6t?igsh=bHI3YXNzMzkya3h0",
+                tel: "086-935-3769"
+            },
+            "นทพ. บุริศร์ อาทิตย์สาม": {
+                fb: "https://www.facebook.com/share/1FPYPV76Qh/",
+                ig: "https://www.instagram.com/plug.buris?igsh=am5wZnIxNmhuenlt",
+                tel: "088-226-7767"
+            },
+            "นทพ. สุภาษิต ปัญญาบุตร": {
+                fb: "https://facebook.com/",
+                ig: "https://instagram.com/",
+                tel: "089-999-9999"
+            }
+        };
+
+        function openDoctorContact(name) {
+            const modal = document.getElementById("doctorModal");
+            const doctorName = document.getElementById("doctorName");
+
+            doctorName.innerText = name;
+
+            const doctor = doctorDatabase[name];
+
+            if (doctor) {
+                document.getElementById("doctorFB").href = doctor.fb;
+                document.getElementById("doctorIG").href = doctor.ig;
+                currentDoctorTel = doctor.tel;
+            }
+
+            modal.style.display = "flex";
+        }
+
+        function closeDoctorModal() {
+            document.getElementById("doctorModal").style.display = "none";
+        }
+
+        function showDoctorTel() {
+            document.getElementById("telNumber").innerText = currentDoctorTel;
+            document.getElementById("telModal").style.display = "flex";
+        }
+
+        function closeTelModal() {
+            document.getElementById("telModal").style.display = "none";
+        }
+
+        document.addEventListener("click", function(e) {
+            const wrapper = document.querySelector(".account-wrapper");
+            const menu = document.getElementById("accountDropdown");
+
+            if (wrapper && !wrapper.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+
+        function removePatientsByClinic(clinicName) {
+            if (!clinicName) return;
+
+            const targetClinic = clinicName.trim();
+            const cards = document.querySelectorAll(".patient-card");
+
+            cards.forEach(card => {
+
+                // หา div ที่มีคำว่า "คลินิกที่ทำการรักษา"
+                const clinicDiv = Array.from(card.querySelectorAll(".patient-info div"))
+                    .find(div => div.innerText.includes("คลินิกที่ทำการรักษา:"));
+
+                if (clinicDiv) {
+                    const clinicText = clinicDiv.innerText
+                        .replace("คลินิกที่ทำการรักษา:", "")
+                        .trim();
+
+                    if (clinicText === targetClinic) {
+                        card.remove();
+                    }
+                }
+            });
+        }
+
+
+        function openChat(name, photo, clinic) {
+            localStorage.setItem("chat_name", name);
+            localStorage.setItem("chat_photo", photo);
+
+            // ⭐ สำคัญมาก
+            localStorage.setItem("chat_from", "home");
+
+            // กันค่าคลินิกเก่าค้าง
+            localStorage.removeItem("fromClinic");
+
+            window.location.href = "Chat/Chat2.html";
+        }
+
+        function removeAcceptedPatientsOnLoad() {
+            let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
+            if (myPatients.length === 0) return;
+
+            const cards = document.querySelectorAll(".patient-card");
+
+            cards.forEach(card => {
+                const text = card.innerText;
+
+                myPatients.forEach(p => {
+                    if (text.includes(p.name)) {
+                        card.remove();
+                    }
+                });
+            });
+        }
+
+        function removeClosedClinicsOnLoad() {
+            let closedClinics = JSON.parse(localStorage.getItem("closedClinics")) || [];
+            if (closedClinics.length === 0) return;
+
+            closedClinics.forEach(clinic => {
+                removePatientsByClinic(clinic);
+            });
+        }
+
+        function showGoalSuccess() {
+            document.getElementById("goalSuccessModal").style.display = "flex";
+        }
+
+        function closeGoalSuccess() {
+            document.getElementById("goalSuccessModal").style.display = "none";
+        }
+
+        function checkIfNoPatientsLeft() {
+            const cards = document.querySelectorAll(".patient-card");
+            if (cards.length === 0) {
+                showGoalSuccess();
+            }
+        }
+
+        function loadGoalFromStorage() {
+            const goalCountEl = document.getElementById("goalCount");
+            const goalAlert = document.getElementById("goalAlert");
+            const redText = goalAlert.querySelector("b[style]");
+            const saved = localStorage.getItem("goalRemaining");
+
+            if (saved !== null) {
+                goalCountEl.innerText = saved;
+
+                if (redText) {
+                    redText.innerText = saved + " คน";
+                }
+            }
+
+            // 🔥 เพิ่มส่วนนี้
+            let closedClinics = JSON.parse(localStorage.getItem("closedClinics")) || [];
+
+            closedClinics.forEach(clinic => {
+                const li = goalAlert.querySelector(`li[data-clinic="${clinic}"]`);
+                if (li) {
+                    li.remove();
+                }
+            });
+
+            // ถ้าครบแล้ว
+            if (parseInt(saved) === 0) {
+                goalAlert.style.display = "none";
+                setTimeout(showGoalSuccess, 400);
+            }
+        }
+
+        function resetDemoData() {
+            localStorage.removeItem("myPatients");
+            localStorage.removeItem("goalRemaining");
+            localStorage.removeItem("latestPatient");
+            localStorage.removeItem("closedClinics");
+            alert("รีเซ็ตข้อมูลเรียบร้อยแล้ว");
+            location.reload();
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("notificationBtn").addEventListener("click", function() {
+                window.location.href = "nontification.html";
+            });
+        });
+
+        window.addEventListener("load", function() {
+
+            const user = JSON.parse(localStorage.getItem("currentUser"));
+            if (!user) return;
+
+            // แสดงชื่อใน Account Dropdown
+            document.getElementById("accountNameTH").innerText = user.name; // ← แก้ตรงนี้
+            document.getElementById("accountNameEN").innerText = user.nameEN;
+
+            document.querySelector(".account-role").innerText = user.role;
+
+            // Welcome Banner
+            document.getElementById("welcomeText").innerText =
+                "สวัสดี " + user.name + " 👋"; // ← แก้ตรงนี้ด้วย
+        });
+        const STATUS_HISTORY_KEY = "patientStatusHistory";
+
+        function addStatusNotification(data) {
+            let history = JSON.parse(localStorage.getItem(STATUS_HISTORY_KEY)) || [];
+
+            const now = new Date();
+
+            history.unshift({
+
+                patientName: data.patientName,
+                doctorName: data.doctorName,
+                clinic: data.clinic,
+                status: data.status,
+                appointment: data.appointment || null,
+
+                date: now.toLocaleDateString("th-TH"),
+                time: now.toLocaleTimeString("th-TH", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+
+            });
+
+            localStorage.setItem(STATUS_HISTORY_KEY, JSON.stringify(history));
+
+        }
+    </script>
 
 </head>
-<body>
-<div class="wrapper">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo">
-            <img src="Up.d copy.png" alt="UP Logo">
-        </div>
-        <a href="#" class="active">หน้าหลัก</a>
-        <div class="clinic-menu" onclick="toggleClinicMenu()">
-    คลินิก ▾
-    <div class="clinic-dropdown" id="clinicDropdown">
-    <a href="clinic/xray.html" class="dropdown-item">ทันตกรรมรังสี</a>
-    <a href="clinic/emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
-    <a href="clinic/prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
-    <a href="clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
-    <a href="clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
-    <a href="clinic/restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
-    <a href="clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
-    <a href="clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
-    <a href="clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
-    <a href="clinic/drug.html" class="dropdown-item">ประกันตัวยา</a>
-    <a href="clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
-</div>
-</div>
 
-        <a href="namedocter/docterindex.html">รายชื่อแพทย์</a>
-        <a href="record/historyindex.html">ประวัติการรักษา</a>
-        <a href="Chat/Chat.html">แชท</a>
-    </div>
-    <!-- Content -->
-    <div class="content">
-        <div class="topbar">
-            <div class="breadcrumb">
-    <span class="patient-menu" onclick="togglePatientMenu()">
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <img src="Up.d copy.png" alt="UP Logo">
+            </div>
+            <a href="#" class="active">หน้าหลัก</a>
+            <div class="clinic-menu" onclick="toggleClinicMenu()">
+                คลินิก ▾
+                <div class="clinic-dropdown" id="clinicDropdown">
+                    <a href="clinic/xray.html" class="dropdown-item">ทันตกรรมรังสี</a>
+                    <a href="clinic/emergency.html" class="dropdown-item">ทันตกรรมฉุกเฉิน</a>
+                    <a href="clinic/prosthetic.html" class="dropdown-item">ทันตกรรมประดิษฐ์</a>
+                    <a href="clinic/family.html" class="dropdown-item">ทันตกรรมครอบครัว</a>
+                    <a href="clinic/comprehensive.html" class="dropdown-item">ทันตกรรมพร้อมมูล</a>
+                    <a href="clinic/restorative.html" class="dropdown-item">ทันตกรรมบูรณะ</a>
+                    <a href="clinic/ortho.html" class="dropdown-item">ทันตกรรมจัดฟัน</a>
+                    <a href="clinic/endo.html" class="dropdown-item">เอนโดดอนติกส์</a>
+                    <a href="clinic/oral-surgery.html" class="dropdown-item">ศัลยกรรมช่องปาก</a>
+                    <a href="clinic/drug.html" class="dropdown-item">ประกันตัวยา</a>
+                    <a href="clinic/occlusion.html" class="dropdown-item">ทันตกรรมบดเคี้ยว</a>
+                </div>
+            </div>
+
+            <a href="namedocter/docterindex.html">รายชื่อแพทย์</a>
+            <a href="record/historyindex.html">ประวัติการรักษา</a>
+            <a href="Chat/Chat.html">แชท</a>
+        </div>
+        <!-- Content -->
+        <div class="content">
+            <div class="topbar">
+                <div class="breadcrumb">
+                    <span class="patient-menu" onclick="togglePatientMenu()">
         ผู้ป่วย ▾
         <div class="patient-dropdown" id="patientDropdown">
             <div class="dropdown-item"
@@ -1045,113 +1214,111 @@ function resetDemoData(){
             </div>
         </div>
     </span>
-    <a href="patientsdocter.html" class="goal-link2">ผู้ป่วยที่คุณดูแล</a>
-    <a href="../login-gmail/index.html" class="goal-link">เป้าหมายของคุณ</a>
-</div>
-<div class="user-menu">
-    <div class="user-group">
-        <!-- กระดิ่ง -->
-        <div class="notification">
-            🔔
-            <span class="badge">3</span>
-        </div>
-        <!-- บัญชี -->
-        <div class="account-wrapper">
-    <div class="account-box" onclick="toggleAccountMenu()">
-        <div class="avatar">
-            <img src="14769.jpg" alt="profile">
-        </div>
-        <span class="account-text">บัญชีของคุณ</span>
-        <span class="arrow">▾</span>
-    </div>
+                    <a href="patientsdocter.html" class="goal-link2">ผู้ป่วยที่คุณดูแล</a>
+                    <a href="../login-gmail/index.html" class="goal-link">เป้าหมายของคุณ</a>
+                </div>
+                <div class="user-menu">
+                    <div class="user-group">
+                        <!-- กระดิ่ง -->
+                        <div class="notification" id="notificationBtn">
+                            🔔
+                        </div>
+                        <!-- บัญชี -->
+                        <div class="account-wrapper">
+                            <div class="account-box" onclick="toggleAccountMenu()">
+                                <div class="avatar">
+                                    <img src="14769.jpg" alt="profile">
+                                </div>
+                                <span class="account-text">บัญชีของคุณ</span>
+                                <span class="arrow">▾</span>
+                            </div>
 
-    <!-- Account Dropdown -->
-    <div class="account-dropdown" id="accountDropdown">
+                            <!-- Account Dropdown -->
+                            <div class="account-dropdown" id="accountDropdown">
 
-        <div class="account-header">
-            <div class="account-avatar">
-                <img src="14769.jpg">
+                                <div class="account-header">
+                                    <div class="account-avatar">
+                                        <img src="14769.jpg">
+                                    </div>
+                                    <div class="account-name">
+                                        <div id="accountNameTH" class="name-th">ชื่อภาษาไทย</div>
+                                        <div id="accountNameEN" class="name-en">English Name</div>
+                                        <div class="account-role">นิสิตทันตแพทย์</div>
+                                    </div>
+                                </div>
+
+                                <div class="account-section">
+                                    <div class="section-title">เลือกแอปพลิเคชัน</div>
+
+                                    <a href="https://reg.up.ac.th/" class="account-item">
+                                        <div class="circle-icon"></div>
+                                        ระบบ reg
+                                    </a>
+
+                                    <a href="https://ge.up.ac.th/" class="account-item">
+                                        <div class="circle-icon"></div>
+                                        ระบบ ge-online
+                                    </a>
+                                </div>
+
+                                <a href="../../login.html" class="account-logout">
+                                    ออกจากระบบ
+                                </a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
             </div>
-            <div>
-                <div class="account-name">ชื่อ Mr.</div>
-                <div class="account-role">นิสิต</div>
-            </div>
-        </div>
-
-        <div class="account-section">
-            <div class="section-title">เลือกแอปพลิเคชัน</div>
-
-            <div class="account-item">
-                <div class="circle-icon"></div>
-                ระบบ reg
-            </div>
-
-            <div class="account-item">
-                <div class="circle-icon"></div>
-                ระบบ ge-online
-            </div>
-        </div>
-
-        <div class="account-logout">
-            ออกจากระบบ
-        </div>
-
-    </div>
-</div>
-
-    </div>
-</div>
-
-
-        </div>
-        <div class="main">
-            <!-- ===== Goal Inline Header (ใส่ตรงนี้) ===== -->
-    <div class="goal-inline">
-<button onclick="resetDemoData()">รีเซ็ตข้อมูล</button>
+            <div class="main">
+                <!-- ===== Goal Inline Header (ใส่ตรงนี้) ===== -->
+                <div class="goal-inline">
+                    <button onclick="resetDemoData()">รีเซ็ตข้อมูล</button>
 
 
 
 
-        <div class="goal-left">
-            ปีนี้คุณต้องทำคนไข้
-            <span class="goal-count" id="goalCount">2</span>
-            คน
-        </div>
+                    <div class="goal-left">
+                        ปีนี้คุณต้องทำคนไข้
+                        <span class="goal-count" id="goalCount">2</span> คน
+                    </div>
 
-        <div class="goal-right">
-            รายชื่อผู้ป่วยที่แนะนำ
-        </div>
-    </div>
+                    <div class="goal-right">
+                        รายชื่อผู้ป่วยที่แนะนำ
+                    </div>
+                </div>
 
-    <!-- Patient Card -->
-            <!-- Patient Card -->
-            <div class="patient-card" data-clinic="เอนโดดอนติกส์" onclick="openChat(
+                <!-- Patient Card -->
+                <!-- Patient Card -->
+                <div class="patient-card" data-clinic="เอนโดดอนติกส์" onclick="openChat(
                     'สิทธินนท์ บุญปั๋น',
                     'นนท์.jpg',
                     'target'
                 )">
-                <div class="patient-photo">
-    <img src="นนท์.jpg" alt="patient">
-</div>
-                <div class="patient-info">
-                    <div>ชื่อ-สกุล: นายสิทธินนท์ บุญปั๋น</div>
-                    <div>เพศ: ชาย | อายุ: 19 ปี</div>
-                    <div>วันที่เข้าตรวจล่าสุด: 3 ธันวาคม 2568</div>
-                    <div>วันที่ผู้ป่วยว่าง: พฤหัสบดี เช้า</div>
-                    <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราห์โรค</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
+                    <div class="patient-photo">
+                        <img src="นนท์.jpg" alt="patient">
                     </div>
-                    <div>
-                        <span class="doctor"onclick="event.stopPropagation(); openDoctorContact('นทพ. ณิชาภัทร ตรัยรัตนเมธี')">
+                    <div class="patient-info">
+                        <div>ชื่อ-สกุล: นายสิทธินนท์ บุญปั๋น</div>
+                        <div>เพศ: ชาย | อายุ: 19 ปี</div>
+                        <div>วันที่เข้าตรวจล่าสุด: 3 ธันวาคม 2568</div>
+                        <div>วันที่ผู้ป่วยว่าง: พฤหัสบดี เช้า</div>
+                        <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
+                        <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราห์โรค</div>
+                        <div>
+                            <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
+                        </div>
+                        <div>
+                            <span class="doctor" onclick="event.stopPropagation(); openDoctorContact('นทพ. ณิชาภัทร ตรัยรัตนเมธี')">
                             แพทย์ผู้ดูแลก่อนหน้า : นทพ. ณิชาภัทร ตรัยรัตนเมธี
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="patient-action">
-                <button class="btn-confirm"
-                onclick="event.stopPropagation(); openModal({
+                    <div class="patient-action">
+                        <button class="btn-confirm" onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นายสิทธินนท์ บุญปั๋น',
                     gender: 'ชาย',
@@ -1163,32 +1330,30 @@ function resetDemoData(){
                 }, this)">
                     ยืนยันการรับผู้ป่วย
                 </button>
-                </div>
-            </div>
-                        <div class="patient-card" data-clinic="ปริทันตวิทยา">
-                <div class="patient-photo">
-    <img src="โมจิ.jpg" alt="patient">
-</div>
-                <div class="patient-info">
-                    <div>ชื่อ-สกุล: นางสาวปัญจรัตน์ ทองนา</div>
-                    <div>เพศ: หญิง | อายุ: 19 ปี</div>
-                    <div>วันที่เข้าตรวจล่าสุด: 7 มกราคม 2569</div>
-                    <div>วันที่ผู้ป่วยว่าง: พุธ บ่าย</div>
-                    <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมรังสี</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
                     </div>
-                    <div>
-                        <span class="doctor"
-                        onclick="event.stopPropagation(); openDoctorContact('นทพ. บุริศร์ อาทิตย์สาม')">
+                </div>
+                <div class="patient-card" data-clinic="ปริทันตวิทยา">
+                    <div class="patient-photo">
+                        <img src="โมจิ.jpg" alt="patient">
+                    </div>
+                    <div class="patient-info">
+                        <div>ชื่อ-สกุล: นางสาวปัญจรัตน์ ทองนา</div>
+                        <div>เพศ: หญิง | อายุ: 19 ปี</div>
+                        <div>วันที่เข้าตรวจล่าสุด: 7 มกราคม 2569</div>
+                        <div>วันที่ผู้ป่วยว่าง: พุธ บ่าย</div>
+                        <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
+                        <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมรังสี</div>
+                        <div>
+                            <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
+                        </div>
+                        <div>
+                            <span class="doctor" onclick="event.stopPropagation(); openDoctorContact('นทพ. บุริศร์ อาทิตย์สาม')">
                             แพทย์ผู้ดูแลก่อนหน้า : นทพ. บุริศร์ อาทิตย์สาม
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="patient-action">
-                    <button class="btn-confirm"
-                        onclick="event.stopPropagation(); openModal({
+                    <div class="patient-action">
+                        <button class="btn-confirm" onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นางสาวปัญจรัตน์ ทองนา',
                     gender: 'หญิง',
@@ -1200,32 +1365,30 @@ function resetDemoData(){
                 }, this)">
                         ยืนยันการรับผู้ป่วย
                     </button>
-                </div>
-            </div>
-                        <div class="patient-card" data-clinic="ปริทันตวิทยา">
-                <div class="patient-photo">
-    <img src="ต้องตา.jpg" alt="patient">
-</div>
-                <div class="patient-info">
-                    <div>ชื่อ-สกุล: นางสาวอรัญญาพร จีนย้าย</div>
-                    <div>เพศ: หญิง | อายุ: 19 ปี</div>
-                    <div>วันที่เข้าตรวจล่าสุด: 23 ธันวาคม 2568</div>
-                    <div>วันที่ผู้ป่วยว่าง: พุธ บ่าย</div>
-                    <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
                     </div>
-                    <div>
-                        <span class="doctor"
-                        onclick="event.stopPropagation(); openDoctorContact('นทพ. สุภาษิต ปัญญาบุตร')">
+                </div>
+                <div class="patient-card" data-clinic="ปริทันตวิทยา">
+                    <div class="patient-photo">
+                        <img src="ต้องตา.jpg" alt="patient">
+                    </div>
+                    <div class="patient-info">
+                        <div>ชื่อ-สกุล: นางสาวอรัญญาพร จีนย้าย</div>
+                        <div>เพศ: หญิง | อายุ: 19 ปี</div>
+                        <div>วันที่เข้าตรวจล่าสุด: 23 ธันวาคม 2568</div>
+                        <div>วันที่ผู้ป่วยว่าง: พุธ บ่าย</div>
+                        <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
+                        <div>คลินิกที่ทำการรักษาก่อนหน้า:</div>
+                        <div>
+                            <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
+                        </div>
+                        <div>
+                            <span class="doctor" onclick="event.stopPropagation(); openDoctorContact('นทพ. สุภาษิต ปัญญาบุตร')">
                         แพทย์ผู้ดูแลก่อนหน้า :นทพ. สุภาษิต ปัญญาบุตร
                     </span>
+                        </div>
                     </div>
-                </div>
-                <div class="patient-action">
-                    <button class="btn-confirm"
-                        onclick="event.stopPropagation(); openModal({
+                    <div class="patient-action">
+                        <button class="btn-confirm" onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นางสาวอรัญญาพร จีนย้าย',
                     gender: 'หญิง',
@@ -1237,33 +1400,31 @@ function resetDemoData(){
                 }, this)">
                         ยืนยันการรับผู้ป่วย
                     </button>
-                </div>
-            </div>
-                        <div class="patient-card" data-clinic="ปริทันตวิทยา">
-                <div class="patient-photo">
-    <img src="ฟิวส์.jpg" alt="patient">
-</div>
-                <div class="patient-info">
-                    <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
-                    <div>เพศ: ชาย | อายุ: 19 ปี</div>
-                    <div>วันที่เข้าตรวจล่าสุด: 18 ธันวาคม 2568</div>
-                    <div>วันที่รับช่วงงาน: พุธ บ่าย</div>
-                    <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
                     </div>
-                    <div>
-                        <span class="doctor"
-                        onclick="event.stopPropagation(); openDoctorContact('นทพ. สุภาษิต ปัญญาบุตร')">
+                </div>
+                <div class="patient-card" data-clinic="ปริทันตวิทยา">
+                    <div class="patient-photo">
+                        <img src="ฟิวส์.jpg" alt="patient">
+                    </div>
+                    <div class="patient-info">
+                        <div>ชื่อ-สกุล: นายอติวิชญ์ คำมูลใจ</div>
+                        <div>เพศ: ชาย | อายุ: 19 ปี</div>
+                        <div>วันที่เข้าตรวจล่าสุด: 18 ธันวาคม 2568</div>
+                        <div>วันที่รับช่วงงาน: พุธ บ่าย</div>
+                        <div>คลินิกที่ทำการรักษา: ปริทันตวิทยา</div>
+                        <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
+                        <div>
+                            <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
+                        </div>
+                        <div>
+                            <span class="doctor" onclick="event.stopPropagation(); openDoctorContact('นทพ. สุภาษิต ปัญญาบุตร')">
                         แพทย์ผู้ดูแลก่อนหน้า :นทพ. สุภาษิต ปัญญาบุตร
                     </span>
+                        </div>
                     </div>
-                </div>
-                <div class="patient-action">
+                    <div class="patient-action">
 
-                    <button class="btn-confirm"
-                    onclick="event.stopPropagation(); openModal({
+                        <button class="btn-confirm" onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นายอติวิชญ์ คำมูลใจ',
                     gender: 'ชาย',
@@ -1271,35 +1432,34 @@ function resetDemoData(){
                     clinic: 'ปริทันตวิทยา',
                     lastVisit: '18 ธันวาคม 2568',
                     available: ' พฤหัสบดี เช้า',
-                    image: 'ต้องตา.jpg'
+                    image: 'ฟิวส์.jpg'
                 }, this)">
                         ยืนยันการรับผู้ป่วย
                     </button>
-                </div>
-            </div>
-                        <div class="patient-card">
-                <div class="patient-photo">
-    <img src="ทันจิโร่.jpg" alt="patient">
-</div>
-                <div class="patient-info" data-clinic="เอนโดดอนติกส์">
-                    <div>ชื่อ-สกุล: นายคามาโดะ ทันจิโร่</div>
-                    <div>เพศ: ชาย | อายุ: 17 ปี</div>
-                    <div>วันที่เข้าตรวจล่าสุด: 3 ธันวาคม 2568</div>
-                    <div>วันที่ผู้ป่วยว่าง: พฤหัสบดี เช้า</div>
-                    <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
-                    <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมครอบครัว</div>
-                    <div>
-                        <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
                     </div>
-                    <div>
-                        <span class="doctor"onclick="event.stopPropagation(); openDoctorContact('นทพ. ณิชาภัทร ตรัยรัตนเมธี')">
+                </div>
+                <div class="patient-card">
+                    <div class="patient-photo">
+                        <img src="ทันจิโร่.jpg" alt="patient">
+                    </div>
+                    <div class="patient-info" data-clinic="เอนโดดอนติกส์">
+                        <div>ชื่อ-สกุล: นายคามาโดะ ทันจิโร่</div>
+                        <div>เพศ: ชาย | อายุ: 17 ปี</div>
+                        <div>วันที่เข้าตรวจล่าสุด: 3 ธันวาคม 2568</div>
+                        <div>วันที่ผู้ป่วยว่าง: พฤหัสบดี เช้า</div>
+                        <div>คลินิกที่ทำการรักษา: เอนโดดอนติกส์</div>
+                        <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมครอบครัว</div>
+                        <div>
+                            <span class="doctor">แพทย์ผู้ดูแล :ยังไม่มีแพทย์ดูแล</span>
+                        </div>
+                        <div>
+                            <span class="doctor" onclick="event.stopPropagation(); openDoctorContact('นทพ. ณิชาภัทร ตรัยรัตนเมธี')">
                             แพทย์ผู้ดูแลก่อนหน้า : นทพ. ณิชาภัทร ตรัยรัตนเมธี
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="patient-action">
-                    <button class="btn-confirm"
-                        onclick="event.stopPropagation(); openModal({
+                    <div class="patient-action">
+                        <button class="btn-confirm" onclick="event.stopPropagation(); openModal({
                     id: 'p001',
                     name: 'นายคามาโดะ ทันจิโร่',
                     gender: 'ชาย',
@@ -1311,97 +1471,105 @@ function resetDemoData(){
                 }, this)">
                         ยืนยันการรับผู้ป่วย
                     </button>
+                    </div>
                 </div>
             </div>
-                </div>
+        </div>
+    </div>
+    <!-- ===== Confirm Modal ===== -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-box">
+            <h3>ยืนยันการรับผู้ป่วย</h3>
+            <p>คุณแน่ใจใช่ไหมที่จะรับผู้ป่วยคนนี้</p>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
+                <button class="btn-confirm" onclick="confirmAccept()">ยืนยัน</button>
             </div>
         </div>
-        <!-- ===== Confirm Modal ===== -->
-<div class="modal-overlay" id="confirmModal">
-    <div class="modal-box">
-        <h3>ยืนยันการรับผู้ป่วย</h3>
-        <p>คุณแน่ใจใช่ไหมที่จะรับผู้ป่วยคนนี้</p>
-        <div class="modal-actions">
-            <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
-            <button class="btn-confirm" onclick="confirmAccept()">ยืนยัน</button>
+    </div>
+    <!-- ===== Goal Alert Modal ===== -->
+    <div class="modal-overlay" id="goalAlert">
+        <div class="modal-box">
+            <h3>⚠️ เป้าหมายยังไม่ครบ</h3>
+            <p style="text-align:left">
+                คุณยังขาดผู้ป่วยอีก <b style="color:#d32f2f">2 คน</b><br><br>
+                <b>เคสที่ยังขาด:</b>
+                <ul style="margin-top:8px">
+                    <li class="clinic-item" data-clinic="ปริทันตวิทยา">
+                        <span class="clinic-icon">🦷</span>
+                        <span class="clinic-name">ปริทันตวิทยา</span>
+                        <span class="clinic-detail">ขูดหินปูน (1 เคส)</span>
+                    </li>
+
+                    <li class="clinic-item" data-clinic="เอนโดดอนติกส์">
+                        <span class="clinic-icon">😷</span>
+                        <span class="clinic-name">เอนโดดอนติกส์</span>
+                        <span class="clinic-detail">ถอนฟันคุด (1 เคส)</span>
+                    </li>
+                </ul>
+
+            </p>
+            <div class="modal-actions">
+                <button class="btn-confirm" onclick="closeGoalAlert()">รับทราบ</button>
+            </div>
         </div>
     </div>
-</div>
-<!-- ===== Goal Alert Modal ===== -->
-<div class="modal-overlay" id="goalAlert">
-    <div class="modal-box">
-        <h3>⚠️ เป้าหมายยังไม่ครบ</h3>
-        <p style="text-align:left">
-            คุณยังขาดผู้ป่วยอีก <b style="color:#d32f2f">2 คน</b><br><br>
-            <b>เคสที่ยังขาด:</b>
-            <ul style="margin-top:8px">
-                <li class="clinic-item" data-clinic="ปริทันตวิทยา">
-                    <span class="clinic-icon">🦷</span>
-                    <span class="clinic-name">ปริทันตวิทยา</span>
-                    <span class="clinic-detail">ขูดหินปูน (1 เคส)</span>
-                </li>
+    <!-- ===== Game Notification ===== -->
+    <div class="game-notify" id="acceptNotify" style="display:none">
+        <div class="game-avatar">
+            <img id="notifyImg" src="" alt="avatar">
+        </div>
+        <div class="game-content">
+            <div class="game-title">สำเร็จ</div>
+            <div class="game-subtitle">รับผู้ป่วยเรียบร้อยแล้ว</div>
+        </div>
+        <div class="game-kill">OK</div>
+    </div>
+    <!-- ===== Doctor Contact Modal ===== -->
+    <div class="doctor-modal" id="doctorModal">
+        <div class="doctor-box">
+            <h3 id="doctorName">ชื่อแพทย์</h3>
+            <div class="doctor-role">ข้อมูลติดต่อแพทย์</div>
 
-                <li class="clinic-item" data-clinic="เอนโดดอนติกส์">
-                    <span class="clinic-icon">😷</span>
-                    <span class="clinic-name">เอนโดดอนติกส์</span>
-                    <span class="clinic-detail">ถอนฟันคุด (1 เคส)</span>
-                </li>
-            </ul>
+            <div class="social-group">
+                <a id="doctorFB" href="#" target="_blank" class="social-btn fb">Facebook</a>
+                <a id="doctorIG" href="#" target="_blank" class="social-btn ig">Instagram</a>
+                <button id="doctorTel" class="social-btn tw" onclick="showDoctorTel()">Telephone</button>
 
-        </p>
-        <div class="modal-actions">
-            <button class="btn-confirm" onclick="closeGoalAlert()">รับทราบ</button>
+            </div>
+
+            <button class="close-doctor" onclick="closeDoctorModal()">ปิด</button>
         </div>
     </div>
-</div>
-<!-- ===== Game Notification ===== -->
-<div class="game-notify" id="acceptNotify" style="display:none">
-    <div class="game-avatar">
-        <img id="notifyImg" src="" alt="avatar">
-    </div>
-    <div class="game-content">
-        <div class="game-title">สำเร็จ</div>
-        <div class="game-subtitle">รับผู้ป่วยเรียบร้อยแล้ว</div>
-    </div>
-    <div class="game-kill">OK</div>
-</div>
-<!-- ===== Doctor Contact Modal ===== -->
-<div class="doctor-modal" id="doctorModal">
-    <div class="doctor-box">
-        <h3 id="doctorName">ชื่อแพทย์</h3>
-        <div class="doctor-role">ข้อมูลติดต่อแพทย์</div>
-
-        <div class="social-group">
-            <a id="doctorFB" href="#" target="_blank" class="social-btn fb">Facebook</a>
-            <a id="doctorIG" href="#" target="_blank" class="social-btn ig">Instagram</a>
-            <button id="doctorTel" class="social-btn tw" onclick="showDoctorTel()">Telephone</button>
-
-        </div>
-
-        <button class="close-doctor" onclick="closeDoctorModal()">ปิด</button>
-    </div>
-</div>
-<!-- ===== Telephone Popup ===== -->
-<div class="modal-overlay" id="telModal">
-    <div class="modal-box">
-        <h3>เบอร์ติดต่อ</h3>
-        <p id="telNumber">-</p>
-        <div class="modal-actions">
-            <button class="btn-confirm" onclick="closeTelModal()">ปิด</button>
+    <!-- ===== Telephone Popup ===== -->
+    <div class="modal-overlay" id="telModal">
+        <div class="modal-box">
+            <h3>เบอร์ติดต่อ</h3>
+            <p id="telNumber">-</p>
+            <div class="modal-actions">
+                <button class="btn-confirm" onclick="closeTelModal()">ปิด</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- ===== Goal Success Modal ===== -->
-<div class="modal-overlay" id="goalSuccessModal">
-    <div class="modal-box">
-        <h3>🎉 ยินดีด้วย!!!</h3>
-        <p>เป้าหมายของคุณเสร็จสิ้นแล้ว</p>
-        <div class="modal-actions">
-            <button class="btn-confirm" onclick="closeGoalSuccess()">ปิด</button>
+    <!-- ===== Goal Success Modal ===== -->
+    <div class="modal-overlay" id="goalSuccessModal">
+        <div class="modal-box">
+            <h3>🎉 ยินดีด้วย!!!</h3>
+            <p>เป้าหมายของคุณเสร็จสิ้นแล้ว</p>
+            <div class="modal-actions">
+                <button class="btn-confirm" onclick="closeGoalSuccess()">ปิด</button>
+            </div>
         </div>
     </div>
+
+</body>
+
+</html> <button class="btn-confirm" onclick="closeGoalSuccess()">ปิด</button>
+</div>
+</div>
 </div>
 
 </body>
+
 </html>

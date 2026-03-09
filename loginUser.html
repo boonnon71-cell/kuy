@@ -1,349 +1,465 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-<meta charset="UTF-8">
-<title>เข้าสู่ระบบ</title>
-<style>
-*{
-    box-sizing: border-box;
-    font-family: "Segoe UI", Tahoma, sans-serif;
-}
-body{
-    margin: 0;
-    height: 100vh;
-    background:
-        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-        url("หอประชุมพญางำเมือง_638544951942604029.jpg");
-    background-size: cover;
-    background-position: center;
-}
-.header{
-    position: absolute;
-    top: 20px;
-    left: 30px;
-    right: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff;
-}
-.header .title{
-    font-size: 18px;
-    font-weight: 500;
-}
-.header img{
-    height: 70px;
-}
-.container{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.login-box{
-    width: 450px;
-    background: #fff;
-    padding: 45px;
-    border-radius: 16px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
-}
-label{
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-}
-input{
-    width: 100%;
-    padding: 14px;
-    border-radius: 10px;
-    border: none;
-    background: #000000;
-    color: #fff;
-    font-size: 15px;
-    margin-bottom: 22px;
-}
-input::placeholder{
-    color: #aaa;
-}
-.btn-login{
-    width: 100%;
-    padding: 15px;
-    border-radius: 10px;
-    border: none;
-    background: #8a00c2;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-}
-.btn-login:hover{
-    background: #7400a5;
-}
-.divider{
-    margin: 25px 0 10px;
-    text-align: center;
-    font-size: 14px;
-    color: #666;
-    position: relative;
-}
-.divider::before,
-.divider::after{
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 35%;
-    height: 1px;
-    background: #ccc;
-}
-.divider::before{ left: 0; }
-.divider::after{ right: 0; }
-.office365{
-    display: block;
-    margin-top: 10px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 600;
-    color: #8a00c2;
-    text-decoration: none;
-}
-.office365:hover{
-    text-decoration: underline;
-}
-/* ===== Alert Modal ===== */
-.alert-overlay{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    animation: fadeIn .3s ease;
-}
+    <meta charset="UTF-8">
+    <title>เข้าสู่ระบบ</title>
+    <link rel="icon" type="image/png" href="Up.d.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("หอประชุมพญางำเมือง_638544951942604029.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .header .title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .header img {
+            height: 70px;
+        }
+        
+        .container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-box {
+            width: 450px;
+            background: #fff;
+            padding: 45px;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            background: #000000;
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 22px;
+        }
+        
+        input::placeholder {
+            color: #aaa;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            background: #8a00c2;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .btn-login:hover {
+            background: #7400a5;
+        }
+        
+        .divider {
+            margin: 25px 0 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            position: relative;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 35%;
+            height: 1px;
+            background: #ccc;
+        }
+        
+        .divider::before {
+            left: 0;
+        }
+        
+        .divider::after {
+            right: 0;
+        }
+        
+        .office365 {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #8a00c2;
+            text-decoration: none;
+        }
+        
+        .office365:hover {
+            text-decoration: underline;
+        }
+        /* ===== Alert Modal ===== */
+        
+        .alert-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn .3s ease;
+        }
+        
+        .alert-card {
+            background: #fff;
+            width: 360px;
+            padding: 30px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+            animation: popUp .35s ease;
+        }
+        
+        .alert-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .alert-card h3 {
+            margin: 0 0 8px;
+            color: #8a00c2;
+        }
+        
+        .alert-card p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .alert-btn {
+            background: #8a00c2;
+            color: #fff;
+            border: none;
+            padding: 10px 26px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .alert-btn:hover {
+            background: #7400a5;
+        }
+        
+        @keyframes popUp {
+            from {
+                transform: scale(.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .password-wrapper {
+            position: relative;
+        }
+        
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #ffffff;
+            /* สีขาว */
+            opacity: 0.8;
+        }
+        
+        .toggle-password:hover {
+            opacity: 1;
+        }
+        
+        .password-wrapper {
+            position: relative;
+            margin-bottom: 22px;
+            /* ย้าย margin มาไว้ที่ wrapper */
+        }
+        
+        .password-wrapper input {
+            margin-bottom: 0;
+            /* ❌ เอา margin ล่างออก */
+            padding-right: 45px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #ffffff;
+            opacity: 0.85;
+        }
+        
+        .toggle-password:hover {
+            opacity: 1;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+        
+        .forgot-password a {
+            font-size: 13px;
+            color: #8a00c2;
+            text-decoration: none;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        const users = [{
+            email: "68023559@up.ac.th",
+            password: "fiw301022@",
+            type: "old",
+            name: "นายสิทธินนท์ บุญปั๋น",
+            avatar: "นนท์.jpg"
+        }, {
+            email: "68023324@up.ac.th",
+            password: "Eiei8888!",
+            type: "new",
+            name: "นางสาวปัญจรัตน์ ทองนา",
+            avatar: "โมจิ.jpg"
+        }, {
+            email: "68023593@up.ac.th",
+            password: "68023593_68UP",
+            type: "new",
+            name: "นายอติวิชญ์ คำมูลใจ",
+            avatar: "ฟิวส์.jpg"
+        }, {
+            email: "68023616@up.ac.th",
+            password: "Aranyaporn_2049",
+            type: "new",
+            name: "นางสาวอรัญญาพร จีนย้าย",
+            avatar: "ต้องตา.jpg"
+        }, {
+            email: "admin@up.ac.th",
+            password: "admin123",
+            type: "admin",
+            name: "บัญชีกลาง",
+            avatar: "images/ati.jpg"
+        }];
 
-.alert-card{
-    background: #fff;
-    width: 360px;
-    padding: 30px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-    animation: popUp .35s ease;
-}
 
-.alert-icon{
-    font-size: 48px;
-    margin-bottom: 10px;
-}
 
-.alert-card h3{
-    margin: 0 0 8px;
-    color: #8a00c2;
-}
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("loginBtn").addEventListener("click", function() {
 
-.alert-card p{
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 20px;
-}
+                const email = document.getElementById("email").value.trim();
+                const password = document.getElementById("password").value.trim();
 
-.alert-btn{
-    background: #8a00c2;
-    color: #fff;
-    border: none;
-    padding: 10px 26px;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 14px;
-}
+                if (email === "" || password === "") {
+                    showAlert("กรุณากรอกอีเมลและรหัสผ่านให้ครบ");
+                    return;
+                }
 
-.alert-btn:hover{
-    background: #7400a5;
-}
+                const user = users.find(u => u.email === email && u.password === password);
 
-@keyframes popUp{
-    from{transform: scale(.8); opacity: 0;}
-    to{transform: scale(1); opacity: 1;}
-}
-.password-wrapper{
-    position: relative;
-}
+                if (!user) {
+                    showAlert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+                    return;
+                }
 
-.password-wrapper input{
-    padding-right: 45px;
-}
+                // ✅ login สำเร็จ
+                // login สำเร็จ
+                // login สำเร็จ
+                localStorage.setItem("userEmail", user.email);
+                localStorage.setItem("currentUser", user.name);
+                // ✅ ถ้ายังไม่มีรูป ให้ตั้ง default ตามบัญชี
+                if (!localStorage.getItem("profileImage_" + user.email)) {
+                    localStorage.setItem("profileImage_" + user.email, user.avatar);
+                }
 
-.toggle-password{
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 18px;
-    color: #ffffff; /* สีขาว */
-    opacity: 0.8;
-}
+                // 🔥 ถ้าเป็น admin
+                if (user.type === "admin") {
+                    localStorage.removeItem("profileCompleted");
+                    window.location.href = "Ser/User/profile.html";
+                    return;
+                }
 
-.toggle-password:hover{
-    opacity: 1;
-}
+                // 🔥 ถ้าเป็น old (ไม่ต้องกรอกข้อมูล)
+                if (user.type === "old") {
+                    localStorage.setItem("profileCompleted", "1");
+                    window.location.href = "Ser/User/index.html";
+                    return;
+                }
 
-.password-wrapper{
-    position: relative;
-    margin-bottom: 22px; /* ย้าย margin มาไว้ที่ wrapper */
-}
+                // 🔥 ถ้าเป็น new (ต้องกรอกข้อมูล)
+                if (user.type === "new") {
+                    localStorage.removeItem("profileCompleted");
+                    window.location.href = "Ser/User/profile.html";
+                }
 
-.password-wrapper input{
-    margin-bottom: 0;     /* ❌ เอา margin ล่างออก */
-    padding-right: 45px;
-}
+            });
+        });
 
-.toggle-password{
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 18px;
-    color: #ffffff;
-    opacity: 0.85;
-}
+        function showAlert(message) {
+            document.getElementById("alertMessage").innerText = message;
+            document.getElementById("alertBox").style.display = "flex";
+        }
 
-.toggle-password:hover{
-    opacity: 1;
-}
+        function closeAlert() {
+            document.getElementById("alertBox").style.display = "none";
+        }
 
-</style>
-<script>
-    const users = [
-    { email: "68023559@up.ac.th", password: "fiw301022@", type: "old", name: "นายสิทธินนท์ บุญปั๋น" },
-    { email: "68023324@up.ac.th", password: "Eiei8888!", type: "new", name: "ผู้ใช้ใหม่" }
-];
+        function togglePassword() {
+            const passInput = document.getElementById("password");
+            const icon = document.querySelector(".toggle-password");
 
-document.addEventListener("DOMContentLoaded", function () {
-document.getElementById("loginBtn").addEventListener("click", function () {
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                icon.textContent = "👁‍🗨"; // เปิดดูรหัส
+            } else {
+                passInput.type = "password";
+                icon.textContent = "👁"; // ซ่อนรหัส
+            }
+        }
 
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+        function submitProfile() {
+            const name = document.getElementById("fullname").value.trim();
+            const citizen = document.getElementById("citizen").value.trim();
+            const day = document.querySelector("input[name='day']:checked");
+            const time = document.querySelector("input[name='time']:checked");
 
-    if(email === "" || password === ""){
-        showAlert("กรุณากรอกอีเมลและรหัสผ่านให้ครบ");
-        return;
-    }
+            if ((!name && !citizen) || !day || !time) {
+                alert("กรุณากรอกข้อมูลให้ครบ");
+                return;
+            }
+            // ✅ ผ่านการเข้าสู่ระบบ
+            const loginName = "นายสิทธินนท์ บุญปั๋น";
+            const oldPatients = ["นายสิทธินนท์ บุญปั๋น"];
 
-    const user = users.find(u => u.email === email && u.password === password);
+            localStorage.setItem("currentUser", loginName);
 
-    if(!user){
-        showAlert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
-        return;
-    }
+            if (oldPatients.includes(loginName)) {
+                localStorage.setItem("profileCompleted", "1");
+                window.location.href = "index.html";
+            } else {
+                localStorage.removeItem("profileCompleted");
+                window.location.href = "profile.html";
+            }
 
-    // ✅ login สำเร็จ
-    localStorage.setItem("currentUser", user.name);
-    localStorage.setItem("userEmail", user.email);
+            const profile = {
+                name: name || localStorage.getItem("currentUser"),
+                citizen,
+                availableDay: day.value,
+                availableTime: time.value
+            };
 
-    if(user.type === "old"){
-        localStorage.setItem("profileCompleted", "1");
-        window.location.href = "User/index.html";
-    }else{
-        localStorage.removeItem("profileCompleted");
-        window.location.href = "User/profile.html";
-    }
-});
-});
+            localStorage.setItem("patientProfile", JSON.stringify(profile));
+            localStorage.setItem("profileCompleted", "1");
 
-function showAlert(message){
-    document.getElementById("alertMessage").innerText = message;
-    document.getElementById("alertBox").style.display = "flex";
-}
+            window.location.href = "index.html";
+        }
 
-function closeAlert(){
-    document.getElementById("alertBox").style.display = "none";
-}
+        function forgotPassword() {
+            const email = document.getElementById("email").value.trim();
 
-function togglePassword(){
-    const passInput = document.getElementById("password");
-    const icon = document.querySelector(".toggle-password");
+            if (email === "") {
+                showAlert("กรุณากรอกอีเมลก่อนกดลืมรหัสผ่าน");
+                return;
+            }
 
-    if(passInput.type === "password"){
-        passInput.type = "text";
-        icon.textContent = "👁‍🗨";     // เปิดดูรหัส
-    }else{
-        passInput.type = "password";
-        icon.textContent = "👁";   // ซ่อนรหัส
-    }
-}
-function submitProfile(){
-    const name = document.getElementById("fullname").value.trim();
-    const citizen = document.getElementById("citizen").value.trim();
-    const day = document.querySelector("input[name='day']:checked");
-    const time = document.querySelector("input[name='time']:checked");
+            const user = users.find(u => u.email === email);
 
-    if((!name && !citizen) || !day || !time){
-        alert("กรุณากรอกข้อมูลให้ครบ");
-        return;
-    }
-    // ✅ ผ่านการเข้าสู่ระบบ
-const loginName = "นายสิทธินนท์ บุญปั๋น";
-const oldPatients = ["นายสิทธินนท์ บุญปั๋น"];
-
-localStorage.setItem("currentUser", loginName);
-
-if(oldPatients.includes(loginName)){
-    localStorage.setItem("profileCompleted", "1");
-    window.location.href = "index.html";
-}else{
-    localStorage.removeItem("profileCompleted");
-    window.location.href = "profile.html";
-}
-
-    const profile = {
-        name: name || localStorage.getItem("currentUser"),
-        citizen,
-        availableDay: day.value,
-        availableTime: time.value
-    };
-
-    localStorage.setItem("patientProfile", JSON.stringify(profile));
-    localStorage.setItem("profileCompleted", "1");
-
-    window.location.href = "index.html";
-}
-
-</script>
+            if (!user) {
+                showAlert("ไม่พบอีเมลนี้ในระบบ");
+                return;
+            }
+        }
+    </script>
 
 
 </head>
+
 <body>
-<div class="header">
-    <div class="title">โรงพยาบาลทันตกรรมมหาวิทยาลัยพะเยา</div>
-    <img src="Up.d.png" alt="UP Logo">
-</div>
-<div class="container">
-    <div class="login-box">
-        <label>อีเมล</label>
-        <input type="email" id="email" placeholder="อีเมล">
+    <div class="header">
+        <div class="title">โรงพยาบาลทันตกรรมมหาวิทยาลัยพะเยา</div>
+        <img src="Up.d.png" alt="UP Logo">
+    </div>
+    <div class="container">
+        <div class="login-box">
+            <label>อีเมล หรือชื่อผู้ใช้</label>
+            <input type="email" id="email" placeholder="อีเมล หรือชื่อผู้ใช้">
 
-        <label>รหัสผ่าน</label>
-        <div class="password-wrapper">
-            <input type="password" id="password" placeholder="รหัสผ่าน">
-            <span class="toggle-password" onclick="togglePassword()">👁‍🗨</span>
+            <label>รหัสผ่าน</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="รหัสผ่าน">
+                <span class="toggle-password" onclick="togglePassword()">👁‍🗨</span>
+            </div>
+            <div class="forgot-password">
+                <a href="../Ser/User/password2.html" onclick="forgotPassword()">ลืมรหัสผ่าน?</a>
+            </div>
+
+            <button class="btn-login" id="loginBtn">เข้าสู่ระบบ</button>
+            <div class="divider">ลงชื่อเข้าใช้ด้วย</div>
+            <a href="Ser/User/gmail.html" class="office365">OFFICE 365</a>
         </div>
-
-        <button class="btn-login" id="loginBtn">เข้าสู่ระบบ</button>
-        <div class="divider">ลงชื่อเข้าใช้ด้วย</div>
-        <a href="User/gmail.html" class="office365">OFFICE 365</a>
     </div>
-</div>
 
-<!-- Alert Overlay -->
-<div class="alert-overlay" id="alertBox">
-    <div class="alert-card">
-        <div class="alert-icon">⚠️</div>
-        <h3>เข้าสู่ระบบไม่สำเร็จ</h3>
-        <p id="alertMessage">กรุณากรอกอีเมลและรหัสผ่านให้ครบ</p>
-        <button class="alert-btn" onclick="closeAlert()">ตกลง</button>
+    <!-- Alert Overlay -->
+    <div class="alert-overlay" id="alertBox">
+        <div class="alert-card">
+            <div class="alert-icon">⚠️</div>
+            <h3>เข้าสู่ระบบไม่สำเร็จ</h3>
+            <p id="alertMessage">กรุณากรอกอีเมลและรหัสผ่านให้ครบ</p>
+            <button class="alert-btn" onclick="closeAlert()">ตกลง</button>
+        </div>
     </div>
-</div>
 
 </body>
+
 </html>

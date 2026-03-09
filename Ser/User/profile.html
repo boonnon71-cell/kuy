@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>กรอกข้อมูลผู้ป่วย</title>
+<link rel="icon" type="image/png" href="Up.d.png">
 <style>
 body{
     margin:0;
@@ -115,6 +116,7 @@ button:hover{background:#7400a5;}
         opacity: 1;
     }
 }
+
 </style>
 </head>
 <body>
@@ -162,6 +164,9 @@ function saveProfile(){
     }
 
     // ✅ เช็กชื่อ-นามสกุล
+    const userEmail = localStorage.getItem("userEmail");
+
+if(userEmail !== "admin@up.ac.th"){
     const nameParts = name.split(/\s+/);
     if(nameParts.length < 2){
         showFormNotify(
@@ -171,23 +176,32 @@ function saveProfile(){
         );
         return;
     }
+}
+
 
     // ✅ บันทึกข้อมูล
     const profile = {
-        name: name,
-        availableDay: day,
-        availableTime: time
-    };
+    name: name,
+    availableDay: day,
+    availableTime: time
+};
 
-    localStorage.setItem("patientProfile", JSON.stringify(profile));
-    localStorage.setItem("profileCompleted", "1");
-    localStorage.setItem("searchPatientName", name);
+// 🔥 บันทึกแยกตามชื่อ
+localStorage.setItem(
+    "patientProfile_" + name,
+    JSON.stringify(profile)
+);
+
+localStorage.setItem("profileCompleted", "1");
+localStorage.setItem("searchPatientName", name);
+localStorage.setItem("currentUser", name); // เผื่อ admin เปลี่ยนชื่อ
+
 
     // ✅ แจ้งเตือนสำเร็จ
     showFormNotify(
         "สำเร็จ",
         "บันทึกข้อมูลผู้ป่วยเรียบร้อย",
-        "success.png"
+        "Up.d.png"
     );
 
     // ✅ หน่วงแล้วค่อยเปลี่ยนหน้า
@@ -212,11 +226,25 @@ function showFormNotify(title, text, img){
         notify.style.display = "none";
     }, 3000);
 }
+document.addEventListener("DOMContentLoaded", function(){
+
+    const currentUser = localStorage.getItem("currentUser");
+    const userEmail = localStorage.getItem("userEmail");
+    const nameInput = document.getElementById("name");
+
+    // 🔥 ถ้าไม่ใช่ admin → ล็อกชื่อ
+    if(userEmail !== "admin@up.ac.th"){
+        nameInput.value = currentUser;
+        nameInput.readOnly = true;
+        nameInput.style.background = "#eee";
+    }
+
+});
 
 </script>
 <div class="game-notify" id="formNotify" style="display:none">
     <div class="game-avatar">
-        <img id="formNotifyImg" src="" alt="icon">
+        <img id="formNotifyImg" src="Up.d.png" alt="">
     </div>
     <div class="game-content">
         <div class="game-title" id="formNotifyTitle"></div>

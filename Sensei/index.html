@@ -1,1358 +1,1488 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-<meta charset="UTF-8">
-<title>หน้าหลัก</title>
-<style>
-*{
-    box-sizing: border-box;
-    font-family: "Segoe UI", Tahoma, sans-serif;
-}
-body{
-    margin: 0;
-    background: #1e1e1e;
-}
-/* Layout */
-.wrapper{
-    display: flex;
-    min-height: 100vh;
-}
-/* Sidebar */
-.sidebar{
-    width: 240px;
-    background: #ffffff;
-    padding: 20px 15px;
-    border-right: 1px solid #ddd;
-}
-.sidebar .logo{
-    text-align: center;
-    margin-bottom: 30px;
-}
-.sidebar .logo img{
-    width: 80px;
-}
-.sidebar a{
-    display: block;
-    padding: 10px 12px;
-    color: #222;
-    text-decoration: none;
-    border-radius: 6px;
-    margin-bottom: 6px;
-}
-.sidebar a.active{
-    color: #1976ff;
-    font-weight: 600;
-}
-.sidebar a:hover{
-    background: #f0f0f0;
-}
-/* Content */
-.content{
-    flex: 1;
-    background: #f3f3f3;
-}
-/* Topbar */
-.topbar{
-    height: 60px;
-    background: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    border-bottom: 1px solid #ddd;
-}
-.breadcrumb{
-    font-size: 14px;
-    color: #444;
-}
-.user-menu{
-    display: flex;
-    align-items: center;
-}
-.user-group{
-    display: flex;
-    align-items: center;
-    gap: 10px;   /* ระยะห่างเล็ก ๆ แบบในรูป */
-}
-/* กระดิ่ง */
-.notification{
-    position: relative;
-    font-size: 22px;
-    cursor: pointer;
-    color: #000;
-}
-
-.notification:hover{
-    opacity: 0.7;
-}
-
-/* badge */
-.badge{
-    position: absolute;
-    top: -4px;
-    right: -6px;
-    background: red;
-    color: #fff;
-    font-size: 11px;
-    font-weight: bold;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-/* Main */
-.main{
-    padding: 25px;
-}
-/* Patient Card */
-.patient-card{
-    background: #ffffff;
-    border: 1px solid #999;
-    border-radius: 16px;
-    padding: 20px;
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 18px;
-}
-.patient-photo{
-    width: 90px;
-    height: 90px;
-    border: 1px solid #999;
-    border-radius: 6px;
-    margin-right: 20px;
-}
-.patient-info{
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    row-gap: 8px;
-    column-gap: 30px;
-    font-size: 14px;
-    color: #000;
-}
-/* สีฟ้าสำหรับแพทย์ */
-.doctor{
-    color: #1976ff;
-    cursor: pointer;
-}
-/* Button */
-.patient-action{
-    margin-left: 20px;
-}
-.btn-confirm{
-    background: #8a00c2;
-    border: none;
-    color: #ffffff;
-    padding: 8px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-}
-.btn-confirm:hover{
-    background: #7400a5;
-}
-/* ===== เมนูผู้ป่วย ===== */
-.patient-menu{
-    position: relative;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-/* กล่อง dropdown */
-.patient-dropdown{
-    position: absolute;
-    top: 48px;              /* 🔹 ดันลงมาด้านล่าง */
-    left: 0;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 14px;
-    min-width: 320px;
-    padding: 10px 0;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
-
-    display: none;
-    z-index: 999;
-}
-.topbar{
-    position: relative;
-}
-
-/* รายการด้านใน */
-.dropdown-item{
-    padding: 12px 20px;
-    font-size: 14px;
-    color: #222;
-}
-
-.dropdown-item:hover{
-    background: #f3f6ff;
-    color: #1976ff;
-}
-/* ===== คลินิก (เหมือนผู้ป่วย) ===== */
-.clinic-menu{
-    position: relative;
-    padding: 10px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    color: #222;
-}
-
-.clinic-menu:hover{
-    background: #f0f0f0;
-    color: #1976ff;
-}
-
-/* dropdown คลินิก */
-.clinic-dropdown{
-    position: absolute;
-    top: 44px;          /* ดันลงมาตามรูป */
-    left: 0;
-    width: 220px;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
-
-    display: none;
-    z-index: 999;
-}
-
-/* ใช้ dropdown-item เดิมได้เลย */
-.clinic-dropdown .dropdown-item{
-    padding: 10px 14px;
-    font-size: 14px;
-}
-
-.clinic-dropdown .dropdown-item:hover{
-    background: #f3f6ff;
-    color: #1976ff;
-}
-/* ===== Account ===== */
-.account-box{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    background: #8e24aa; /* สีม่วง */
-    color: #fff;
-
-    padding: 8px 14px;
-    border-radius: 999px; /* มนทั้งแถบ */
-    cursor: pointer;
-
-    width: fit-content;
-}
-
-.account-box:hover{
-    background: #7b1fa2;
-}
-
-/* วงกลมรูป */
-.avatar{
-    width: 36px;
-    height: 36px;
-    background: #fff;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.avatar img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* ข้อความ */
-.account-text{
-    font-size: 14px;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-/* ลูกศร */
-.arrow{
-    font-size: 14px;
-}
-.patient-card{
-    cursor: pointer;
-}
-
-.patient-card:hover{
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    transform: translateY(-2px);
-    transition: 0.2s;
-}
-.patient-photo img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 6px;
-}
-/* ===== Modal ===== */
-.modal-overlay{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 30000;
-}
-
-.modal-box{
-    background: #fff;
-    padding: 24px 30px;
-    border-radius: 16px;
-    width: 360px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-}
-
-.modal-box h3{
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-.modal-box p{
-    font-size: 14px;
-    color: #444;
-    margin-bottom: 20px;
-}
-
-.modal-actions{
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-}
-
-.btn-cancel{
-    background: #ddd;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-.btn-cancel:hover{
-    background: #ccc;
-}
-.goal-link{
-    color: #000000;
-    text-decoration: none;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.goal-link:hover{
-    text-decoration: underline;
-}
-/* ===== Welcome Banner ===== */
-.welcome-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(5,8,20,.85);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:10000;
-    animation: fadeIn .6s ease forwards;
-}
-.welcome-banner{
-    position:relative;
-    width:80%;
-    max-width:720px;
-    padding:30px 40px;
-    background:linear-gradient(135deg,#1a1f3c,#0b0f1a);
-    border-radius:14px;
-    border:1px solid rgba(139,92,246,.6);
-    box-shadow:0 0 25px rgba(139,92,246,.6);
-    animation: slideIn .8s ease forwards, glowPulse 2.5s infinite;
-}
-.close-btn{
-    position:absolute;
-    top:14px;
-    right:18px;
-    font-size:22px;
-    color:#fff;
-    cursor:pointer;
-    opacity:.7;
-}
-.close-btn:hover{opacity:1}
-.banner-content{
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
-.banner-icon{
-    font-size:48px;
-    filter:drop-shadow(0 0 10px #8b5cf6);
-}
-.banner-text h1{
-    margin:0;
-    font-size:36px;
-    color:#fff;
-    letter-spacing:2px;
-}
-.banner-text h2{
-    margin:6px 0 0;
-    font-size:18px;
-    font-weight:300;
-    color:#c7d2fe;
-}
-.banner-text p{
-    margin-top:6px;
-    font-size:14px;
-    color:#94a3b8;
-}
-@keyframes slideIn{
-    from{transform:translateX(-60px);opacity:0}
-    to{transform:translateX(0);opacity:1}
-}
-@keyframes fadeIn{
-    from{opacity:0}
-    to{opacity:1}
-}
-@keyframes glowPulse{
-    0%,100%{box-shadow:0 0 18px rgba(139,92,246,.5)}
-    50%{box-shadow:0 0 35px rgba(56,189,248,.9)}
-}
-/* ===== Account Dropdown ===== */
-.account-wrapper{
-    position: relative;
-}
-
-.account-dropdown{
-    position: absolute;
-    top: 58px;
-    right: 0;
-    width: 260px;
-    background: #e0e0e0;
-    border-radius: 6px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.25);
-    display: none;
-    z-index: 1000;
-}
-
-/* Header */
-.account-header{
-    display: flex;
-    gap: 12px;
-    padding: 14px;
-    background: #dcdcdc;
-}
-
-.account-avatar{
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: #000;
-}
-
-.account-avatar img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.account-name{
-    font-weight: 600;
-}
-
-.account-role{
-    font-size: 13px;
-    color: #8a00c2;
-}
-
-/* Section */
-.account-section{
-    padding: 10px 14px;
-}
-
-.section-title{
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
-.account-item{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    cursor: pointer;
-}
-
-.account-item:hover{
-    background: #f0f0f0;
-}
-
-/* วงกลมไอคอน */
-.circle-icon{
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #000;
-}
-
-/* Logout */
-.account-logout{
-    text-align: center;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid red;
-    color: red;
-    cursor: pointer;
-}
-
-.account-logout:hover{
-    background: rgba(255,0,0,0.08);
-}
-.no-doctor-title{
-    font-size: 16px;
-    font-weight: 600;
-    color: #8a00c2;   /* สีม่วงตามปุ่ม */
-    margin-bottom: 14px;
-}
-.account-logout{
-    display: block;              /* ให้เหมือน div */
-    text-decoration: none;       /* ตัดเส้นใต้ */
-    color: red;                  /* สีเดิม */
-    text-align: center;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid red;
-    border-radius: 4px;          /* ถ้าเดิมไม่มี ลบได้ */
-    cursor: pointer;
-}
-
-.account-logout:hover{
-    background: rgba(255,0,0,0.08);
-}
-.account-item,
-.account-logout{
-    text-decoration: none;
-    color: inherit;
-}
-.breadcrumb a.active-page{
-    color: #444;
-    pointer-events: none;
-    cursor: default;
-}
-/* ===== Game Notify ===== */
-.game-notify{
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 420px;
-    height: 90px;
-    background: linear-gradient(135deg,#ff3b7d,#7f2bff);
-    border-radius: 16px;
-    box-shadow: 0 15px 40px rgba(0,0,0,.5);
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    color: white;
-    z-index: 20000;
-    animation: slideDown .6s ease-out forwards;
-}
-
-.game-avatar{
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid rgba(255,255,255,.7);
-    margin-right: 14px;
-    flex-shrink: 0;
-}
-
-.game-avatar img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.game-content{
-    flex: 1;
-}
-
-.game-title{
-    font-size: 18px;
-    font-weight: 700;
-}
-
-.game-subtitle{
-    font-size: 14px;
-    opacity: .9;
-}
-
-.game-kill{
-    font-size: 13px;
-    font-weight: 700;
-    opacity: .85;
-}
-
-/* animation */
-@keyframes slideDown{
-    from{
-        transform: translate(-50%, -40px);
-        opacity: 0;
-    }
-    to{
-        transform: translate(-50%, 0);
-        opacity: 1;
-    }
-}
-/* ===== Doctor Contact Modal ===== */
-.doctor-modal{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 20000;
-}
-
-.doctor-box{
-    background: #ffffff;
-    width: 380px;
-    padding: 24px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
-    animation: fadeIn .3s ease;
-}
-
-.doctor-box h3{
-    margin-top: 0;
-    margin-bottom: 6px;
-}
-
-.doctor-role{
-    font-size: 14px;
-    color: #8a00c2;
-    margin-bottom: 20px;
-}
-
-/* social buttons */
-.social-group{
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-}
-
-.social-btn{
-    padding: 8px 16px;
-    border-radius: 20px;
-    text-decoration: none;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    transition: .2s;
-}
-
-.fb{ background:#1877f2; }
-.ig{ background:#e1306c; }
-.tw{ background:#000; }
-
-.social-btn:hover{
-    opacity:.8;
-}
-
-.close-doctor{
-    margin-top: 20px;
-    background:#ddd;
-    border:none;
-    padding:6px 14px;
-    border-radius:20px;
-    cursor:pointer;
-}
-/* ===== Schedule ===== */
-.schedule-wrapper{
-    background:#fff;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,.1);
-}
-
-.schedule-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:13px;
-    text-align:center;
-}
-
-.schedule-table th,
-.schedule-table td{
-    border:1px solid #999;
-    padding:6px;
-}
-
-.schedule-table th{
-    background:#f3f3f3;
-    font-weight:600;
-}
-
-.slot{
-    background:linear-gradient(135deg,#a000c8,#7f2bff);
-    color:#fff;
-    padding:14px 6px;
-    border-radius:18px;
-    font-weight:600;
-}
-/* ===== Today Highlight ===== */
-.today-row td:first-child{
-    background: #fff3cd;
-    font-weight: 700;
-}
-
-.current-time{
-    background: #e3f2fd !important;
-}
-
-.current-slot{
-    outline: 3px solid #ff9800;
-    box-shadow: 0 0 15px rgba(255,152,0,.7);
-    border-radius: 18px;
-}
-.schedule-detail{
-    margin-top: 25px;
-    font-size: 15px;
-    color: #000;
-}
-
-.schedule-detail p{
-    margin: 6px 0;
-}
-
-.schedule-detail ol{
-    margin-top: 10px;
-    padding-left: 20px;
-}
-.account-name-en{
-    font-size: 13px;
-    color: #555;
-    margin-top: 2px;
-}
-
-</style>
-<script>
-    function loadDoctorProfile(){
-
-    const doctorName = localStorage.getItem("doctorName");
-    const doctorNameEN = localStorage.getItem("doctorNameEN");
-    const accountNameEN = document.getElementById("accountDoctorNameEN");
-    const doctorImage = localStorage.getItem("doctorImage");
-// ===== โหลดรูปโปรไฟล์ =====
-const topAvatar = document.getElementById("topAvatar");
-const dropdownAvatar = document.getElementById("dropdownAvatar");
-
-if(doctorImage){
-    topAvatar.src = doctorImage;
-    dropdownAvatar.src = doctorImage;
-}else{
-    topAvatar.src = "Up.d.png";       // รูป default
-    dropdownAvatar.src = "Up.d.png";
-}
-
-if(accountNameEN && doctorNameEN){
-    accountNameEN.innerText = doctorNameEN;
-}
-
-    const doctorEmail = localStorage.getItem("doctorEmail");
-
-    if(!doctorName){
-        // ถ้าไม่ได้ login ให้เด้งกลับ
-        window.location.href = "../index.html";
-        return;
-    }
-
-    // ===== Welcome Banner =====
-    const welcomeText = document.getElementById("welcomeDoctorName");
-    if(welcomeText){
-        welcomeText.innerText = doctorName;
-    }
-
-    // ===== Account Dropdown =====
-    const accountName = document.getElementById("accountDoctorName");
-    if(accountName){
-        accountName.innerText = doctorName;
-    }
-
-    // ===== ตัวอย่างกำหนด Role อัตโนมัติ =====
-    const roleText = document.getElementById("accountRole");
-
-    if(doctorEmail && doctorEmail.startsWith("6802")){
-        roleText.innerText = "นักศึกษาทันตแพทย์ ปี 4";
-    }else{
-        roleText.innerText = "อาจารย์";
-    }
-}
-window.addEventListener("load", loadDoctorProfile);
-
-function togglePatientMenu(){
-    const menu = document.getElementById("patientDropdown");
-    if(menu.style.display === "block"){
-        menu.style.display = "none";
-    }else{
-        menu.style.display = "block";
-    }
-}
-
-/* คลิกที่อื่นแล้วปิด */
-document.addEventListener("click", function(e){
-    const menu = document.getElementById("patientDropdown");
-    const button = document.querySelector(".patient-menu");
-
-    if(!button.contains(e.target)){
-        menu.style.display = "none";
-    }
-});
-//คลินิก
-function toggleClinicMenu(){
-    const menu = document.getElementById("clinicDropdown");
-    menu.style.display = (menu.style.display === "block") ? "none" : "block";
-}
-
-/* คลิกที่อื่นแล้วปิด */
-document.addEventListener("click", function(e){
-    const clinicMenu = document.querySelector(".clinic-menu");
-    const clinicDropdown = document.getElementById("clinicDropdown");
-
-    if(clinicMenu && !clinicMenu.contains(e.target)){
-        clinicDropdown.style.display = "none";
-    }
-});
-
-let selectedPatient = null;
-let selectedCard = null;
-
-function openModal(patient, btn){
-    selectedPatient = patient;
-    selectedCard = btn.closest('.patient-card');
-    document.getElementById("confirmModal").style.display = "flex";
-}
-
-function closeModal(){
-    document.getElementById("confirmModal").style.display = "none";
-}
-
-function confirmAccept(){
-    let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
-
-    myPatients.unshift(selectedPatient);
-    localStorage.setItem("myPatients", JSON.stringify(myPatients));
-
-    closeModal();
-    removePatientsByClinic(selectedPatient.clinic);
-
-    showAcceptNotify(selectedPatient);
-
-    setTimeout(()=>{
-        window.location.href = "patientsdocter.html";
-    },1200);
-}
-
-function showAcceptNotify(patient){
-    const notify = document.getElementById("acceptNotify");
-    const img = document.getElementById("notifyImg");
-    const subtitle = notify.querySelector(".game-subtitle");
-
-    img.src = patient.image || "Up.d copy.png";
-    subtitle.innerText = "รับผู้ป่วยเรียบร้อยแล้ว";
-
-    notify.style.display = "flex";
-
-    setTimeout(()=>{
-        notify.style.display = "none";
-    },3000);
-}
-
-
-
-function closeWelcome(){
-    const el = document.getElementById('welcome');
-    el.style.animation = 'fadeIn .5s reverse forwards';
-    setTimeout(()=>{
-        el.remove();
-        //localStorage.setItem("welcomeShown","1");
-    },500);
-}
-
-/* แสดงเฉพาะตอนเข้าใช้งานครั้งแรก */
-window.addEventListener("load",()=>{
-    if(localStorage.getItem("welcomeShown")){
-        const el = document.getElementById("welcome");
-        if(el) el.remove();
-    }
-});
-function toggleAccountMenu(){
-    const menu = document.getElementById("accountDropdown");
-    menu.style.display = (menu.style.display === "block") ? "none" : "block";
-}
-
-/* คลิกที่อื่นแล้วปิด */
-document.addEventListener("click", function(e){
-    const wrapper = document.querySelector(".account-wrapper");
-    const menu = document.getElementById("accountDropdown");
-
-    if(wrapper && !wrapper.contains(e.target)){
-        menu.style.display = "none";
-    }
-});
-function removePatientsByClinic(clinicName){
-    if(!clinicName) return;
-
-    const targetClinic = clinicName.trim();
-    const cards = document.querySelectorAll(".patient-card");
-
-    cards.forEach(card => {
-        const text = card.innerText;
-        if(text.includes(targetClinic)){
-            card.remove();
+    <meta charset="UTF-8">
+    <title>หน้าหลัก</title>
+    <link rel="icon" type="image/png" href="Up.d.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, sans-serif;
         }
-    });
-}
-
-function openChat(name, photo, clinic){
-    localStorage.setItem("chat_name", name);
-    localStorage.setItem("chat_photo", photo);
-
-    // ⭐ สำคัญมาก
-    localStorage.setItem("chat_from", "home");
-
-    // กันค่าคลินิกเก่าค้าง
-    localStorage.removeItem("fromClinic");
-
-    window.location.href = "Chat/Chat2.html";
-}
-
-
-
-// ===== Global Telephone =====
-let currentDoctorTel = "";
-
-// ===== Doctor Database =====
-const doctorDatabase = {
-    "นทพ. ณิชาภัทร ตรัยรัตนเมธี": {
-        fb: "https://facebook.com/",
-        ig: "https://www.instagram.com/nichapa6t?igsh=bHI3YXNzMzkya3h0",
-        tel: "086-935-3769"
-    },
-    "นทพ. บุริศร์ อาทิตย์สาม": {
-        fb: "https://www.facebook.com/share/1FPYPV76Qh/",
-        ig: "https://www.instagram.com/plug.buris?igsh=am5wZnIxNmhuenlt",
-        tel: "088-226-7767"
-    },
-    "นทพ. สุภาษิต ปัญญาบุตร": {
-        fb: "https://facebook.com/",
-        ig: "https://instagram.com/",
-        tel: "089-999-9999"
-    }
-};
-
-function openDoctorContact(name){
-    const modal = document.getElementById("doctorModal");
-    const doctorName = document.getElementById("doctorName");
-
-    doctorName.innerText = name;
-
-    const doctor = doctorDatabase[name];
-
-    if(doctor){
-        document.getElementById("doctorFB").href = doctor.fb;
-        document.getElementById("doctorIG").href = doctor.ig;
-        currentDoctorTel = doctor.tel;
-    }
-
-    modal.style.display = "flex";
-}
-
-function closeDoctorModal(){
-    document.getElementById("doctorModal").style.display = "none";
-}
-
-function showDoctorTel(){
-    document.getElementById("telNumber").innerText = currentDoctorTel;
-    document.getElementById("telModal").style.display = "flex";
-}
-
-function closeTelModal(){
-    document.getElementById("telModal").style.display = "none";
-}
-function loadNotificationsFromDoctorPage(){
-
-    let list = JSON.parse(localStorage.getItem("upcomingNotifications")) || [];
-
-    if(list.length === 0) return;
-
-    // อัปเดต badge
-    const badge = document.getElementById("notifyBadge");
-    badge.innerText = list.length;
-    badge.style.display = "flex";
-
-    // แสดง Game Notify
-    const notify = document.getElementById("acceptNotify");
-    const subtitle = notify.querySelector(".game-subtitle");
-
-    let message = "ใกล้ถึงวันนัด:\n";
-
-    list.forEach(p=>{
-        message += `${p.name} อีก ${p.daysLeft} วัน\n`;
-    });
-
-    subtitle.innerText = message;
-
-    notify.style.display = "flex";
-
-    setTimeout(()=>{
-        notify.style.display = "none";
-    },4000);
-}
-window.addEventListener("load", function(){
-    loadNotificationsFromDoctorPage();
-});
-
-function highlightCurrentDateTime(){
-
-    const now = new Date();
-
-    const todayIndex = now.getDay(); // 0=อาทิตย์
-    const rowIndex = (todayIndex === 0) ? -1 : todayIndex - 1;
-
-    const rows = document.querySelectorAll(".schedule-table tbody tr");
-
-    if(!rows[rowIndex]) return;
-
-    const row = rows[rowIndex];
-    row.classList.add("today-row");
-
-    const hour = now.getHours();
-
-    if(hour < 8 || hour >= 17) return;
-
-    const targetHourIndex = hour - 8; 
-    // 08-09 = 0
-    // 09-10 = 1
-    // ...
-
-    let currentIndex = -1; // เริ่มหลัง column วัน
-
-    const cells = row.querySelectorAll("td");
-
-    for(let cell of cells){
-
-        // ข้าม cell แรก (ชื่อวัน)
-        if(cell === cells[0]) continue;
-
-        const span = parseInt(cell.getAttribute("colspan")) || 1;
-
-        for(let i = 0; i < span; i++){
-            currentIndex++;
-
-            if(currentIndex === targetHourIndex){
-
-                cell.classList.add("current-time");
-
-                const slot = cell.querySelector(".slot");
-                if(slot){
-                    slot.classList.add("current-slot");
-                }
-
-                return;
+        
+        body {
+            margin: 0;
+            background: #1e1e1e;
+        }
+        /* Layout */
+        
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        /* Sidebar */
+        
+        .sidebar {
+            width: 240px;
+            background: #ffffff;
+            padding: 20px 15px;
+            border-right: 1px solid #ddd;
+        }
+        
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar .logo img {
+            width: 80px;
+        }
+        
+        .sidebar a {
+            display: block;
+            padding: 10px 12px;
+            color: #222;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .sidebar a.active {
+            color: #1976ff;
+            font-weight: 600;
+        }
+        
+        .sidebar a:hover {
+            background: #f0f0f0;
+        }
+        /* Content */
+        
+        .content {
+            flex: 1;
+            background: #f3f3f3;
+        }
+        /* Topbar */
+        
+        .topbar {
+            height: 60px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .breadcrumb {
+            font-size: 14px;
+            color: #444;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            /* ระยะห่างเล็ก ๆ แบบในรูป */
+        }
+        /* กระดิ่ง */
+        
+        .notification {
+            position: relative;
+            font-size: 22px;
+            cursor: pointer;
+            color: #000;
+        }
+        
+        .notification:hover {
+            opacity: 0.7;
+        }
+        /* badge */
+        
+        .badge {
+            position: absolute;
+            top: -4px;
+            right: -6px;
+            background: red;
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Main */
+        
+        .main {
+            padding: 25px;
+        }
+        /* Patient Card */
+        
+        .patient-card {
+            background: #ffffff;
+            border: 1px solid #999;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+        
+        .patient-photo {
+            width: 90px;
+            height: 90px;
+            border: 1px solid #999;
+            border-radius: 6px;
+            margin-right: 20px;
+        }
+        
+        .patient-info {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 8px;
+            column-gap: 30px;
+            font-size: 14px;
+            color: #000;
+        }
+        /* สีฟ้าสำหรับแพทย์ */
+        
+        .doctor {
+            color: #1976ff;
+            cursor: pointer;
+        }
+        /* Button */
+        
+        .patient-action {
+            margin-left: 20px;
+        }
+        
+        .btn-confirm {
+            background: #8a00c2;
+            border: none;
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-confirm:hover {
+            background: #7400a5;
+        }
+        /* ===== เมนูผู้ป่วย ===== */
+        
+        .patient-menu {
+            position: relative;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        /* กล่อง dropdown */
+        
+        .patient-dropdown {
+            position: absolute;
+            top: 48px;
+            /* 🔹 ดันลงมาด้านล่าง */
+            left: 0;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            min-width: 320px;
+            padding: 10px 0;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+            display: none;
+            z-index: 999;
+        }
+        
+        .topbar {
+            position: relative;
+        }
+        /* รายการด้านใน */
+        
+        .dropdown-item {
+            padding: 12px 20px;
+            font-size: 14px;
+            color: #222;
+        }
+        
+        .dropdown-item:hover {
+            background: #f3f6ff;
+            color: #1976ff;
+        }
+        /* ===== คลินิก (เหมือนผู้ป่วย) ===== */
+        
+        .clinic-menu {
+            position: relative;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #222;
+        }
+        
+        .clinic-menu:hover {
+            background: #f0f0f0;
+            color: #1976ff;
+        }
+        /* dropdown คลินิก */
+        
+        .clinic-dropdown {
+            position: absolute;
+            top: 44px;
+            /* ดันลงมาตามรูป */
+            left: 0;
+            width: 220px;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+            display: none;
+            z-index: 999;
+        }
+        /* ใช้ dropdown-item เดิมได้เลย */
+        
+        .clinic-dropdown .dropdown-item {
+            padding: 10px 14px;
+            font-size: 14px;
+        }
+        
+        .clinic-dropdown .dropdown-item:hover {
+            background: #f3f6ff;
+            color: #1976ff;
+        }
+        /* ===== Account ===== */
+        
+        .account-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #8e24aa;
+            /* สีม่วง */
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 999px;
+            /* มนทั้งแถบ */
+            cursor: pointer;
+            width: fit-content;
+        }
+        
+        .account-box:hover {
+            background: #7b1fa2;
+        }
+        /* วงกลมรูป */
+        
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* ข้อความ */
+        
+        .account-text {
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        /* ลูกศร */
+        
+        .arrow {
+            font-size: 14px;
+        }
+        
+        .patient-card {
+            cursor: pointer;
+        }
+        
+        .patient-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            transition: 0.2s;
+        }
+        
+        .patient-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        /* ===== Modal ===== */
+        
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 30000;
+        }
+        
+        .modal-box {
+            background: #fff;
+            padding: 24px 30px;
+            border-radius: 16px;
+            width: 360px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-box h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .modal-box p {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 20px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .btn-cancel {
+            background: #ddd;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        .btn-cancel:hover {
+            background: #ccc;
+        }
+        
+        .goal-link {
+            color: #000000;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .goal-link:hover {
+            text-decoration: underline;
+        }
+        /* ===== Welcome Banner ===== */
+        
+        .welcome-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 20, .85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn .6s ease forwards;
+        }
+        
+        .welcome-banner {
+            position: relative;
+            width: 80%;
+            max-width: 720px;
+            padding: 30px 40px;
+            background: linear-gradient(135deg, #1a1f3c, #0b0f1a);
+            border-radius: 14px;
+            border: 1px solid rgba(139, 92, 246, .6);
+            box-shadow: 0 0 25px rgba(139, 92, 246, .6);
+            animation: slideIn .8s ease forwards, glowPulse 2.5s infinite;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 22px;
+            color: #fff;
+            cursor: pointer;
+            opacity: .7;
+        }
+        
+        .close-btn:hover {
+            opacity: 1
+        }
+        
+        .banner-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .banner-icon {
+            font-size: 48px;
+            filter: drop-shadow(0 0 10px #8b5cf6);
+        }
+        
+        .banner-text h1 {
+            margin: 0;
+            font-size: 36px;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+        
+        .banner-text h2 {
+            margin: 6px 0 0;
+            font-size: 18px;
+            font-weight: 300;
+            color: #c7d2fe;
+        }
+        
+        .banner-text p {
+            margin-top: 6px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(-60px);
+                opacity: 0
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1
             }
         }
-    }
-}
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+            to {
+                opacity: 1
+            }
+        }
+        
+        @keyframes glowPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 18px rgba(139, 92, 246, .5)
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(56, 189, 248, .9)
+            }
+        }
+        /* ===== Account Dropdown ===== */
+        
+        .account-wrapper {
+            position: relative;
+        }
+        
+        .account-dropdown {
+            position: absolute;
+            top: 58px;
+            right: 0;
+            width: 260px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+            display: none;
+            z-index: 1000;
+        }
+        /* Header */
+        
+        .account-header {
+            display: flex;
+            gap: 12px;
+            padding: 14px;
+            background: #dcdcdc;
+        }
+        
+        .account-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .account-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .account-name {
+            font-weight: 600;
+        }
+        
+        .account-role {
+            font-size: 13px;
+            color: #8a00c2;
+        }
+        /* Section */
+        
+        .account-section {
+            padding: 10px 14px;
+        }
+        
+        .section-title {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+        
+        .account-item:hover {
+            background: #f0f0f0;
+        }
+        /* วงกลมไอคอน */
+        
+        .circle-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #000;
+        }
+        /* Logout */
+        
+        .account-logout {
+            text-align: center;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid red;
+            color: red;
+            cursor: pointer;
+        }
+        
+        .account-logout:hover {
+            background: rgba(255, 0, 0, 0.08);
+        }
+        
+        .no-doctor-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #8a00c2;
+            /* สีม่วงตามปุ่ม */
+            margin-bottom: 14px;
+        }
+        
+        .account-logout {
+            display: block;
+            /* ให้เหมือน div */
+            text-decoration: none;
+            /* ตัดเส้นใต้ */
+            color: red;
+            /* สีเดิม */
+            text-align: center;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid red;
+            border-radius: 4px;
+            /* ถ้าเดิมไม่มี ลบได้ */
+            cursor: pointer;
+        }
+        
+        .account-logout:hover {
+            background: rgba(255, 0, 0, 0.08);
+        }
+        
+        .account-item,
+        .account-logout {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .breadcrumb a.active-page {
+            color: #444;
+            pointer-events: none;
+            cursor: default;
+        }
+        /* ===== Game Notify ===== */
+        
+        .game-notify {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 420px;
+            height: 90px;
+            background: linear-gradient(135deg, #ff3b7d, #7f2bff);
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .5);
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            color: white;
+            z-index: 20000;
+            animation: slideDown .6s ease-out forwards;
+        }
+        
+        .game-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, .7);
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+        
+        .game-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-content {
+            flex: 1;
+        }
+        
+        .game-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .game-subtitle {
+            font-size: 14px;
+            opacity: .9;
+        }
+        
+        .game-kill {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: .85;
+        }
+        /* animation */
+        
+        @keyframes slideDown {
+            from {
+                transform: translate(-50%, -40px);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+        /* ===== Doctor Contact Modal ===== */
+        
+        .doctor-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 20000;
+        }
+        
+        .doctor-box {
+            background: #ffffff;
+            width: 380px;
+            padding: 24px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+            animation: fadeIn .3s ease;
+        }
+        
+        .doctor-box h3 {
+            margin-top: 0;
+            margin-bottom: 6px;
+        }
+        
+        .doctor-role {
+            font-size: 14px;
+            color: #8a00c2;
+            margin-bottom: 20px;
+        }
+        /* social buttons */
+        
+        .social-group {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+        
+        .social-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .2s;
+        }
+        
+        .fb {
+            background: #1877f2;
+        }
+        
+        .ig {
+            background: #e1306c;
+        }
+        
+        .tw {
+            background: #000;
+        }
+        
+        .social-btn:hover {
+            opacity: .8;
+        }
+        
+        .close-doctor {
+            margin-top: 20px;
+            background: #ddd;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        /* ===== Schedule ===== */
+        
+        .schedule-wrapper {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+        }
+        
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .schedule-table th,
+        .schedule-table td {
+            border: 1px solid #999;
+            padding: 6px;
+        }
+        
+        .schedule-table th {
+            background: #f3f3f3;
+            font-weight: 600;
+        }
+        
+        .slot {
+            background: linear-gradient(135deg, #a000c8, #7f2bff);
+            color: #fff;
+            padding: 14px 6px;
+            border-radius: 18px;
+            font-weight: 600;
+        }
+        /* ===== Today Highlight ===== */
+        
+        .today-row td:first-child {
+            background: #fff3cd;
+            font-weight: 700;
+        }
+        
+        .current-time {
+            background: #e3f2fd !important;
+        }
+        
+        .current-slot {
+            outline: 3px solid #ff9800;
+            box-shadow: 0 0 15px rgba(255, 152, 0, .7);
+            border-radius: 18px;
+        }
+        
+        .schedule-detail {
+            margin-top: 25px;
+            font-size: 15px;
+            color: #000;
+        }
+        
+        .schedule-detail p {
+            margin: 6px 0;
+        }
+        
+        .schedule-detail ol {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        
+        .account-name-en {
+            font-size: 13px;
+            color: #555;
+            margin-top: 2px;
+        }
+    </style>
+    <script>
+        function loadDoctorProfile() {
+
+            const doctorName = localStorage.getItem("doctorName");
+            const doctorNameEN = localStorage.getItem("doctorNameEN");
+            const accountNameEN = document.getElementById("accountDoctorNameEN");
+            const doctorImage = localStorage.getItem("doctorImage");
+            // ===== โหลดรูปโปรไฟล์ =====
+            const topAvatar = document.getElementById("topAvatar");
+            const dropdownAvatar = document.getElementById("dropdownAvatar");
+
+            if (doctorImage) {
+                topAvatar.src = doctorImage;
+                dropdownAvatar.src = doctorImage;
+            } else {
+                topAvatar.src = "Up.d.png"; // รูป default
+                dropdownAvatar.src = "Up.d.png";
+            }
+
+            if (accountNameEN && doctorNameEN) {
+                accountNameEN.innerText = doctorNameEN;
+            }
+
+            const doctorEmail = localStorage.getItem("doctorEmail");
+
+            if (!doctorName) {
+                // ถ้าไม่ได้ login ให้เด้งกลับ
+                window.location.href = "../index.html";
+                return;
+            }
+
+            // ===== Welcome Banner =====
+            const welcomeText = document.getElementById("welcomeDoctorName");
+            if (welcomeText) {
+                welcomeText.innerText = doctorName;
+            }
+
+            // ===== Account Dropdown =====
+            const accountName = document.getElementById("accountDoctorName");
+            if (accountName) {
+                accountName.innerText = doctorName;
+            }
+
+            // ===== ตัวอย่างกำหนด Role อัตโนมัติ =====
+            const roleText = document.getElementById("accountRole");
+
+            if (doctorEmail && doctorEmail.startsWith("6802")) {
+                roleText.innerText = "นักศึกษาทันตแพทย์ ปี 4";
+            } else {
+                roleText.innerText = "อาจารย์";
+            }
+        }
+        window.addEventListener("load", loadDoctorProfile);
+
+        function togglePatientMenu() {
+            const menu = document.getElementById("patientDropdown");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+
+        /* คลิกที่อื่นแล้วปิด */
+        document.addEventListener("click", function(e) {
+            const menu = document.getElementById("patientDropdown");
+            const button = document.querySelector(".patient-menu");
+
+            if (!button.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+        //คลินิก
+        function toggleClinicMenu() {
+            const menu = document.getElementById("clinicDropdown");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+
+        /* คลิกที่อื่นแล้วปิด */
+        document.addEventListener("click", function(e) {
+            const clinicMenu = document.querySelector(".clinic-menu");
+            const clinicDropdown = document.getElementById("clinicDropdown");
+
+            if (clinicMenu && !clinicMenu.contains(e.target)) {
+                clinicDropdown.style.display = "none";
+            }
+        });
+
+        let selectedPatient = null;
+        let selectedCard = null;
+
+        function openModal(patient, btn) {
+            selectedPatient = patient;
+            selectedCard = btn.closest('.patient-card');
+            document.getElementById("confirmModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("confirmModal").style.display = "none";
+        }
+
+        function confirmAccept() {
+            let myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
+
+            myPatients.unshift(selectedPatient);
+            localStorage.setItem("myPatients", JSON.stringify(myPatients));
+
+            closeModal();
+            removePatientsByClinic(selectedPatient.clinic);
+
+            showAcceptNotify(selectedPatient);
+
+            setTimeout(() => {
+                window.location.href = "patientsdocter.html";
+            }, 1200);
+        }
+
+        function showAcceptNotify(patient) {
+            const notify = document.getElementById("acceptNotify");
+            const img = document.getElementById("notifyImg");
+            const subtitle = notify.querySelector(".game-subtitle");
+
+            img.src = patient.image || "Up.d copy.png";
+            subtitle.innerText = "รับผู้ป่วยเรียบร้อยแล้ว";
+
+            notify.style.display = "flex";
+
+            setTimeout(() => {
+                notify.style.display = "none";
+            }, 3000);
+        }
 
 
-window.addEventListener("load", function(){
-    highlightCurrentDateTime();
-});
 
-function updateClinicFromSchedule(){
+        function closeWelcome() {
+            const el = document.getElementById('welcome');
+            el.style.animation = 'fadeIn .5s reverse forwards';
+            setTimeout(() => {
+                el.remove();
+                localStorage.setItem("welcomeShown", "1");
+            }, 500);
+        }
 
-    const now = new Date();
+        /* แสดงเฉพาะตอนเข้าใช้งานครั้งแรก */
+        window.addEventListener("load", () => {
+            if (localStorage.getItem("welcomeShown")) {
+                const el = document.getElementById("welcome");
+                if (el) el.remove();
+            }
+        });
 
-    const days = ["อาทิตย์","จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์","เสาร์"];
-    const months = [
-        "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
-        "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
-        "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
-    ];
+        function toggleAccountMenu() {
+            const menu = document.getElementById("accountDropdown");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
 
-    const dayName = days[now.getDay()];
-    const date = now.getDate();
-    const monthName = months[now.getMonth()];
-    const yearBE = now.getFullYear() + 543;
+        /* คลิกที่อื่นแล้วปิด */
+        document.addEventListener("click", function(e) {
+            const wrapper = document.querySelector(".account-wrapper");
+            const menu = document.getElementById("accountDropdown");
 
-    document.getElementById("currentDateText").innerText =
-        `วัน ${dayName} ที่ ${date} เดือน ${monthName} พุทธศักราช ${yearBE}`;
+            if (wrapper && !wrapper.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
 
-    // ===== หาแถวของวันนี้ =====
-    const todayIndex = now.getDay(); // 0=อาทิตย์
-    const rowIndex = (todayIndex === 0) ? -1 : todayIndex - 1;
+        function removePatientsByClinic(clinicName) {
+            if (!clinicName) return;
 
-    const rows = document.querySelectorAll(".schedule-table tbody tr");
-    const studentSection = document.getElementById("studentSection");
-    // ถ้าไม่มีแถว (เช่น ศุกร์ เสาร์ อาทิตย์)
-if(!rows[rowIndex]){
-    document.getElementById("currentPeriodText").innerText =
-        "ไม่มีคลินิกทำการรักษาวันนี้";
-    studentSection.style.display = "none";
-    return;
-}
+            const targetClinic = clinicName.trim();
+            const cards = document.querySelectorAll(".patient-card");
 
-    const hour = now.getHours();
+            cards.forEach(card => {
+                const text = card.innerText;
+                if (text.includes(targetClinic)) {
+                    card.remove();
+                }
+            });
+        }
 
-    // ถ้าอยู่นอกเวลา
-    if(hour < 8 || hour >= 17){
-    document.getElementById("currentPeriodText").innerText =
-        "ไม่มีคลินิกทำการรักษาขณะนี้";
-    studentSection.style.display = "none";
-    return;
-}
+        function openChat(name, photo, clinic) {
+            localStorage.setItem("chat_name", name);
+            localStorage.setItem("chat_photo", photo);
 
-    // ===== คำนวณ column =====
-    const colIndex = hour - 7;
+            // ⭐ สำคัญมาก
+            localStorage.setItem("chat_from", "home");
 
-    const cells = rows[rowIndex].children;
+            // กันค่าคลินิกเก่าค้าง
+            localStorage.removeItem("fromClinic");
 
-    if(!cells[colIndex]){
-        document.getElementById("currentPeriodText").innerText =
-            "ไม่มีคลินิกทำการรักษาขณะนี้";
-        return;
-    }
-
-    const slot = cells[colIndex].querySelector(".slot");
-
-    if(slot){
-    const clinicName = slot.innerText.split("\n")[0];
-    document.getElementById("currentPeriodText").innerText =
-        `กำลังให้บริการ: คลินิก ${clinicName}`;
-
-    studentSection.style.display = "block";
-}else{
-    document.getElementById("currentPeriodText").innerText =
-        "ไม่มีคลินิกทำการรักษาขณะนี้";
-    studentSection.style.display = "none";
-}
-}
-window.addEventListener("load", updateClinicFromSchedule);
-setInterval(updateClinicFromSchedule, 60000);
+            window.location.href = "Chat/Chat2.html";
+        }
 
 
 
-</script>
+        // ===== Global Telephone =====
+        let currentDoctorTel = "";
+
+        // ===== Doctor Database =====
+        const doctorDatabase = {
+            "นทพ. ณิชาภัทร ตรัยรัตนเมธี": {
+                fb: "https://facebook.com/",
+                ig: "https://www.instagram.com/nichapa6t?igsh=bHI3YXNzMzkya3h0",
+                tel: "086-935-3769"
+            },
+            "นทพ. บุริศร์ อาทิตย์สาม": {
+                fb: "https://www.facebook.com/share/1FPYPV76Qh/",
+                ig: "https://www.instagram.com/plug.buris?igsh=am5wZnIxNmhuenlt",
+                tel: "088-226-7767"
+            },
+            "นทพ. สุภาษิต ปัญญาบุตร": {
+                fb: "https://facebook.com/",
+                ig: "https://instagram.com/",
+                tel: "089-999-9999"
+            }
+        };
+
+        function openDoctorContact(name) {
+            const modal = document.getElementById("doctorModal");
+            const doctorName = document.getElementById("doctorName");
+
+            doctorName.innerText = name;
+
+            const doctor = doctorDatabase[name];
+
+            if (doctor) {
+                document.getElementById("doctorFB").href = doctor.fb;
+                document.getElementById("doctorIG").href = doctor.ig;
+                currentDoctorTel = doctor.tel;
+            }
+
+            modal.style.display = "flex";
+        }
+
+        function closeDoctorModal() {
+            document.getElementById("doctorModal").style.display = "none";
+        }
+
+        function showDoctorTel() {
+            document.getElementById("telNumber").innerText = currentDoctorTel;
+            document.getElementById("telModal").style.display = "flex";
+        }
+
+        function closeTelModal() {
+            document.getElementById("telModal").style.display = "none";
+        }
+
+        function loadNotificationsFromDoctorPage() {
+
+            let list = JSON.parse(localStorage.getItem("upcomingNotifications")) || [];
+
+            if (list.length === 0) return;
+
+            // อัปเดต badge
+            const badge = document.getElementById("notifyBadge");
+            badge.innerText = list.length;
+            badge.style.display = "flex";
+
+            // แสดง Game Notify
+            const notify = document.getElementById("acceptNotify");
+            const subtitle = notify.querySelector(".game-subtitle");
+
+            let message = "ใกล้ถึงวันนัด:\n";
+
+            list.forEach(p => {
+                message += `${p.name} อีก ${p.daysLeft} วัน\n`;
+            });
+
+            subtitle.innerText = message;
+
+            notify.style.display = "flex";
+
+            setTimeout(() => {
+                notify.style.display = "none";
+            }, 4000);
+        }
+        window.addEventListener("load", function() {
+            loadNotificationsFromDoctorPage();
+        });
+
+        function highlightCurrentDateTime() {
+
+            const now = new Date();
+
+            const todayIndex = now.getDay(); // 0=อาทิตย์
+            const rowIndex = (todayIndex === 0) ? -1 : todayIndex - 1;
+
+            const rows = document.querySelectorAll(".schedule-table tbody tr");
+
+            if (!rows[rowIndex]) return;
+
+            const row = rows[rowIndex];
+            row.classList.add("today-row");
+
+            const hour = now.getHours();
+
+            if (hour < 8 || hour >= 17) return;
+
+            const targetHourIndex = hour - 8;
+            // 08-09 = 0
+            // 09-10 = 1
+            // ...
+
+            let currentIndex = -1; // เริ่มหลัง column วัน
+
+            const cells = row.querySelectorAll("td");
+
+            for (let cell of cells) {
+
+                // ข้าม cell แรก (ชื่อวัน)
+                if (cell === cells[0]) continue;
+
+                const span = parseInt(cell.getAttribute("colspan")) || 1;
+
+                for (let i = 0; i < span; i++) {
+                    currentIndex++;
+
+                    if (currentIndex === targetHourIndex) {
+
+                        cell.classList.add("current-time");
+
+                        const slot = cell.querySelector(".slot");
+                        if (slot) {
+                            slot.classList.add("current-slot");
+                        }
+
+                        return;
+                    }
+                }
+            }
+        }
+
+
+        window.addEventListener("load", function() {
+            highlightCurrentDateTime();
+        });
+
+        function updateClinicFromSchedule() {
+
+            const now = new Date();
+
+            const days = ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์"];
+            const months = [
+                "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน",
+                "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม",
+                "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+            ];
+
+            const dayName = days[now.getDay()];
+            const date = now.getDate();
+            const monthName = months[now.getMonth()];
+            const yearBE = now.getFullYear() + 543;
+
+            document.getElementById("currentDateText").innerText =
+                `วัน ${dayName} ที่ ${date} เดือน ${monthName} พุทธศักราช ${yearBE}`;
+
+            // ===== หาแถวของวันนี้ =====
+            const todayIndex = now.getDay(); // 0=อาทิตย์
+            const rowIndex = (todayIndex === 0) ? -1 : todayIndex - 1;
+
+            const rows = document.querySelectorAll(".schedule-table tbody tr");
+            const studentSection = document.getElementById("studentSection");
+            // ถ้าไม่มีแถว (เช่น ศุกร์ เสาร์ อาทิตย์)
+            if (!rows[rowIndex]) {
+                document.getElementById("currentPeriodText").innerText =
+                    "ไม่มีคลินิกทำการรักษาวันนี้";
+                studentSection.style.display = "none";
+                return;
+            }
+
+            const hour = now.getHours();
+
+            // ถ้าอยู่นอกเวลา
+            if (hour < 8 || hour >= 17) {
+                document.getElementById("currentPeriodText").innerText =
+                    "ไม่มีคลินิกทำการรักษาขณะนี้";
+                studentSection.style.display = "none";
+                return;
+            }
+
+            // ===== คำนวณ column =====
+            const targetHourIndex = hour - 8; // 08-09 = 0
+
+            let currentIndex = -1;
+            const cells = rows[rowIndex].querySelectorAll("td");
+
+            for (let cell of cells) {
+
+                if (cell === cells[0]) continue; // ข้ามชื่อวัน
+
+                const span = parseInt(cell.getAttribute("colspan")) || 1;
+
+                for (let i = 0; i < span; i++) {
+                    currentIndex++;
+
+                    if (currentIndex === targetHourIndex) {
+
+                        const slot = cell.querySelector(".slot");
+
+                        if (slot) {
+                            const clinicName = slot.innerText.split("\n")[0];
+                            document.getElementById("currentPeriodText").innerText =
+                                `กำลังให้บริการ: คลินิกทันตกรรม ${clinicName}`;
+                            studentSection.style.display = "block";
+                        } else {
+                            document.getElementById("currentPeriodText").innerText =
+                                "ไม่มีคลินิกทำการรักษาขณะนี้";
+                            studentSection.style.display = "none";
+                        }
+
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        window.addEventListener("load", updateClinicFromSchedule);
+        setInterval(updateClinicFromSchedule, 60000);
+    </script>
 
 </head>
+
 <body>
-<div class="wrapper">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo">
-            <img src="Up.d.png" alt="UP Logo">
-        </div>
-        <a href="#" class="active">หน้าหลัก</a>
-
-        <a href="namedocter/namedocterindex.html">รายชื่อแพทย์</a>
-
-    </div>
-    <!-- Content -->
-    <div class="content">
-        <div class="topbar">
-            <div class="breadcrumb">
-</div>
-<div class="user-menu">
-    <div class="user-group">
-        <!-- บัญชี -->
-        <div class="account-wrapper">
-    <div class="account-box" onclick="toggleAccountMenu()">
-        <div class="avatar">
-            <img id="topAvatar" src="" alt="profile">
-        </div>
-        <span class="account-text">บัญชีของคุณ</span>
-        <span class="arrow">▾</span>
-    </div>
-
-    <!-- Account Dropdown -->
-    <div class="account-dropdown" id="accountDropdown">
-
-        <div class="account-header">
-            <div class="account-avatar">
-                <img id="dropdownAvatar" src="">
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <img src="Up.d.png" alt="UP Logo">
             </div>
-            <div>
-                <div class="account-name" id="accountDoctorName"></div>
-                <div class="account-name-en" id="accountDoctorNameEN"></div>
-                <div class="account-role" id="accountRole">อาจารย์</div>
-            </div>
+            <a href="#" class="active">หน้าหลัก</a>
+
+            <a href="namedocter/namedocterindex.html">รายชื่อแพทย์</a>
+
         </div>
+        <!-- Content -->
+        <div class="content">
+            <div class="topbar">
+                <div class="breadcrumb">
+                </div>
+                <div class="user-menu">
+                    <div class="user-group">
+                        <!-- บัญชี -->
+                        <div class="account-wrapper">
+                            <div class="account-box" onclick="toggleAccountMenu()">
+                                <div class="avatar">
+                                    <img id="topAvatar" src="" alt="profile">
+                                </div>
+                                <span class="account-text">บัญชีของคุณ</span>
+                                <span class="arrow">▾</span>
+                            </div>
 
-        <div class="account-section">
-            <div class="section-title">เลือกแอปพลิเคชัน</div>
+                            <!-- Account Dropdown -->
+                            <div class="account-dropdown" id="accountDropdown">
 
-            <a href="https://reg.up.ac.th/" class="account-item">
-                <div class="circle-icon"></div>
-                ระบบ reg
-            </a>
+                                <div class="account-header">
+                                    <div class="account-avatar">
+                                        <img id="dropdownAvatar" src="">
+                                    </div>
+                                    <div>
+                                        <div class="account-name" id="accountDoctorName"></div>
+                                        <div class="account-name-en" id="accountDoctorNameEN"></div>
+                                        <div class="account-role" id="accountRole">อาจารย์</div>
+                                    </div>
+                                </div>
 
-            <a href="https://ge.up.ac.th/" class="account-item">
-                <div class="circle-icon"></div>
-                ระบบ ge-online
-            </a>
-        </div>
+                                <div class="account-section">
+                                    <div class="section-title">เลือกแอปพลิเคชัน</div>
 
-            <a href="logout.html" class="account-logout">
+                                    <a href="https://reg.up.ac.th/" class="account-item">
+                                        <div class="circle-icon"></div>
+                                        ระบบ reg
+                                    </a>
+
+                                    <a href="https://ge.up.ac.th/" class="account-item">
+                                        <div class="circle-icon"></div>
+                                        ระบบ ge-online
+                                    </a>
+                                </div>
+
+                                <a href="../login.html" class="account-logout">
                 ออกจากระบบ
             </a>
 
 
-    </div>
-</div>
+                            </div>
+                        </div>
 
-    </div>
-</div>
+                    </div>
+                </div>
 
-
-        </div>
-<div class="main">
-
-    <div class="schedule-wrapper">
-        <table class="schedule-table">
-            <thead>
-                <tr>
-                    <th style="width:100px;">วัน / เวลา</th>
-                    <th>08.00-09.00</th>
-                    <th>09.00-10.00</th>
-                    <th>10.00-11.00</th>
-                    <th>11.00-12.00</th>
-                    <th>12.00-13.00</th>
-                    <th>13.00-14.00</th>
-                    <th>14.00-15.00</th>
-                    <th>15.00-16.00</th>
-                    <th>16.00-17.00</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>จันทร์</td>
-                    <td colspan="2"><div class="slot">ปริทันตวิทยา<br>ทันตกรรมปริทันตวิทยา</div></td>
-                    <td colspan="2"><div class="slot">ปริทันตวิทยา<br>ทันตกรรมปริทันตวิทยา</div></td>
-                    <td></td>
-                    <td colspan="2"><div class="slot">ครอบครัว<br>ทันตกรรมครอบครัว</div></td>
-                    <td colspan="2"><div class="slot">ครอบครัว<br>ทันตกรรมครอบครัว</div></td>
-                </tr>
-
-                <tr>
-                    <td>อังคาร</td>
-                    <td colspan="2"><div class="slot">รังสี<br>ทันตกรรมรังสี</div></td>
-                    <td colspan="2"><div class="slot">รังสี<br>ทันตกรรมรังสี</div></td>
-                    <td></td>
-                    <td colspan="2"><div class="slot">ประดิษฐ์<br>ทันตกรรมประดิษฐ์</div></td>
-                    <td colspan="2"><div class="slot">ประดิษฐ์<br>ทันตกรรมประดิษฐ์</div></td>
-                </tr>
-
-                <tr>
-                    <td>พุธ</td>
-                    <td colspan="2"><div class="slot">พร้อมมูล<br>ทันตกรรมพร้อมมูล</div></td>
-                    <td colspan="2"><div class="slot">พร้อมมูล<br>ทันตกรรมพร้อมมูล</div></td>
-                    <td></td>
-                    <td colspan="2"><div class="slot">บดเคี้ยว<br>ทันตกรรมบดเคี้ยว</div></td>
-                    <td colspan="2"><div class="slot">บดเคี้ยว<br>ทันตกรรมบดเคี้ยว</div></td>
-                </tr>
-
-                <tr>
-                    <td>พฤหัสบดี</td>
-                    <td colspan="2"><div class="slot">จัดฟัน<br>ทันตกรรมจัดฟัน</div></td>
-                    <td colspan="2"><div class="slot">จัดฟัน<br>ทันตกรรมจัดฟัน</div></td>
-                    <td></td>
-                    <td colspan="2"><div class="slot">เอนโดดอนติกส์<br>เอนโดดอนติกส์</div></td>
-                    <td colspan="2"><div class="slot">เอนโดดอนติกส์<br>เอนโดดอนติกส์</div></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="schedule-detail">
-        <p><strong id="currentDateText"></strong></p>
-        <p id="currentPeriodText"></p>
-<div id="studentSection">
-    <p>นักศึกษาทันตแพทย์ 8 คน ผู้ป่วย 8 คน</p>
-
-    <ol>
-        <li>นางสาว</li>
-        <li>นางสาว</li>
-        <li>นางสาว</li>
-        <li>นางสาว</li>
-        <li>นางสาว</li>
-        <li>นาย</li>
-        <li>นาย</li>
-        <li>นาย</li>
-    </ol>
-</div>
-
-    </div>
-
-</div>
 
             </div>
-        </div>
-        <!-- ===== Confirm Modal ===== -->
-<div class="modal-overlay" id="confirmModal">
-    <div class="modal-box">
-        <h3>ยืนยันการรับผู้ป่วย</h3>
-        <p>คุณแน่ใจใช่ไหมที่จะรับผู้ป่วยคนนี้</p>
-        <div class="modal-actions">
-            <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
-            <button class="btn-confirm" onclick="confirmAccept()">ยืนยัน</button>
+            <div class="main">
+
+                <div class="schedule-wrapper">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th style="width:100px;">วัน / เวลา</th>
+                                <th>08.00-09.00</th>
+                                <th>09.00-10.00</th>
+                                <th>10.00-11.00</th>
+                                <th>11.00-12.00</th>
+                                <th>12.00-13.00</th>
+                                <th>13.00-14.00</th>
+                                <th>14.00-15.00</th>
+                                <th>15.00-16.00</th>
+                                <th>16.00-17.00</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>จันทร์</td>
+                                <td colspan="2">
+                                    <div class="slot">ปริทันตวิทยา<br>ทันตกรรมปริทันตวิทยา</div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="slot">ปริทันตวิทยา<br>ทันตกรรมปริทันตวิทยา</div>
+                                </td>
+                                <td></td>
+                                <td colspan="2">
+                                    <div class="slot">ครอบครัว<br>ทันตกรรมครอบครัว</div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="slot">ครอบครัว<br>ทันตกรรมครอบครัว</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>อังคาร</td>
+                                <td colspan="2">
+                                    <div class="slot">รังสี<br>ทันตกรรมรังสี</div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="slot">รังสี<br>ทันตกรรมรังสี</div>
+                                </td>
+                                <td></td>
+                                <td colspan="2">
+                                    <div class="slot">ประดิษฐ์<br>ทันตกรรมประดิษฐ์</div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="slot">ประดิษฐ์<br>ทันตกรรมประดิษฐ์</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>พุธ</td>
+                                <td colspan="2">
+                                    <div class="slot">พร้อมมูล<br>ทันตกรรมพร้อมมูล</div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="slot">พร้อมมูล<br>ทันตกรรมพร้อมมูล</div>
+                                </td>
+                                <td></td>
+                                <td colspan="2">
+                                    <div class="slot">บดเคี้ยว<br>ทันตกรรมบดเคี้ยว</div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="slot">บดเคี้ยว<br>ทันตกรรมบดเคี้ยว</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>พฤหัสบดี</td>
+                                <td colspan="2">
+                                    <div class="slot">จัดฟัน<br>ทันตกรรมจัดฟัน</div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="slot">จัดฟัน<br>ทันตกรรมจัดฟัน</div>
+                                </td>
+                                <td></td>
+                                <td colspan="2">
+                                    <div class="slot">เอนโดดอนติกส์<br>เอนโดดอนติกส์</div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="slot">เอนโดดอนติกส์<br>เอนโดดอนติกส์</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="schedule-detail">
+                    <p><strong id="currentDateText"></strong></p>
+                    <p id="currentPeriodText"></p>
+                    <div id="studentSection">
+                        <p>นักศึกษาทันตแพทย์ 8 คน ผู้ป่วย 8 คน</p>
+
+                        <ol>
+                            <li>นางสาว ณิชาภัทร ตรัยรัตนเมธี</li>
+                            <li>นางสาว ปัญจรัตน์ ทองนา</li>
+                            <li>นางสาว สมหญิง ใจแข็งแกร่ง</li>
+                            <li>นางสาว สมศักษดิ์ ยิ่งยง</li>
+                            <li>นางสาว สมใจ ใจดี</li>
+                            <li>นาย บุริศร์ อาทิตย์สาม</li>
+                            <li>นาย สุภาษิต ปัญญาบุตร</li>
+                            <li>นาย สิทธินนท์ บุญปั๋น</li>
+                        </ol>
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
     </div>
-</div>
-<div class="welcome-overlay" id="welcome">
-    <div class="welcome-banner">
-        <div class="close-btn" onclick="closeWelcome()">✕</div>
-        <div class="banner-content">
-            <div class="banner-icon">🦷</div>
-            <div class="banner-text">
-                <h1>WELCOME</h1>
-                <h2>โรงพยาบาลทันตกรรม มหาวิทยาลัยพะเยา</h2>
-                <p>สวัสดี <span id="welcomeDoctorName"></span> 👋</p>
+    <!-- ===== Confirm Modal ===== -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-box">
+            <h3>ยืนยันการรับผู้ป่วย</h3>
+            <p>คุณแน่ใจใช่ไหมที่จะรับผู้ป่วยคนนี้</p>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
+                <button class="btn-confirm" onclick="confirmAccept()">ยืนยัน</button>
             </div>
         </div>
     </div>
-</div>
-
-<!-- ===== Doctor Contact Modal ===== -->
-<div class="doctor-modal" id="doctorModal">
-    <div class="doctor-box">
-        <h3 id="doctorName">ชื่อแพทย์</h3>
-        <div class="doctor-role">ข้อมูลติดต่อแพทย์</div>
-
-        <div class="social-group">
-            <a id="doctorFB" href="#" target="_blank" class="social-btn fb">Facebook</a>
-            <a id="doctorIG" href="#" target="_blank" class="social-btn ig">Instagram</a>
-            <button id="doctorTel" class="social-btn tw" onclick="showDoctorTel()">Telephone</button>
-
-        </div>
-
-        <button class="close-doctor" onclick="closeDoctorModal()">ปิด</button>
-    </div>
-</div>
-<!-- ===== Telephone Popup ===== -->
-<div class="modal-overlay" id="telModal">
-    <div class="modal-box">
-        <h3>เบอร์ติดต่อ</h3>
-        <p id="telNumber">-</p>
-        <div class="modal-actions">
-            <button class="btn-confirm" onclick="closeTelModal()">ปิด</button>
+    <div class="welcome-overlay" id="welcome">
+        <div class="welcome-banner">
+            <div class="close-btn" onclick="closeWelcome()">✕</div>
+            <div class="banner-content">
+                <div class="banner-icon">🦷</div>
+                <div class="banner-text">
+                    <h1>WELCOME</h1>
+                    <h2>โรงพยาบาลทันตกรรม มหาวิทยาลัยพะเยา</h2>
+                    <p>สวัสดี <span id="welcomeDoctorName"></span> 👋</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- ===== Doctor Contact Modal ===== -->
+    <div class="doctor-modal" id="doctorModal">
+        <div class="doctor-box">
+            <h3 id="doctorName">ชื่อแพทย์</h3>
+            <div class="doctor-role">ข้อมูลติดต่อแพทย์</div>
+
+            <div class="social-group">
+                <a id="doctorFB" href="#" target="_blank" class="social-btn fb">Facebook</a>
+                <a id="doctorIG" href="#" target="_blank" class="social-btn ig">Instagram</a>
+                <button id="doctorTel" class="social-btn tw" onclick="showDoctorTel()">Telephone</button>
+
+            </div>
+
+            <button class="close-doctor" onclick="closeDoctorModal()">ปิด</button>
+        </div>
+    </div>
+    <!-- ===== Telephone Popup ===== -->
+    <div class="modal-overlay" id="telModal">
+        <div class="modal-box">
+            <h3>เบอร์ติดต่อ</h3>
+            <p id="telNumber">-</p>
+            <div class="modal-actions">
+                <button class="btn-confirm" onclick="closeTelModal()">ปิด</button>
+            </div>
+        </div>
+    </div>
 
 </body>
+
 </html>
