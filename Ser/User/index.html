@@ -913,6 +913,7 @@
             }
             checkDoctorAcceptNotify();
             updateAppointmentFromDoctor();
+            checkAppointmentReminder();
         });
 
 
@@ -1222,6 +1223,77 @@
         document.addEventListener("DOMContentLoaded", function() {
             updateAppointmentFromDoctor();
         });
+
+        function checkAppointmentReminder() {
+
+            const currentUser = localStorage.getItem("currentUser");
+            if (!currentUser) return;
+
+            const myPatients = JSON.parse(localStorage.getItem("myPatients")) || [];
+
+            const patient = myPatients.find(p => p.patientName === currentUser);
+
+            if (!patient || !patient.appointmentDate) return;
+
+            const today = new Date();
+            const appointment = new Date(patient.appointmentDate);
+
+            const diffTime = appointment - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 5 || diffDays === 3) {
+
+                showAppointmentNotify(patient, diffDays);
+
+                addStatusNotification({
+                    patientName: patient.patientName,
+                    doctorName: patient.doctorName,
+                    clinic: patient.clinic,
+                    status: `ใกล้ถึงวันนัดผู้ป่วย (${diffDays} วัน)`
+                });
+
+            }
+
+        }
+
+        function showAppointmentNotify(patient, days) {
+
+            const notify = document.createElement("div");
+            notify.className = "game-notify";
+
+            notify.innerHTML = `
+        <div class="game-avatar">
+            <img src="${patient.patientImage || 'default.jpg'}">
+        </div>
+        <div class="game-content">
+            <div class="game-title">แจ้งเตือนวันนัด</div>
+            <div class="game-subtitle">
+                อีก ${days} วัน จะถึงวันนัด
+            </div>
+            <div class="game-kill">
+                วันที่ ${patient.appointmentDate}
+            </div>
+        </div>
+    `;
+
+            document.body.appendChild(notify);
+
+            setTimeout(() => {
+                notify.remove();
+            }, 4000);
+
+        }
+        window.addEventListener("load", () => {
+
+            localStorage.setItem("myPatients", JSON.stringify([{
+                patientName: "นายสิทธินนท์ บุญปั๋น",
+                doctorName: "นทพ. ณิชาภัทร",
+                clinic: "ศัลยกรรมช่องปาก",
+                appointmentDate: "2026-03-13",
+                patientImage: "Up.d.png"
+            }]));
+
+        });
     </script>
 
 </head>
@@ -1312,7 +1384,7 @@
                         <div>ชื่อ-สกุล: นายสิทธินนท์ บุญปั๋น</div>
                         <div>เพศ: ชาย | อายุ: 19 ปี</div>
                         <div>วันที่เข้าตรวจล่าสุด: 28 กุมภาพันธ์ 2569</div>
-                        <div>นัดผู้ป่วยวันที่: 2026-02-15</div>
+                        <div>นัดผู้ป่วยวันที่: 2026-03-13</div>
                         <div>คลินิกที่ทำการรักษา: ศัลยกรรมช่องปาก</div>
                         <div>คลินิกที่ทำการรักษาก่อนหน้า: ทันตกรรมพิเคราะห์โรค</div>
                         <div>
