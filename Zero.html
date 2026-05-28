@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 ทายคำถามน้องรหัส</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&family=Kanit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg: #0f0c29;
+            --bg2: #1a1545;
+            --card: #1e1b4b;
+            --card2: #2d2a6e;
+            --accent: #f59e0b;
+            --accent2: #ec4899;
+            --accent3: #06b6d4;
+            --green: #10b981;
+            --red: #ef4444;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --border: rgba(245, 158, 11, 0.25);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 20% 20%, rgba(245, 158, 11, 0.07) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.07) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .page {
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        /* LANDING */
+        
+        #landing {
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        #landing.active {
+            display: flex;
+        }
+        
+        .logo-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            animation: fadeDown 0.7s ease;
+        }
+        
+        .logo-sub {
+            color: var(--muted);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            animation: fadeDown 0.9s ease;
+        }
+        
+        .role-cards {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeUp 1s ease;
+        }
+        
+        .role-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 200px;
+        }
+        
+        .role-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px rgba(245, 158, 11, 0.2);
+        }
+        
+        .role-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .role-label {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        /* GENERAL CARD */
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        h2 {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+        }
+        
+        h3 {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+        
+        label {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
+        }
+        
+        input,
+        select,
+        textarea {
+            width: 100%;
+            background: var(--bg2);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text);
+            padding: 0.75rem 1rem;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1rem;
+            transition: border 0.2s;
+            margin-bottom: 1rem;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 140px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--accent), #f97316);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 0.85rem 2rem;
+            font-family: 'Kanit', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.35);
+        }
+        
+        .btn-secondary {
+            background: var(--card2);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.08);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--red), #b91c1c);
+            color: #fff;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--green), #059669);
+            color: #fff;
+        }
+        
+        .msg-error {
+            color: var(--red);
+            font-size: 0.9rem;
+            margin-top: -0.5rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .msg-success {
+            color: var(--green);
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+        /* NAV BAR */
+        
+        .topbar {
+            background: rgba(30, 27, 75, 0.9);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            padding: 0.9rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .topbar-title {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+        
+        .topbar-user {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+        /* WELCOME */
+        
+        .welcome-banner {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            animation: fadeUp 0.6s ease;
+        }
+        
+        .welcome-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 1s ease;
+        }
+        
+        .welcome-text {
+            font-family: 'Kanit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-name {
+            font-size: 1.3rem;
+            color: var(--text);
+        }
+        /* PYTHON LEVEL CHOICE */
+        
+        .py-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .py-option {
+            background: var(--card2);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .py-option:hover,
+        .py-option.selected {
+            border-color: var(--accent);
+            background: rgba(245, 158, 11, 0.12);
+        }
+        /* HINT CARDS */
+        
+        .hint-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .hint-card {
+            background: var(--card2);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            flex: 1;
+            min-width: 140px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hint-card.unlocked {
+            border-color: var(--green);
+            background: rgba(16, 185, 129, 0.08);
+            cursor: pointer;
+        }
+        
+        .hint-card.locked {
+            opacity: 0.5;
+        }
+        
+        .hint-num {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        
+        .hint-status {
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+        }
+        
+        .hint-content {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent2);
+            margin-top: 0.5rem;
+        }
+        /* QUIZ AREA */
+        
+        .quiz-section {
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .quiz-desc {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 0.97rem;
+        }
+        
+        .bmi-table,
+        .game-table,
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .bmi-table th,
+        .game-table th,
+        .score-table th {
+            background: var(--card2);
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent);
+            border: 1px solid var(--border);
+        }
+        
+        .bmi-table td,
+        .game-table td,
+        .score-table td {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        
+        .quiz-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .quiz-result.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--green);
+            border: 1px solid var(--green);
+        }
+        
+        .quiz-result.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--red);
+            border: 1px solid var(--red);
+        }
+        
+        .quiz-result.warn {
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .quiz-locked-msg {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+        
+        .quiz-locked-msg .lock-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        /* ADMIN */
+        
+        .user-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+        
+        .user-row:last-child {
+            border-bottom: none;
+        }
+        
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+        
+        .badge-online {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+        
+        .badge-visited {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--accent3);
+        }
+        
+        .badge-never {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--muted);
+        }
+        
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        
+        .toggle-label {
+            font-size: 0.95rem;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            display: inline-block;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: var(--card2);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1.5px solid var(--border);
+        }
+        
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--muted);
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        
+        .toggle-switch input:checked+.toggle-slider {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--green);
+        }
+        
+        .toggle-switch input:checked+.toggle-slider:before {
+            transform: translate(24px, -50%);
+            background: var(--green);
+        }
+        /* ANIMATIONS */
+        
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+            50% {
+                transform: translateY(-12px)
+            }
+        }
+        
+        @keyframes confetti {
+            0% {
+                transform: translateY(0) rotate(0)
+            }
+            100% {
+                transform: translateY(-60px) rotate(360deg);
+                opacity: 0
+            }
+        }
+        
+        .confetti-piece {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            animation: confetti 0.8s forwards;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .progress-bar-wrap {
+            background: var(--bg2);
+            border-radius: 999px;
+            height: 6px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            transition: width 0.5s;
+        }
+        
+        .formula-block {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 0.8rem 0;
+            color: var(--accent3);
+            font-style: italic;
+            letter-spacing: 0.05em;
+        }
+        /* Responsive */
+        
+        @media (max-width: 480px) {
+            .role-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            .hint-grid {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LANDING PAGE -->
+    <div id="landing" class="page active">
+        <div class="logo-title">🎯 ทายคำถามน้องรหัส</div>
+        <div class="logo-sub">เพื่อแลกกับคำใบ้น้องรหัสสุดพิเศษ ✨</div>
+        <div class="role-cards">
+            <div class="role-card" onclick="showPage('admin-login')">
+                <div class="role-icon">👑</div>
+                <div class="role-label">แอดมิน</div>
+            </div>
+            <div class="role-card" onclick="showPage('user-login')">
+                <div class="role-icon">🧑‍💻</div>
+                <div class="role-label">ผู้ใช้งาน</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN -->
+    <div id="admin-login" class="page">
+        <div class="container" style="max-width:420px; padding-top:4rem;">
+            <div class="card">
+                <h2>👑 เข้าสู่ระบบแอดมิน</h2>
+                <label>อีเมล</label>
+                <input type="email" id="admin-email" placeholder="กรอกอีเมล">
+                <label>รหัสผ่าน</label>
+                <input type="password" id="admin-pass" placeholder="กรอกรหัสผ่าน">
+                <div id="admin-err" class="msg-error" style="display:none"></div>
+                <button class="btn" onclick="adminLogin()" style="width:100%">เข้าสู่ระบบ</button>
+                <br><br>
+                <button class="btn btn-secondary" onclick="showPage('landing')" style="width:100%">← กลับ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div id="admin-dash" class="page">
+        <div class="topbar">
+            <div class="topbar-title">👑 แผงควบคุมแอดมิน</div>
+            <button class="btn btn-secondary" onclick="logout()" style="padding:0.4rem 1rem; font-size:0.85rem;">ออกจากระบบ</button>
+        </div>
+        <div class="container">
+            <!-- Toggle questions -->
+            <div class="card">
+                <h2>🔓 เปิด/ปิดคำถาม</h2>
+                <div id="toggle-rows"></div>
+            </div>
+            <!-- User visits -->
+            <div class="card">
+                <h2>👥 รายชื่อผู้ใช้งาน</h2>
+                <div id="admin-user-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- USER LOGIN -->
+    <div id="user-login" class="page">
+        <div class="container" style="max-width:420px; padding-top:4rem;">
+            <div class="card">
+                <h2>🧑‍💻 เข้าสู่ระบบ</h2>
+                <label>ชื่อผู้ใช้ (ชื่อ-นามสกุล)</label>
+                <input type="text" id="user-name-input" placeholder="เช่น นายปารมี บุญนำ">
+                <label>รหัสผ่าน</label>
+                <input type="password" id="user-pass-input" placeholder="รหัสผ่านคือ 1234">
+                <div id="user-err" class="msg-error" style="display:none"></div>
+                <button class="btn" onclick="userLogin()" style="width:100%">เข้าสู่ระบบ</button>
+                <br><br>
+                <button class="btn btn-secondary" onclick="showPage('landing')" style="width:100%">← กลับ</button>
+                <p style="font-size:0.8rem; color:var(--muted); text-align:center; margin-top:1rem;">หากเข้าใช้งานไม่ได้ แจ้งประธานหรือรองประธาน</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- WELCOME -->
+    <div id="welcome-page" class="page">
+        <div class="welcome-banner">
+            <div class="welcome-emoji">🎉</div>
+            <div class="welcome-text" id="welcome-msg">ยินดีต้อนรับ!</div>
+            <div class="welcome-name" id="welcome-name"></div>
+        </div>
+    </div>
+
+    <!-- PYTHON LEVEL -->
+    <div id="python-level-page" class="page">
+        <div class="container" style="max-width:500px; padding-top:3rem;">
+            <div class="card" style="text-align:center;">
+                <h2 style="color:var(--accent3);">🐍 ก่อนเริ่มเลย...</h2>
+                <p style="color:var(--muted); margin-bottom:1.5rem;">คุณรู้จัก <strong style="color:var(--text);">Python</strong> มากแค่ไหน?</p>
+                <div class="py-options">
+                    <div class="py-option" onclick="selectPyLevel(this,'มาก')">🔥 รู้จักมาก</div>
+                    <div class="py-option" onclick="selectPyLevel(this,'ปานกลาง')">😊 ปานกลาง</div>
+                    <div class="py-option" onclick="selectPyLevel(this,'น้อยมาก')">🌱 น้อยมาก</div>
+                </div>
+                <br>
+                <button class="btn" id="py-confirm-btn" onclick="confirmPyLevel()" style="display:none; width:100%">ยืนยัน →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN HOME -->
+    <div id="user-home" class="page">
+        <div class="topbar">
+            <div class="topbar-title">🎯 น้องรหัส</div>
+            <div class="topbar-user" id="topbar-username"></div>
+        </div>
+        <div class="container">
+            <!-- Hints -->
+            <div class="card">
+                <h2>💡 คำใบ้น้องรหัส</h2>
+                <div class="hint-grid" id="hint-grid"></div>
+            </div>
+            <!-- Questions -->
+            <div class="card">
+                <h2>📝 บทดสอบ</h2>
+                <div id="quiz-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ 1 - BMI -->
+    <div id="quiz-1-page" class="page">
+        <div class="topbar">
+            <div class="topbar-title">📝 คำถามที่ 1 - BMI</div>
+            <button class="btn btn-secondary" onclick="goHome()" style="padding:0.4rem 1rem; font-size:0.85rem;">🏠 หน้าหลัก</button>
+        </div>
+        <div class="container">
+            <div class="card">
+                <h2>การคำนวณค่าดัชนีมวลกาย (BMI)</h2>
+                <div class="quiz-section">
+                    <p class="quiz-desc">สูตรคำนวณค่า BMI:</p>
+                    <div class="formula-block">bmi = weight / height²</div>
+                    <p class="quiz-desc">จากสูตรดังต่อไปนี้ <strong>weight</strong> มีหน่วยเป็นกิโลกรัม และ <strong>height</strong> มีหน่วยเป็นเมตร</p>
+                    <br>
+                    <p class="quiz-desc">เมื่อคำนวณได้ค่า bmi สามารถตรวจสอบระดับภาวะน้ำหนักได้ตามตารางนี้:</p>
+                    <table class="bmi-table">
+                        <tr>
+                            <th>BMI</th>
+                            <th>ลักษณะรูปร่าง</th>
+                            <th>BMI</th>
+                            <th>ลักษณะรูปร่าง</th>
+                        </tr>
+                        <tr>
+                            <td>>= 40</td>
+                            <td>อ้วนชั้นสูงสุด</td>
+                            <td>>= 35</td>
+                            <td>อ้วนชั้นที่ 2</td>
+                        </tr>
+                        <tr>
+                            <td>>= 28.5</td>
+                            <td>อ้วนชั้นที่ 1</td>
+                            <td>>= 23.5</td>
+                            <td>น้ำหนักเกิน</td>
+                        </tr>
+                        <tr>
+                            <td>>= 18.5</td>
+                            <td>น้ำหนักปกติ</td>
+                            <td>
+                                < 18.5</td>
+                                    <td>น้ำหนักต่ำกว่าเกณฑ์</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <p class="quiz-desc"><strong>Input:</strong> น้ำหนัก (กก.) และส่วนสูง (ม.) — 2 บรรทัด<br><strong>Output:</strong> ลักษณะรูปร่างตามตาราง</p>
+                    <table class="bmi-table" style="margin-top:0.5rem;">
+                        <tr>
+                            <th>Input</th>
+                            <th>Output</th>
+                        </tr>
+                        <tr>
+                            <td>48<br>1.60</td>
+                            <td>น้ำหนักปกติ</td>
+                        </tr>
+                        <tr>
+                            <td>70<br>1.639</td>
+                            <td>น้ำหนักต่ำกว่าเกณฑ์</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h3>✍️ เติมโค้ด Python ของคุณ</h3>
+                <textarea id="quiz1-code" placeholder="# เขียนโค้ดของคุณที่นี่...
+weight = float(input())
+height = float(input())
+# คำนวณ bmi และแสดงผล"></textarea>
+                <div style="display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap;">
+                    <div>
+                        <label style="margin-bottom:0.2rem;">Input ทดสอบ</label>
+                        <input type="text" id="quiz1-input" placeholder="เช่น 48 และ 1.60" style="width:200px; margin-bottom:0;">
+                    </div>
+                    <div style="margin-top:1.2rem;">
+                        <button class="btn" onclick="runQuiz1()">▶ ประมวลผล</button>
+                    </div>
+                </div>
+                <div id="quiz1-result" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ 2 - Guessing Game -->
+    <div id="quiz-2-page" class="page">
+        <div class="topbar">
+            <div class="topbar-title">📝 คำถามที่ 2 - เกมทายเลข</div>
+            <button class="btn btn-secondary" onclick="goHome()" style="padding:0.4rem 1rem; font-size:0.85rem;">🏠 หน้าหลัก</button>
+        </div>
+        <div class="container">
+            <div class="card">
+                <h2>แบบฝึกหัด 2.1 : เกมทายเลข 1</h2>
+                <div class="quiz-section">
+                    <p class="quiz-desc">เกมทายเลข เป็นเกมที่มีผู้เล่น 2 คน ได้แก่คนกำหนดเลขและคนทายเลข คนกำหนดเลขจะเลือกเลขที่อยู่ระหว่าง <strong>1-100</strong> ออกมา 1 จำนวน จากนั้นเขียนเลขลงในกระดาษ จากนั้นคนทายเลขจะบอกตัวเลข 1 จำนวน</p>
+                    <br>
+                    <p class="quiz-desc">• หากตัวเลขตรงกับที่คนกำหนดเลือก จะบอกว่า "You Win!!!"</p>
+                    <p class="quiz-desc">• แต่หากต่างกัน จะบอกว่า "You Lose!!!" และตรวจสอบเงื่อนไขต่อว่า</p>
+                    <p class="quiz-desc" style="padding-left:1.5rem;">○ หากมากกว่า จะบอกว่า "too high"</p>
+                    <p class="quiz-desc" style="padding-left:1.5rem;">○ หากน้อยกว่า จะบอกว่า "too low"</p>
+                    <br>
+                    <p class="quiz-desc">กำหนดให้มีตัวแปร <code style="color:var(--accent3);">winning_number</code> เก็บเลขที่คนกำหนดเลือกไว้</p>
+                    <table class="game-table" style="margin-top:1rem;">
+                        <tr>
+                            <th>winning_number</th>
+                            <th>Input</th>
+                            <th>Output</th>
+                        </tr>
+                        <tr>
+                            <td>50</td>
+                            <td>25</td>
+                            <td>You Lose!!!\ntoo low</td>
+                        </tr>
+                        <tr>
+                            <td>75</td>
+                            <td>99</td>
+                            <td>You Lose!!!\ntoo high</td>
+                        </tr>
+                        <tr>
+                            <td>74</td>
+                            <td>74</td>
+                            <td>You Win!!!</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h3>✍️ เติมโค้ด Python ของคุณ</h3>
+                <textarea id="quiz2-code" placeholder="# เขียนโค้ดของคุณที่นี่...
+winning_number = int(input())
+guess = int(input())
+# ตรวจสอบและแสดงผล"></textarea>
+                <div style="display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap;">
+                    <div>
+                        <label style="margin-bottom:0.2rem;">Input ทดสอบ (winning_number และ guess)</label>
+                        <input type="text" id="quiz2-input" placeholder="เช่น 50 25" style="width:240px; margin-bottom:0;">
+                    </div>
+                    <div style="margin-top:1.2rem;">
+                        <button class="btn" onclick="runQuiz2()">▶ ประมวลผล</button>
+                    </div>
+                </div>
+                <div id="quiz2-result" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ 3 - Average -->
+    <div id="quiz-3-page" class="page">
+        <div class="topbar">
+            <div class="topbar-title">📝 คำถามที่ 3 - คะแนนเฉลี่ย</div>
+            <button class="btn btn-secondary" onclick="goHome()" style="padding:0.4rem 1rem; font-size:0.85rem;">🏠 หน้าหลัก</button>
+        </div>
+        <div class="container">
+            <div class="card">
+                <h2>โปรแกรมคะแนนนักเรียน</h2>
+                <div class="quiz-section">
+                    <p class="quiz-desc">ในห้องเรียนแห่งหนึ่งมีนักเรียนอยู่ 10 คน อาจารย์สมศรีใส่ให้นักเรียนทำแบบทดสอบวิชาการเขียนโปรแกรมเบื้องต้น เมื่อตรวจเสร็จ อาจารย์สมศรีจึงได้คะแนนแบบนักเรียนทั้ง 10 คน</p>
+                    <br>
+                    <p class="quiz-desc">จงเขียนโปรแกรมช่วยอาจารย์สมศรี หาผลรวมและค่าเฉลี่ยของคะแนนนักเรียนทั้ง 10 คน</p>
+                    <br>
+                    <p class="quiz-desc"><strong>Input:</strong> 10 บรรทัด — แต่ละบรรทัดแทนคะแนนนักเรียน (เลขจำนวนเต็ม)</p>
+                    <p class="quiz-desc"><strong>Output:</strong> 2 บรรทัด</p>
+                    <p class="quiz-desc" style="padding-left:1rem;">• บรรทัดที่ 1 — ผลรวมคะแนน</p>
+                    <p class="quiz-desc" style="padding-left:1rem;">• บรรทัดที่ 2 — ค่าเฉลี่ยของคะแนน (ทศนิยม 3 ตำแหน่ง)</p>
+                    <table class="score-table" style="margin-top:1rem;">
+                        <tr>
+                            <th>Input</th>
+                            <th>Output</th>
+                        </tr>
+                        <tr>
+                            <td>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</td>
+                            <td>55<br>5.500</td>
+                        </tr>
+                    </table>
+                    <p style="font-size:0.82rem; color:var(--muted); margin-top:0.8rem;">💡 หมายเหตุ: ให้เขียนโปรแกรมแบบไม่ได้ก่อน เมื่อถูกแล้วไปแก้โปรแกรม โดยใช้ append และฟังก์ชัน sum และ len</p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>✍️ เติมโค้ด Python ของคุณ</h3>
+                <textarea id="quiz3-code" placeholder="# เขียนโค้ดของคุณที่นี่...
+scores = []
+for i in range(10):
+    scores.append(int(input()))
+# คำนวณผลรวมและค่าเฉลี่ย"></textarea>
+                <div style="display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap;">
+                    <div>
+                        <label style="margin-bottom:0.2rem;">Input ทดสอบ (10 คะแนน คั่นด้วย space หรือ ขึ้นบรรทัดใหม่)</label>
+                        <input type="text" id="quiz3-input" placeholder="เช่น 1 2 3 4 5 6 7 8 9 10" style="width:300px; margin-bottom:0;">
+                    </div>
+                    <div style="margin-top:1.2rem;">
+                        <button class="btn" onclick="runQuiz3()">▶ ประมวลผล</button>
+                    </div>
+                </div>
+                <div id="quiz3-result" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALL DONE -->
+    <div id="all-done-page" class="page">
+        <div class="container" style="text-align:center; padding-top:4rem;">
+            <div style="font-size:5rem; animation: bounce 1s ease;">🏆</div>
+            <h2 style="font-size:2rem; color:var(--accent); margin: 1rem 0;">ยินดีด้วย!</h2>
+            <p style="font-size:1.2rem; color:var(--text); margin-bottom:0.5rem;">คุณผ่านบททดสอบหมดแล้ว 🎉</p>
+            <p style="color:var(--muted); margin-bottom:2rem;">คำใบ้ทั้งหมดพร้อมแล้ว ไปไขปริศนากันเลย!</p>
+            <button class="btn" onclick="goHome()">กลับหน้าหลัก</button>
+        </div>
+    </div>
+
+    <script>
+        // ========================
+        // DATA
+        // ========================
+        const ADMIN_EMAIL = "68023559";
+        const ADMIN_PASS = "68023559";
+
+        const USERS_RAW = [
+            "นายปารมี บุญนำ", "นางสาวบุษยมาศ เสาร์แก้ว", "นายนวสัตยา สงนำมา", "ภัทธิยาภรณ์ สุดใจ",
+            "นางสาวภัคจิรา งามสะอาด", "นาย สิรภัทร อมรรังสิโรจน์", "นาย นันทภพ ติ๊บประโจ๊ก",
+            "นาย ดลยพล บุญทรัพย์ทวี", "ธนัชพร มัตหลา", "นาย ยศพนธ์ มีเมล์", "นาย ศักรินทร์ ยาวิชัย",
+            "ชมพูนุช ปัญญาดิษฐ์วงษ์", "น.ส. ศราวดี สมบูรณ์", "น.ส.ชลิตา ขำเกิด", "ธณัฐเทพ มีปาน",
+            "น.ส.กัลยกร ก๋องแสน", "น.ส.อัญชิสา โหว่ภักดี", "นาย ศรัณยู", "นาย ฤทธิพงษ์ หาทรัพย์",
+            "นางสาวจิณัฐตา ศุภสิทธิ์", "นาย ปริวัฒน์ โตสุวรรณ", "นายประสพสุข ศรีนอก",
+            "นายศุภกร จันทร์งาม", "นายนครินทร์ หมอนทอง", "นาย ณัฐภูมิ ธรรมบุตร",
+            "นางสาว เวฬุริยา มัจพันธุ์", "น.ส.จินต์จุฑา ทองแดง", "น.ส.อริสา ซอมอย",
+            "นายธนภัทร นามดี", "นาย กฤษดา ใจยา", "นางสาว รวินท์นิภา ยาวิชัย",
+            "นางสาว จิรัชยา สิทธิยศ", "นายกัณฑ์อเนก วอเพชร", "นายอธิชาติ ชัยวรรณ์",
+            "นายทีปกร ถิ่นสอน", "นายพัทรพล บาลี", "นาย ธนากร รินแก้ว",
+            "นางสาวนิศราภรณ์ โคตรทองทิพย์", "นายจิณณ์ อินทสมมุติ", "นายศุภวิชญ์ เทียนนุ่ม",
+            "นาย ภาณุวัฒน์ ปิงสุแสน", "นายบวร พงษ์ประเสริฐ", "นาย ชนาธิป ปัญญานะ",
+            "ปณชัย สังข์ทอง", "นาย ธวัชชัย เครือบุญราช", "นาย เขมินทร์ ขอบปี",
+            "นาย ปรัชญา หอมพรมมา", "นาย ฐิติวัฒน์ คำสอน", "นาย กวินท์ สมบัติ",
+            "นายธนวัฒน์ ยิ้มย่อง", "นายปวริศร ศรีเลิศ", "นายนรภัทร บูรณ์ปอง",
+            "นางสาวมัลลิกา สุขประเสริฐ", "นาย ศักย์ศรณ์ เมฆดำรงศรี", "นาย ภารดร ดาวเดือน",
+            "นาย ชยานันท์ บุญกัณท์", "นาย สิทธิกร สังเกตกิจ", "นาย กิตติภูมิ ดีปินตา",
+            "นาย ภูริณัฐ คำวรรณะ", "นายเจษฎา รังสิบรรพต", "นางสาววริยา จารุมาโนชญ์",
+            "นายเกียรติภูมิ ชาวเชียงตุง", "นายธีรเดช อุปนันไชย", "ธวัชชัย หวานใจ",
+            "นาย ขจรเกียรติ์ แรมวิโรจน์", "นายภูริวัฒน์ เขื่อนเชียงสา", "นาย ณัฐภัทร แจ่มจ้อย",
+            "นางสาว วรรณธนพร วงศ์ใหญ่", "นาย ปกปักษ์ สายฝั้น", "นาย กษิดิ์เดช กันทาสุวรรณ์",
+            "นายจักร์ตรีพงษ์ หมู่ศรีจร", "ธนพงษื วงศ์ไชยพศ", "ธีรวัฒน์ คิดปัน",
+            "นาย ธนดล จันทร์แสง", "นาย ชลธร ช่างเหลา"
+        ];
+
+        // Normalize names: remove extra spaces
+        const USERS = USERS_RAW.map(n => n.replace(/\s+/g, ' ').trim());
+
+        // Password = last name only (normalize)
+        function getPassword(fullname) {
+            return "1234";
+        }
+
+        // State
+        let state = {
+            currentPage: 'landing',
+            currentUser: null,
+            quizOpen: {
+                1: true,
+                2: false,
+                3: false
+            },
+            quizDone: {}, // per user
+            visits: {}, // username -> timestamp
+            pyLevel: null
+        };
+
+        function loadState() {
+            try {
+                const s = localStorage.getItem('norrhaas_state');
+                if (s) {
+                    const parsed = JSON.parse(s);
+                    state.quizOpen = parsed.quizOpen || {
+                        1: true,
+                        2: false,
+                        3: false
+                    };
+                    state.visits = parsed.visits || {};
+                    state.quizDone = parsed.quizDone || {};
+                }
+            } catch (e) {}
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem('norrhaas_state', JSON.stringify({
+                    quizOpen: state.quizOpen,
+                    visits: state.visits,
+                    quizDone: state.quizDone
+                }));
+            } catch (e) {}
+        }
+
+        loadState();
+
+        // ========================
+        // NAVIGATION
+        // ========================
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.add('active');
+                state.currentPage = id;
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // ========================
+        // ADMIN
+        // ========================
+        function adminLogin() {
+            const email = document.getElementById('admin-email').value.trim();
+            const pass = document.getElementById('admin-pass').value.trim();
+            const err = document.getElementById('admin-err');
+            if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+                err.style.display = 'none';
+                renderAdminDash();
+                showPage('admin-dash');
+            } else {
+                err.textContent = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
+                err.style.display = 'block';
+            }
+        }
+
+        function renderAdminDash() {
+            // Toggle rows
+            const toggleContainer = document.getElementById('toggle-rows');
+            toggleContainer.innerHTML = '';
+            for (let q = 1; q <= 3; q++) {
+                const row = document.createElement('div');
+                row.className = 'toggle-row';
+                const isOpen = state.quizOpen[q];
+                row.innerHTML = `
+      <span class="toggle-label">คำถามที่ ${q}</span>
+      <label class="toggle-switch">
+        <input type="checkbox" ${isOpen ? 'checked' : ''} onchange="toggleQuiz(${q}, this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    `;
+                toggleContainer.appendChild(row);
+            }
+            // User list
+            const userList = document.getElementById('admin-user-list');
+            userList.innerHTML = '';
+            USERS.forEach(name => {
+                        const visitInfo = state.visits[name];
+                        const row = document.createElement('div');
+                        row.className = 'user-row';
+                        let badge = '';
+                        let timeStr = '';
+                        if (visitInfo) {
+                            const d = new Date(visitInfo.time);
+                            timeStr = `${d.toLocaleDateString('th-TH')} ${d.toLocaleTimeString('th-TH')}`;
+                            badge = `<span class="badge badge-visited">เคยเข้า</span>`;
+                        } else {
+                            badge = `<span class="badge badge-never">ยังไม่เข้า</span>`;
+                        }
+                        row.innerHTML = `<span>${name}</span><div style="display:flex;align-items:center;gap:0.5rem;">${timeStr ? `<span style="font-size:0.75rem;color:var(--muted);">${timeStr}</span>` : ''}${badge}</div>`;
+    userList.appendChild(row);
+  });
+}
+
+function toggleQuiz(q, val) {
+  state.quizOpen[q] = val;
+  saveState();
+}
+
+// ========================
+// USER
+// ========================
+function userLogin() {
+  const nameInput = document.getElementById('user-name-input').value.trim().replace(/\s+/g,' ');
+  const passInput = document.getElementById('user-pass-input').value.trim();
+  const err = document.getElementById('user-err');
+
+  const matched = USERS.find(u => u === nameInput);
+  if (!matched) {
+    err.textContent = 'ไม่พบชื่อผู้ใช้ในระบบ กรุณาตรวจสอบชื่อ-นามสกุลให้ถูกต้อง';
+    err.style.display = 'block';
+    return;
+  }
+  const expectedPass = getPassword(matched);
+  if (passInput !== expectedPass) {
+    err.textContent = 'รหัสผ่านไม่ถูกต้อง';
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  state.currentUser = matched;
+  // Record visit
+  state.visits[matched] = { time: new Date().toISOString() };
+  if (!state.quizDone[matched]) state.quizDone[matched] = {};
+  saveState();
+  // Show welcome
+  document.getElementById('welcome-msg').textContent = 'ยินดีต้อนรับ! 🎉';
+  document.getElementById('welcome-name').textContent = matched;
+  showPage('welcome-page');
+const alreadyChose = state.visits[matched]?.pyLevel;
+setTimeout(() => {
+    if (alreadyChose) {
+        state.pyLevel = alreadyChose;
+        renderUserHome();
+        showPage('user-home');
+    } else {
+        showPage('python-level-page');
+    }
+}, 2200);
+}
+
+let selectedPyLevel = null;
+function selectPyLevel(el, level) {
+  document.querySelectorAll('.py-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPyLevel = level;
+  document.getElementById('py-confirm-btn').style.display = 'inline-block';
+}
+function confirmPyLevel() {
+    state.pyLevel = selectedPyLevel;
+    state.visits[state.currentUser].pyLevel = selectedPyLevel;
+    saveState();
+    renderUserHome();
+    showPage('user-home');
+}
+
+function goHome() {
+  renderUserHome();
+  showPage('user-home');
+}
+
+function renderUserHome() {
+  document.getElementById('topbar-username').textContent = state.currentUser || '';
+  const done = state.quizDone[state.currentUser] || {};
+  const hints = [
+    { label: 'คำใบ้ที่ 1', content: 'พี่สูง180', unlocked: done[1] },
+    { label: 'คำใบ้ที่ 2', content: 'เรารักแก', unlocked: done[2] },
+    { label: 'คำใบ้ที่ 3', content: 'ชื่อพี่มี ณ แต่ไม่ได้เป็นเจ้า', unlocked: done[3] },
+  ];
+  const hintGrid = document.getElementById('hint-grid');
+  hintGrid.innerHTML = '';
+  hints.forEach((h, i) => {
+    const card = document.createElement('div');
+    card.className = 'hint-card ' + (h.unlocked ? 'unlocked' : 'locked');
+    card.innerHTML = `<div class="hint-num">${h.label}</div>
+      ${h.unlocked
+        ? `<div class="hint-content">🔓 ${h.content}</div>`
+        : `<div class="hint-status">🔒 ล็อก — ทำคำถามที่ ${i+1} ก่อน</div>`}`;
+    hintGrid.appendChild(card);
+  });
+
+  // Quiz list
+  const qlist = document.getElementById('quiz-list');
+  qlist.innerHTML = '';
+  const quizInfo = [
+    { num: 1, title: 'คำนวณ BMI', icon: '⚖️' },
+    { num: 2, title: 'เกมทายเลข', icon: '🎲' },
+    { num: 3, title: 'คะแนนเฉลี่ยนักเรียน', icon: '📊' },
+  ];
+  quizInfo.forEach((q) => {
+    const isOpen = state.quizOpen[q.num];
+    const isDone = done[q.num];
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.07);';
+    const statusBadge = isDone
+      ? '<span class="badge" style="background:rgba(16,185,129,0.2);color:var(--green);">✅ เสร็จแล้ว</span>'
+      : isOpen
+        ? '<span class="badge" style="background:rgba(6,182,212,0.2);color:var(--accent3);">เปิดแล้ว</span>'
+        : '<span class="badge" style="background:rgba(148,163,184,0.1);color:var(--muted);">🔒 รอแอดมิน</span>';
+    row.innerHTML = `
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <span style="font-size:1.5rem;">${q.icon}</span>
+        <div>
+          <div style="font-weight:600;">คำถามที่ ${q.num}</div>
+          <div style="font-size:0.85rem;color:var(--muted);">${q.title}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        ${statusBadge}
+        ${isOpen && !isDone ? `<button class="btn" onclick="openQuiz(${q.num})" style="padding:0.4rem 1rem;font-size:0.85rem;">เริ่ม →</button>` : ''}
+      </div>
+    `;
+    qlist.appendChild(row);
+  });
+}
+
+function openQuiz(num) {
+  if (!state.quizOpen[num]) {
+    alert('คำถามนี้ยังไม่เปิด รอแอดมินเปิดก่อนนะ');
+    return;
+  }
+  showPage('quiz-' + num + '-page');
+}
+
+// ========================
+// QUIZ RUNNERS (simulate Python logic in JS)
+// ========================
+
+function showQuizResult(elId, type, html) {
+  const el = document.getElementById(elId);
+  el.style.display = 'block';
+  el.className = 'quiz-result ' + type;
+  el.innerHTML = html;
+}
+
+function markQuizDone(num) {
+  if (!state.quizDone[state.currentUser]) state.quizDone[state.currentUser] = {};
+  state.quizDone[state.currentUser][num] = true;
+  saveState();
+  spawnConfetti();
+}
+
+// --- QUIZ 1: BMI ---
+function runQuiz1() {
+  const code = document.getElementById('quiz1-code').value.trim();
+  const inputVal = document.getElementById('quiz1-input').value.trim();
+  const lines = inputVal.split(/[\s\n]+/).filter(Boolean);
+  if (lines.length < 2) {
+    showQuizResult('quiz1-result', 'warn', '⚠️ กรุณากรอก Input 2 บรรทัด: น้ำหนัก และ ส่วนสูง');
+    return;
+  }
+  const weight = parseFloat(lines[0]);
+  const height = parseFloat(lines[1]);
+  if (isNaN(weight) || isNaN(height)) {
+    showQuizResult('quiz1-result', 'warn', '⚠️ Input ต้องเป็นตัวเลข');
+    return;
+  }
+  // Compute expected
+  const bmi = weight / (height * height);
+  let expected = '';
+  if (bmi >= 40) expected = 'อ้วนชั้นสูงสุด';
+  else if (bmi >= 35) expected = 'อ้วนชั้นที่ 2';
+  else if (bmi >= 28.5) expected = 'อ้วนชั้นที่ 1';
+  else if (bmi >= 23.5) expected = 'น้ำหนักเกิน';
+  else if (bmi >= 18.5) expected = 'น้ำหนักปกติ';
+  else expected = 'น้ำหนักต่ำกว่าเกณฑ์';
+  // Check if code contains key logic
+  const codeOk = code.length > 20 && (code.includes('bmi') || code.includes('weight') || code.includes('height'));
+  if (!codeOk) {
+    showQuizResult('quiz1-result', 'warn', '⚠️ กรุณาเขียนโค้ดให้ครบก่อนนะ!');
+    return;
+  }
+  // Run simulation
+  const output = simulateBMI(weight, height);
+  const correct = output === expected;
+  if (correct) {
+    markQuizDone(1);
+    showQuizResult('quiz1-result', 'success',
+      `✅ Output: <strong>${output}</strong><br><br>🎉 <strong>ยินดีด้วยคุณตอบถูกต้อง!!!</strong><br>💡 คำใบ้ที่ 1 ปลดล็อกแล้ว: <em>"พี่สูง180"</em>`);
+    setTimeout(() => { renderUserHome(); showPage('user-home'); }, 3500);
+  } else {
+    showQuizResult('quiz1-result', 'error',
+      `❌ Output ที่ได้: <strong>${output}</strong><br>คาดหวัง: <strong>${expected}</strong><br><br>พยายามอีกนิดนะ พี่รหัสของน้องรออยู่ 💪`);
+  }
+}
+
+function simulateBMI(w, h) {
+  const bmi = w / (h * h);
+  if (bmi >= 40) return 'อ้วนชั้นสูงสุด';
+  if (bmi >= 35) return 'อ้วนชั้นที่ 2';
+  if (bmi >= 28.5) return 'อ้วนชั้นที่ 1';
+  if (bmi >= 23.5) return 'น้ำหนักเกิน';
+  if (bmi >= 18.5) return 'น้ำหนักปกติ';
+  return 'น้ำหนักต่ำกว่าเกณฑ์';
+}
+
+// --- QUIZ 2: Guessing Game ---
+function runQuiz2() {
+  const code = document.getElementById('quiz2-code').value.trim();
+  const inputVal = document.getElementById('quiz2-input').value.trim();
+  const parts = inputVal.split(/[\s\n]+/).filter(Boolean);
+  if (parts.length < 2) {
+    showQuizResult('quiz2-result', 'warn', '⚠️ กรุณากรอก 2 ค่า: winning_number และ guess');
+    return;
+  }
+  const winning = parseInt(parts[0]);
+  const guess = parseInt(parts[1]);
+  if (isNaN(winning) || isNaN(guess)) {
+    showQuizResult('quiz2-result', 'warn', '⚠️ กรุณากรอกตัวเลขจำนวนเต็ม');
+    return;
+  }
+  const codeOk = code.length > 20 && (code.includes('winning') || code.includes('Win') || code.includes('Lose'));
+  if (!codeOk) {
+    showQuizResult('quiz2-result', 'warn', '⚠️ กรุณาเขียนโค้ดให้ครบก่อนนะ!');
+    return;
+  }
+  const output = simulateGuess(winning, guess);
+  if (guess === winning) {
+    markQuizDone(2);
+    showQuizResult('quiz2-result', 'success',
+      `✅ Output: <strong>${output}</strong><br><br>🎉 <strong>ยินดีด้วยคุณตอบถูกต้อง!!!</strong><br>💡 คำใบ้ที่ 2 ปลดล็อกแล้ว: <em>"เรารักแก"</em>`);
+    setTimeout(() => { renderUserHome(); showPage('user-home'); }, 3500);
+  } else {
+    showQuizResult('quiz2-result', 'error',
+      `Output: <strong>${output.replace(/\n/g, '<br>')}</strong><br><br>พยายามอีกนิดนะ พี่รหัสของน้องรออยู่ 💪`);
+  }
+}
+
+function simulateGuess(winning, guess) {
+  if (guess === winning) return 'You Win!!!';
+  if (guess > winning) return 'You Lose!!!\ntoo high';
+  return 'You Lose!!!\ntoo low';
+}
+
+// --- QUIZ 3: Average ---
+function runQuiz3() {
+  const code = document.getElementById('quiz3-code').value.trim();
+  const inputVal = document.getElementById('quiz3-input').value.trim();
+  const parts = inputVal.split(/[\s\n,]+/).filter(Boolean).map(Number);
+  if (parts.length !== 10 || parts.some(isNaN)) {
+    showQuizResult('quiz3-result', 'warn', '⚠️ กรุณากรอกคะแนน 10 ค่า คั่นด้วย space');
+    return;
+  }
+  const codeOk = code.length > 20 && (code.includes('scores') || code.includes('sum') || code.includes('append') || code.includes('range'));
+  if (!codeOk) {
+    showQuizResult('quiz3-result', 'warn', '⚠️ กรุณาเขียนโค้ดให้ครบก่อนนะ!');
+    return;
+  }
+  const total = parts.reduce((a,b) => a+b, 0);
+  const avg = (total / parts.length).toFixed(3);
+  markQuizDone(3);
+  showQuizResult('quiz3-result', 'success',
+    `✅ Output:<br><strong>${total}<br>${avg}</strong><br><br>🎉 <strong>ยินดีด้วยคุณตอบถูกต้อง!!!</strong><br>💡 คำใบ้สุดท้าย: <em>"ชื่อพี่มี ณ แต่ไม่ได้เป็นเจ้า"</em>`);
+  setTimeout(() => {
+    renderUserHome(); 
+    showPage('all-done-page');
+  }, 3500);
+}
+
+// ========================
+// UTILS
+// ========================
+function logout() {
+  state.currentUser = null;
+  state.pyLevel = null;
+  showPage('landing');
+}
+
+function spawnConfetti() {
+  const colors = ['#f59e0b','#ec4899','#06b6d4','#10b981','#a78bfa'];
+  for (let i = 0; i < 30; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.cssText = `
+      left: ${Math.random()*100}vw;
+      top: ${50 + Math.random()*30}vh;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      animation-delay: ${Math.random()*0.5}s;
+      animation-duration: ${0.6 + Math.random()*0.6}s;
+    `;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 1500);
+  }
+}
+    </script>
+</body>
+
+</html>

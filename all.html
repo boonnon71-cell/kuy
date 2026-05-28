@@ -1,0 +1,3842 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UP Dental — ระบบทันตกรรมมหาวิทยาลัยพะเยา</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ============================
+   RESET & BASE
+   ============================ */
+        
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+        
+        :root {
+            --navy: #0B1F3A;
+            --navy2: #162D50;
+            --navy3: #1E3F70;
+            --teal: #0D7377;
+            --teal2: #14BDBD;
+            --teal3: #E0F7F7;
+            --amber: #C97D2C;
+            --amber2: #F5A623;
+            --amber3: #FEF3DC;
+            --red: #C0392B;
+            --red2: #E74C3C;
+            --red3: #FDECEC;
+            --green: #1A7A4A;
+            --green2: #27AE60;
+            --green3: #E8F8F0;
+            --gray0: #F4F6FA;
+            --gray1: #E8ECF2;
+            --gray2: #C8D0DC;
+            --gray3: #8896A8;
+            --gray4: #4A5568;
+            --gray5: #2D3748;
+            --white: #FFFFFF;
+            --shadow-sm: 0 1px 3px rgba(11, 31, 58, .08), 0 1px 2px rgba(11, 31, 58, .06);
+            --shadow: 0 4px 12px rgba(11, 31, 58, .10), 0 2px 6px rgba(11, 31, 58, .06);
+            --shadow-lg: 0 12px 32px rgba(11, 31, 58, .14), 0 4px 12px rgba(11, 31, 58, .08);
+            --shadow-xl: 0 24px 64px rgba(11, 31, 58, .18);
+            --radius-sm: 6px;
+            --radius: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 20px;
+            --font: 'IBM Plex Sans Thai', sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+            --transition: all .18s cubic-bezier(.4, 0, .2, 1);
+        }
+        
+        html {
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased
+        }
+        
+        body {
+            font-family: var(--font);
+            background: var(--gray0);
+            color: var(--navy);
+            min-height: 100vh;
+            line-height: 1.6
+        }
+        
+        button,
+        input,
+        select,
+        textarea {
+            font-family: var(--font);
+            font-size: inherit
+        }
+        
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: var(--transition)
+        }
+        
+        input,
+        select,
+        textarea {
+            outline: none;
+            transition: var(--transition)
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+        
+        img {
+            display: block;
+            max-width: 100%
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0
+        }
+        /* ============================
+   UTILITY
+   ============================ */
+        
+        .flex {
+            display: flex
+        }
+        
+        .flex-col {
+            flex-direction: column
+        }
+        
+        .items-center {
+            align-items: center
+        }
+        
+        .justify-between {
+            justify-content: space-between
+        }
+        
+        .justify-center {
+            justify-content: center
+        }
+        
+        .gap-4 {
+            gap: 4px
+        }
+        
+        .gap-8 {
+            gap: 8px
+        }
+        
+        .gap-12 {
+            gap: 12px
+        }
+        
+        .gap-16 {
+            gap: 16px
+        }
+        
+        .gap-20 {
+            gap: 20px
+        }
+        
+        .gap-24 {
+            gap: 24px
+        }
+        
+        .flex-1 {
+            flex: 1
+        }
+        
+        .flex-wrap {
+            flex-wrap: wrap
+        }
+        
+        .w-full {
+            width: 100%
+        }
+        
+        .text-center {
+            text-align: center
+        }
+        
+        .hidden {
+            display: none!important
+        }
+        
+        .fade-in {
+            animation: fadeIn .25s ease forwards
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-8px)
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: .5
+            }
+        }
+        /* ============================
+   SCROLLBAR
+   ============================ */
+        
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray2);
+            border-radius: 99px
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray3)
+        }
+        /* ============================
+   SCREEN MANAGER
+   ============================ */
+        
+        .screen {
+            display: none;
+            animation: fadeIn .2s ease
+        }
+        
+        .screen.active {
+            display: block
+        }
+        
+        #screen-select.active {
+            display: flex
+        }
+        /* ============================
+   SELECT SCREEN
+   ============================ */
+        
+        #screen-select {
+            min-height: 100vh;
+            background: var(--navy);
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            overflow: hidden
+        }
+        
+        #screen-select::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 800px 600px at 20% 30%, rgba(13, 115, 119, .25) 0%, transparent 70%), radial-gradient(ellipse 600px 400px at 80% 70%, rgba(30, 63, 112, .4) 0%, transparent 70%);
+            pointer-events: none
+        }
+        
+        .select-card {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 600px;
+            width: 100%
+        }
+        
+        .select-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px
+        }
+        
+        .logo-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--teal), var(--teal2));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 8px 24px rgba(13, 115, 119, .4)
+        }
+        
+        .select-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -.3px
+        }
+        
+        .select-sub {
+            color: rgba(255, 255, 255, .5);
+            font-size: 14px;
+            margin-bottom: 40px;
+            margin-top: 4px
+        }
+        
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px
+        }
+        
+        .role-btn {
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: var(--radius-xl);
+            padding: 28px 16px;
+            color: var(--white);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden
+        }
+        
+        .role-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .08), transparent);
+            opacity: 0;
+            transition: var(--transition)
+        }
+        
+        .role-btn:hover {
+            background: rgba(255, 255, 255, .1);
+            border-color: rgba(255, 255, 255, .25);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .2)
+        }
+        
+        .role-btn:hover::before {
+            opacity: 1
+        }
+        
+        .role-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+            display: block
+        }
+        
+        .role-name {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px
+        }
+        
+        .role-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .55);
+            line-height: 1.5
+        }
+        
+        .role-btn.staff .role-icon-bg {
+            background: rgba(13, 115, 119, .3)
+        }
+        
+        .role-btn.doctor .role-icon-bg {
+            background: rgba(20, 189, 189, .2)
+        }
+        
+        .role-btn.patient .role-icon-bg {
+            background: rgba(245, 166, 35, .2)
+        }
+        /* ============================
+   LOGIN SCREEN
+   ============================ */
+        
+        #screen-login {
+            min-height: 100vh;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative
+        }
+        
+        #screen-login.active {
+            display: flex
+        }
+        
+        .login-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0
+        }
+        
+        .login-bg-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 45%;
+            background: var(--navy)
+        }
+        
+        .login-bg-left::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            background: var(--navy);
+            clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%)
+        }
+        
+        .login-wrap {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 0;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            max-width: 860px;
+            width: 100%
+        }
+        
+        .login-left {
+            background: var(--navy);
+            padding: 48px 40px;
+            color: var(--white);
+            width: 380px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden
+        }
+        
+        .login-left::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(13, 115, 119, .15);
+            pointer-events: none
+        }
+        
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(20, 189, 189, .08);
+            pointer-events: none
+        }
+        
+        .login-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px
+        }
+        
+        .login-brand-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--teal);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px
+        }
+        
+        .login-brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -.2px
+        }
+        
+        .login-welcome h1 {
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 10px
+        }
+        
+        .login-welcome p {
+            color: rgba(255, 255, 255, .55);
+            font-size: 14px;
+            line-height: 1.7
+        }
+        
+        .login-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 32px
+        }
+        
+        .login-role-badge.staff {
+            background: rgba(13, 115, 119, .25);
+            color: var(--teal2)
+        }
+        
+        .login-role-badge.doctor {
+            background: rgba(20, 189, 189, .2);
+            color: var(--teal2)
+        }
+        
+        .login-role-badge.patient {
+            background: rgba(245, 166, 35, .2);
+            color: var(--amber2)
+        }
+        
+        .login-right {
+            background: var(--white);
+            padding: 48px 40px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+        
+        .login-right h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--navy)
+        }
+        
+        .login-right .sub {
+            color: var(--gray3);
+            font-size: 13px;
+            margin-bottom: 32px
+        }
+        
+        .form-group {
+            margin-bottom: 18px
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray4);
+            margin-bottom: 6px
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid var(--gray1);
+            border-radius: var(--radius);
+            font-size: 14px;
+            background: var(--white);
+            color: var(--navy);
+            transition: var(--transition)
+        }
+        
+        .form-input:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(13, 115, 119, .1)
+        }
+        
+        .form-input::placeholder {
+            color: var(--gray3)
+        }
+        
+        .form-input.error {
+            border-color: var(--red2)
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: var(--navy);
+            color: var(--white);
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden
+        }
+        
+        .btn-primary:hover {
+            background: var(--navy2);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow)
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0)
+        }
+        
+        .btn-primary.teal {
+            background: var(--teal)
+        }
+        
+        .btn-primary.teal:hover {
+            background: var(--teal2)
+        }
+        
+        .btn-primary.amber {
+            background: var(--amber)
+        }
+        
+        .btn-primary.amber:hover {
+            background: var(--amber2)
+        }
+        
+        .login-err {
+            background: var(--red3);
+            color: var(--red);
+            border: 1px solid rgba(199, 32, 43, .15);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            margin-bottom: 16px
+        }
+        
+        .login-hint {
+            margin-top: 20px;
+            padding: 14px;
+            background: var(--gray0);
+            border-radius: var(--radius);
+            font-size: 12px;
+            color: var(--gray3)
+        }
+        
+        .login-hint strong {
+            color: var(--gray4);
+            display: block;
+            margin-bottom: 4px
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--gray3);
+            font-size: 13px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0
+        }
+        
+        .back-btn:hover {
+            color: var(--gray4)
+        }
+        /* ============================
+   MAIN APP
+   ============================ */
+        
+        #screen-app {
+            display: none;
+            min-height: 100vh;
+            flex-direction: column
+        }
+        
+        #screen-app.active {
+            display: flex
+        }
+        
+        .topbar {
+            height: 58px;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray1);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: var(--shadow-sm)
+        }
+        
+        .topbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-right: 20px;
+            border-right: 1px solid var(--gray1);
+            margin-right: 16px
+        }
+        
+        .topbar-logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0
+        }
+        
+        .topbar-logo-icon.staff {
+            background: var(--teal3);
+            color: var(--teal)
+        }
+        
+        .topbar-logo-icon.doctor {
+            background: var(--teal3);
+            color: var(--teal)
+        }
+        
+        .topbar-logo-icon.patient {
+            background: var(--amber3);
+            color: var(--amber)
+        }
+        
+        .topbar-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--navy);
+            white-space: nowrap
+        }
+        
+        .topbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex: 1;
+            overflow-x: auto
+        }
+        
+        .topbar-nav::-webkit-scrollbar {
+            display: none
+        }
+        
+        .nav-btn {
+            padding: 6px 13px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray4);
+            background: transparent;
+            white-space: nowrap;
+            transition: var(--transition)
+        }
+        
+        .nav-btn:hover {
+            background: var(--gray0);
+            color: var(--navy)
+        }
+        
+        .nav-btn.active {
+            background: var(--navy);
+            color: var(--white)
+        }
+        
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            flex-shrink: 0
+        }
+        
+        .notif-btn {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius);
+            background: var(--gray0);
+            color: var(--gray4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: var(--transition)
+        }
+        
+        .notif-btn:hover {
+            background: var(--gray1)
+        }
+        
+        .notif-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            min-width: 16px;
+            height: 16px;
+            background: var(--red2);
+            color: #fff;
+            border-radius: 99px;
+            font-size: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3px
+        }
+        
+        .user-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px 5px 5px;
+            border-radius: var(--radius);
+            background: var(--gray0);
+            transition: var(--transition);
+            border: 1px solid transparent
+        }
+        
+        .user-btn:hover {
+            background: var(--gray1);
+            border-color: var(--gray2)
+        }
+        
+        .avatar {
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            background: var(--navy);
+            color: var(--white)
+        }
+        
+        .avatar-img {
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0
+        }
+        
+        .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            max-width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+        /* ============================
+   DROPDOWN
+   ============================ */
+        
+        .dropdown-wrap {
+            position: relative
+        }
+        
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            background: var(--white);
+            border: 1px solid var(--gray1);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            min-width: 240px;
+            z-index: 200;
+            overflow: hidden;
+            animation: fadeIn .15s ease
+        }
+        
+        .dropdown-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--gray0)
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: var(--gray4);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none
+        }
+        
+        .dropdown-item:hover {
+            background: var(--gray0);
+            color: var(--navy)
+        }
+        
+        .dropdown-item.danger {
+            color: var(--red2)
+        }
+        
+        .dropdown-item.danger:hover {
+            background: var(--red3)
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background: var(--gray0);
+            margin: 4px 0
+        }
+        /* ============================
+   CONTENT AREA
+   ============================ */
+        
+        .content {
+            flex: 1;
+            padding: 24px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto
+        }
+        /* ============================
+   PAGE HEADER
+   ============================ */
+        
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy)
+        }
+        
+        .page-subtitle {
+            font-size: 13px;
+            color: var(--gray3);
+            margin-top: 2px
+        }
+        /* ============================
+   CARDS
+   ============================ */
+        
+        .card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray1);
+            box-shadow: var(--shadow-sm)
+        }
+        
+        .card-body {
+            padding: 20px 24px
+        }
+        
+        .card-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--gray1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+        
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--navy)
+        }
+        /* ============================
+   BUTTONS
+   ============================ */
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            white-space: nowrap
+        }
+        
+        .btn:active {
+            transform: scale(.98)
+        }
+        
+        .btn-navy {
+            background: var(--navy);
+            color: var(--white)
+        }
+        
+        .btn-navy:hover {
+            background: var(--navy2)
+        }
+        
+        .btn-teal {
+            background: var(--teal);
+            color: var(--white)
+        }
+        
+        .btn-teal:hover {
+            background: var(--teal2)
+        }
+        
+        .btn-green {
+            background: var(--green);
+            color: var(--white)
+        }
+        
+        .btn-green:hover {
+            background: var(--green2)
+        }
+        
+        .btn-red {
+            background: var(--red);
+            color: var(--white)
+        }
+        
+        .btn-red:hover {
+            background: var(--red2)
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            color: var(--gray4);
+            border: 1.5px solid var(--gray2)
+        }
+        
+        .btn-ghost:hover {
+            background: var(--gray0);
+            border-color: var(--gray3)
+        }
+        
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 12px
+        }
+        
+        .btn-lg {
+            padding: 12px 24px;
+            font-size: 15px
+        }
+        
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border-radius: var(--radius)
+        }
+        
+        .btn-icon-sm {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border-radius: var(--radius-sm)
+        }
+        /* ============================
+   BADGES
+   ============================ */
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap
+        }
+        
+        .badge-navy {
+            background: #EBF0F8;
+            color: var(--navy3)
+        }
+        
+        .badge-teal {
+            background: var(--teal3);
+            color: var(--teal)
+        }
+        
+        .badge-green {
+            background: var(--green3);
+            color: var(--green)
+        }
+        
+        .badge-amber {
+            background: var(--amber3);
+            color: var(--amber)
+        }
+        
+        .badge-red {
+            background: var(--red3);
+            color: var(--red)
+        }
+        
+        .badge-gray {
+            background: var(--gray0);
+            color: var(--gray4)
+        }
+        
+        .badge-dot::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            display: inline-block
+        }
+        /* ============================
+   FORM ELEMENTS
+   ============================ */
+        
+        .form-group-row {
+            margin-bottom: 16px
+        }
+        
+        .label-sm {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray4);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+        
+        .input {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid var(--gray1);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            background: var(--white);
+            color: var(--navy);
+            transition: var(--transition)
+        }
+        
+        .input:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(13, 115, 119, .1)
+        }
+        
+        .input::placeholder {
+            color: var(--gray3)
+        }
+        
+        .input.error {
+            border-color: var(--red2);
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, .1)
+        }
+        
+        .select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238896A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px
+        }
+        
+        .textarea {
+            resize: vertical;
+            min-height: 80px;
+            line-height: 1.6
+        }
+        
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px
+        }
+        
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px
+        }
+        
+        .col-span-2 {
+            grid-column: 1/-1
+        }
+        /* ============================
+   TABLE
+   ============================ */
+        
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px
+        }
+        
+        thead tr {
+            background: var(--gray0)
+        }
+        
+        th {
+            padding: 10px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gray3);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            white-space: nowrap
+        }
+        
+        td {
+            padding: 12px 16px;
+            border-top: 1px solid var(--gray1);
+            color: var(--gray5);
+            vertical-align: middle
+        }
+        
+        tr:hover td {
+            background: rgba(244, 246, 250, .7)
+        }
+        /* ============================
+   PATIENT CARD
+   ============================ */
+        
+        .patient-card {
+            background: var(--white);
+            border: 1px solid var(--gray1);
+            border-radius: var(--radius-lg);
+            padding: 18px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition)
+        }
+        
+        .patient-card:hover {
+            border-color: var(--gray2);
+            box-shadow: var(--shadow)
+        }
+        
+        .patient-card-info {
+            flex: 1;
+            min-width: 0
+        }
+        
+        .patient-card-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 4px
+        }
+        
+        .patient-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--gray4);
+            margin-bottom: 8px
+        }
+        
+        .patient-card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px
+        }
+        
+        .patient-card-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+        
+        .allergy-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--red3);
+            color: var(--red);
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 500
+        }
+        
+        .appt-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 6px
+        }
+        
+        .appt-today {
+            background: #FDECEC;
+            color: var(--red)
+        }
+        
+        .appt-soon {
+            background: var(--amber3);
+            color: var(--amber)
+        }
+        
+        .appt-normal {
+            background: var(--teal3);
+            color: var(--teal)
+        }
+        /* ============================
+   PAGINATION
+   ============================ */
+        
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 20px
+        }
+        
+        .page-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--gray1);
+            background: var(--white);
+            color: var(--gray4);
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition)
+        }
+        
+        .page-btn:hover:not(:disabled) {
+            border-color: var(--gray3);
+            color: var(--navy)
+        }
+        
+        .page-btn.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white)
+        }
+        
+        .page-btn:disabled {
+            opacity: .4;
+            cursor: not-allowed
+        }
+        /* ============================
+   MODAL
+   ============================ */
+        
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 31, 58, .5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeOverlay .2s ease
+        }
+        
+        @keyframes fadeOverlay {
+            from {
+                opacity: 0
+            }
+            to {
+                opacity: 1
+            }
+        }
+        
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-xl);
+            animation: modalIn .2s cubic-bezier(.34, 1.56, .64, 1)
+        }
+        
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(.96) translateY(8px)
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0)
+            }
+        }
+        
+        .modal-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--gray1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1
+        }
+        
+        .modal-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--navy)
+        }
+        
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1
+        }
+        
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--gray1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-shrink: 0;
+            background: var(--white)
+        }
+        
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            background: var(--gray0);
+            color: var(--gray4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 18px;
+            line-height: 1
+        }
+        
+        .modal-close:hover {
+            background: var(--gray1);
+            color: var(--navy)
+        }
+        
+        .step-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--gray1);
+            margin-bottom: 24px
+        }
+        
+        .step-tab {
+            flex: 1;
+            padding: 10px 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray3);
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: var(--transition)
+        }
+        
+        .step-tab.active {
+            color: var(--navy);
+            border-bottom-color: var(--navy)
+        }
+        
+        .step-tab.done {
+            color: var(--green2)
+        }
+        /* ============================
+   STAT CARDS
+   ============================ */
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px
+        }
+        
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--gray1);
+            border-radius: var(--radius-lg);
+            padding: 18px 20px;
+            box-shadow: var(--shadow-sm)
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray3);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 8px
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--navy);
+            font-family: var(--mono)
+        }
+        
+        .stat-meta {
+            font-size: 12px;
+            color: var(--gray3);
+            margin-top: 4px
+        }
+        
+        .stat-card.teal .stat-value {
+            color: var(--teal)
+        }
+        
+        .stat-card.green .stat-value {
+            color: var(--green)
+        }
+        
+        .stat-card.amber .stat-value {
+            color: var(--amber)
+        }
+        
+        .stat-card.red .stat-value {
+            color: var(--red)
+        }
+        /* ============================
+   ALERT
+   ============================ */
+        
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 16px
+        }
+        
+        .alert-info {
+            background: #EBF0F8;
+            color: var(--navy2);
+            border: 1px solid rgba(30, 63, 112, .15)
+        }
+        
+        .alert-success {
+            background: var(--green3);
+            color: var(--green);
+            border: 1px solid rgba(26, 122, 74, .15)
+        }
+        
+        .alert-warn {
+            background: var(--amber3);
+            color: var(--amber);
+            border: 1px solid rgba(201, 125, 44, .15)
+        }
+        
+        .alert-danger {
+            background: var(--red3);
+            color: var(--red);
+            border: 1px solid rgba(192, 57, 43, .15)
+        }
+        /* ============================
+   CHAT
+   ============================ */
+        
+        .chat-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 16px;
+            height: calc(100vh - 160px);
+            min-height: 500px
+        }
+        
+        .chat-sidebar {
+            background: var(--white);
+            border: 1px solid var(--gray1);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column
+        }
+        
+        .chat-sidebar-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--gray1)
+        }
+        
+        .chat-contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 3px solid transparent
+        }
+        
+        .chat-contact:hover {
+            background: var(--gray0)
+        }
+        
+        .chat-contact.active {
+            background: #EBF0F8;
+            border-left-color: var(--navy)
+        }
+        
+        .chat-contact-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--navy)
+        }
+        
+        .chat-contact-preview {
+            font-size: 12px;
+            color: var(--gray3);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+        
+        .chat-main {
+            background: var(--white);
+            border: 1px solid var(--gray1);
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden
+        }
+        
+        .chat-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--gray1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+        
+        .chat-bubble-wrap {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end
+        }
+        
+        .chat-bubble-wrap.mine {
+            flex-direction: row-reverse
+        }
+        
+        .chat-bubble {
+            max-width: 68%;
+            padding: 9px 14px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-break: break-word
+        }
+        
+        .chat-bubble.other {
+            background: var(--gray0);
+            color: var(--navy);
+            border-radius: 4px 14px 14px 14px
+        }
+        
+        .chat-bubble.mine {
+            background: var(--navy);
+            color: var(--white);
+            border-radius: 14px 4px 14px 14px
+        }
+        
+        .chat-time {
+            font-size: 11px;
+            color: var(--gray3);
+            margin-top: 3px;
+            text-align: right
+        }
+        
+        .chat-input-bar {
+            padding: 12px 16px;
+            border-top: 1px solid var(--gray1);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 9px 14px;
+            border: 1.5px solid var(--gray1);
+            border-radius: 99px;
+            font-size: 14px;
+            background: var(--gray0);
+            transition: var(--transition)
+        }
+        
+        .chat-input:focus {
+            background: var(--white);
+            border-color: var(--teal)
+        }
+        /* ============================
+   NOTIFICATION
+   ============================ */
+        
+        .notif-item {
+            display: flex;
+            gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--gray1);
+            transition: var(--transition)
+        }
+        
+        .notif-item:hover {
+            background: var(--gray0)
+        }
+        
+        .notif-item.unread {
+            background: #F2F6FF
+        }
+        
+        .notif-icon-wrap {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0
+        }
+        
+        .notif-icon-wrap.blue {
+            background: #EBF0F8
+        }
+        
+        .notif-icon-wrap.green {
+            background: var(--green3)
+        }
+        
+        .notif-icon-wrap.amber {
+            background: var(--amber3)
+        }
+        
+        .notif-icon-wrap.red {
+            background: var(--red3)
+        }
+        
+        .notif-msg {
+            font-size: 14px;
+            color: var(--navy);
+            line-height: 1.5;
+            margin-bottom: 3px
+        }
+        
+        .notif-time {
+            font-size: 12px;
+            color: var(--gray3)
+        }
+        /* ============================
+   CLINIC GRID
+   ============================ */
+        
+        .clinic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 12px
+        }
+        
+        .clinic-tile {
+            background: var(--white);
+            border: 1.5px solid var(--gray1);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden
+        }
+        
+        .clinic-tile::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--navy);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition)
+        }
+        
+        .clinic-tile:hover,
+        .clinic-tile.active {
+            border-color: var(--navy);
+            box-shadow: var(--shadow)
+        }
+        
+        .clinic-tile:hover::after,
+        .clinic-tile.active::after {
+            transform: scaleX(1)
+        }
+        
+        .clinic-tile-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+            line-height: 1.4
+        }
+        
+        .clinic-tile-count {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--teal);
+            font-family: var(--mono)
+        }
+        
+        .clinic-tile-sub {
+            font-size: 12px;
+            color: var(--gray3);
+            margin-top: 2px
+        }
+        /* ============================
+   GOAL PROGRESS
+   ============================ */
+        
+        .goal-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray1)
+        }
+        
+        .goal-clinic-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--navy);
+            width: 200px;
+            flex-shrink: 0
+        }
+        
+        .goal-bar-wrap {
+            flex: 1;
+            background: var(--gray1);
+            border-radius: 99px;
+            height: 8px;
+            overflow: hidden
+        }
+        
+        .goal-bar {
+            height: 100%;
+            border-radius: 99px;
+            background: var(--teal);
+            transition: width .5s cubic-bezier(.4, 0, .2, 1)
+        }
+        
+        .goal-bar.done {
+            background: var(--green)
+        }
+        
+        .goal-count {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray4);
+            font-family: var(--mono);
+            width: 50px;
+            text-align: right;
+            flex-shrink: 0
+        }
+        /* ============================
+   HISTORY VIEW
+   ============================ */
+        
+        .history-sidebar {
+            width: 260px;
+            flex-shrink: 0
+        }
+        
+        .history-pt-item {
+            padding: 11px 14px;
+            cursor: pointer;
+            border-radius: var(--radius);
+            margin-bottom: 4px;
+            transition: var(--transition)
+        }
+        
+        .history-pt-item:hover {
+            background: var(--gray0)
+        }
+        
+        .history-pt-item.active {
+            background: #EBF0F8
+        }
+        
+        .history-field {
+            display: flex;
+            align-items: baseline;
+            gap: 0;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray1)
+        }
+        
+        .history-key {
+            font-size: 13px;
+            color: var(--gray3);
+            font-weight: 500;
+            width: 200px;
+            flex-shrink: 0
+        }
+        
+        .history-val {
+            font-size: 14px;
+            color: var(--navy);
+            flex: 1
+        }
+        /* ============================
+   CONFIRM DIALOG
+   ============================ */
+        
+        .confirm-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 16px
+        }
+        
+        .confirm-icon.info {
+            background: #EBF0F8
+        }
+        
+        .confirm-icon.warn {
+            background: var(--amber3)
+        }
+        
+        .confirm-icon.danger {
+            background: var(--red3)
+        }
+        
+        .confirm-icon.success {
+            background: var(--green3)
+        }
+        /* ============================
+   EMPTY STATE
+   ============================ */
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--gray3)
+        }
+        
+        .empty-icon {
+            font-size: 52px;
+            margin-bottom: 16px;
+            display: block;
+            opacity: .6
+        }
+        
+        .empty-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray4);
+            margin-bottom: 6px
+        }
+        
+        .empty-desc {
+            font-size: 13px;
+            line-height: 1.7;
+            max-width: 320px;
+            margin: 0 auto
+        }
+        /* ============================
+   PATIENT DETAIL
+   ============================ */
+        
+        .detail-section {
+            margin-bottom: 24px
+        }
+        
+        .detail-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            color: var(--gray3);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--gray1)
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0
+        }
+        
+        .detail-row {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray0)
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: var(--gray3);
+            font-weight: 500;
+            margin-bottom: 2px
+        }
+        
+        .detail-value {
+            font-size: 14px;
+            color: var(--navy);
+            font-weight: 500
+        }
+        /* ============================
+   TOAST
+   ============================ */
+        
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none
+        }
+        
+        .toast {
+            background: var(--navy);
+            color: var(--white);
+            padding: 12px 18px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            box-shadow: var(--shadow-lg);
+            animation: toastIn .3s cubic-bezier(.34, 1.56, .64, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 340px;
+            pointer-events: auto
+        }
+        
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.96)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1)
+            }
+        }
+        
+        .toast.success {
+            background: var(--green)
+        }
+        
+        .toast.warn {
+            background: var(--amber)
+        }
+        
+        .toast.error {
+            background: var(--red)
+        }
+        /* ============================
+   APPOINTMENT
+   ============================ */
+        
+        .appt-countdown {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 700
+        }
+        /* ============================
+   RESPONSIVE HELPERS
+   ============================ */
+        
+        @media(max-width:768px) {
+            .form-grid-2,
+            .form-grid-3 {
+                grid-template-columns: 1fr
+            }
+            .chat-layout {
+                grid-template-columns: 1fr
+            }
+            .history-layout {
+                flex-direction: column
+            }
+            .role-grid {
+                grid-template-columns: 1fr
+            }
+            .login-left {
+                display: none
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+            .content {
+                padding: 16px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==============================
+     SCREEN: SELECT ROLE
+     ============================== -->
+    <section id="screen-select" class="screen active">
+        <div class="select-card fade-in">
+            <div class="select-logo">
+                <div class="logo-icon">🦷</div>
+                <div>
+                    <div class="select-title">UP Dental System</div>
+                </div>
+            </div>
+            <p class="select-sub">ระบบจัดการทันตกรรม · มหาวิทยาลัยพะเยา</p>
+            <div class="role-grid">
+                <button class="role-btn staff" onclick="goLogin('staff')">
+        <span class="role-icon">📋</span>
+        <div class="role-name">เวชระเบียน</div>
+        <div class="role-desc">เจ้าหน้าที่จัดการข้อมูลผู้ป่วย แพทย์ และยืนยันการรักษา</div>
+      </button>
+                <button class="role-btn doctor" onclick="goLogin('doctor')">
+        <span class="role-icon">🩺</span>
+        <div class="role-name">นักศึกษาทันตแพทย์</div>
+        <div class="role-desc">รับผู้ป่วย บันทึกการรักษา และติดตามเป้าหมายคลินิก</div>
+      </button>
+                <button class="role-btn patient" onclick="goLogin('patient')">
+        <span class="role-icon">👤</span>
+        <div class="role-name">ผู้ป่วย</div>
+        <div class="role-desc">ดูนัดหมาย สถานะการรักษา และแชทกับแพทย์</div>
+      </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SCREEN: LOGIN
+     ============================== -->
+    <section id="screen-login" class="screen">
+        <div class="login-bg">
+            <div class="login-bg-left"></div>
+        </div>
+        <div class="login-wrap fade-in">
+            <div class="login-left">
+                <div class="login-brand">
+                    <div class="login-brand-icon">🦷</div>
+                    <div class="login-brand-name">UP Dental</div>
+                </div>
+                <div class="login-welcome">
+                    <div id="login-role-badge" class="login-role-badge staff"></div>
+                    <h1 id="login-welcome-title">ยินดีต้อนรับสู่<br>ระบบทันตกรรม</h1>
+                    <p id="login-welcome-desc">กรุณาเข้าสู่ระบบด้วยบัญชีที่ได้รับจากโรงพยาบาล</p>
+                </div>
+            </div>
+            <div class="login-right">
+                <button class="back-btn" onclick="goSelect()">← กลับ</button>
+                <h2>เข้าสู่ระบบ</h2>
+                <p class="sub" id="login-subtitle">กรอกอีเมลและรหัสผ่านของคุณ</p>
+                <div id="login-error" class="login-err" style="display:none"></div>
+                <div class="form-group">
+                    <label class="form-label">อีเมล</label>
+                    <input id="login-email" type="email" class="form-input" placeholder="กรอกอีเมล">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">รหัสผ่าน</label>
+                    <input id="login-password" type="password" class="form-input" placeholder="รหัสผ่าน" onkeydown="if(event.key==='Enter')doLogin()">
+                </div>
+                <button id="login-btn" class="btn-primary" onclick="doLogin()">เข้าสู่ระบบ</button>
+                <div class="login-hint">
+                    <strong>บัญชีทดสอบ</strong>
+                    <span id="login-hint-text"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SCREEN: APP
+     ============================== -->
+    <section id="screen-app" class="screen">
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="topbar-logo">
+                <div class="topbar-logo-icon" id="topbar-icon">🦷</div>
+                <span class="topbar-name">UP Dental</span>
+            </div>
+            <nav class="topbar-nav" id="topbar-nav"></nav>
+            <div class="topbar-right">
+                <div class="dropdown-wrap">
+                    <button class="notif-btn" id="notif-btn" onclick="toggleDropdown('notif-drop')">
+          🔔<span class="notif-badge" id="notif-badge" style="display:none">0</span>
+        </button>
+                    <div class="dropdown" id="notif-drop" style="display:none;width:320px;max-height:400px;overflow-y:auto">
+                        <div class="dropdown-header">
+                            <span style="font-weight:700;font-size:14px">การแจ้งเตือน</span>
+                        </div>
+                        <div id="notif-list"></div>
+                    </div>
+                </div>
+                <div class="dropdown-wrap">
+                    <button class="user-btn" onclick="toggleDropdown('user-drop')">
+          <div class="avatar" id="topbar-avatar" style="width:28px;height:28px;font-size:11px"></div>
+          <span class="user-name" id="topbar-username"></span>
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#8896A8" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+                    <div class="dropdown" id="user-drop" style="display:none">
+                        <div class="dropdown-header">
+                            <div style="display:flex;align-items:center;gap:10px">
+                                <div class="avatar" id="drop-avatar" style="width:38px;height:38px;font-size:14px"></div>
+                                <div>
+                                    <div style="font-weight:700;font-size:14px" id="drop-name"></div>
+                                    <div style="font-size:12px;color:var(--gray3)" id="drop-email"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="dropdown-item" onclick="navigateTo('profile')">👤 โปรไฟล์ของฉัน</button>
+                        <div class="dropdown-divider"></div>
+                        <a href="https://reg.up.ac.th" target="_blank" class="dropdown-item">🔗 ระบบทะเบียน (REG)</a>
+                        <a href="https://ge.up.ac.th" target="_blank" class="dropdown-item">🔗 วิชาศึกษาทั่วไป (GE)</a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item danger" onclick="doLogout()">→ ออกจากระบบ</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content" id="main-content">
+            <!-- Injected by JS -->
+        </main>
+    </section>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script>
+        /* ============================================================
+           DATA LAYER — localStorage
+           ============================================================ */
+        const DB = {
+            get(k, def) {
+                try {
+                    const d = localStorage.getItem('updental_' + k);
+                    return d ? JSON.parse(d) : def;
+                } catch {
+                    return def;
+                }
+            },
+            set(k, v) {
+                try {
+                    localStorage.setItem('updental_' + k, JSON.stringify(v));
+                } catch {}
+            },
+            patients() {
+                return this.get('patients', []);
+            },
+            setPatients(p) {
+                this.set('patients', p);
+            },
+            doctors() {
+                return this.get('doctors', []);
+            },
+            setDoctors(d) {
+                this.set('doctors', d);
+            },
+            users() {
+                return this.get('users', [{
+                    id: 'u1',
+                    email: 'staff@up.ac.th',
+                    password: '1234',
+                    role: 'staff',
+                    name: 'นางสาวสมหญิง ใจดี',
+                    clinic: 'เวชระเบียน'
+                }, {
+                    id: 'u2',
+                    email: 'doctor1@up.ac.th',
+                    password: '1234',
+                    role: 'doctor',
+                    name: 'นพ.วีระ สุขสบาย',
+                    year: '5',
+                    specialty: 'ทันตกรรมบูรณะ'
+                }, {
+                    id: 'u3',
+                    email: 'doctor2@up.ac.th',
+                    password: '1234',
+                    role: 'doctor',
+                    name: 'นพ.สมชาย รักษาดี',
+                    year: '4',
+                    specialty: 'ทันตกรรมจัดฟัน'
+                }, {
+                    id: 'u4',
+                    email: 'patient@gmail.com',
+                    password: '1234',
+                    role: 'patient',
+                    name: 'นายธนภูมิ มีสุข'
+                }, {
+                    id: 'u5',
+                    email: 'patient2@gmail.com',
+                    password: '1234',
+                    role: 'patient',
+                    name: 'นางสาวพิมพ์ชนก ดีใจ'
+                }, ]);
+            },
+            notifs(email) {
+                return this.get('notif_' + email, []);
+            },
+            addNotif(email, msg, icon = '🔔', color = 'blue') {
+                const n = this.notifs(email);
+                n.unshift({
+                    msg,
+                    icon,
+                    color,
+                    time: thaiNow(),
+                    unread: true,
+                    id: Date.now()
+                });
+                this.set('notif_' + email, n.slice(0, 60));
+            },
+            chats(key) {
+                return this.get('chat_' + key, []);
+            },
+            setChats(key, msgs) {
+                this.set('chat_' + key, msgs);
+            },
+            patientInfo(email) {
+                return this.get('ptinfo_' + email, null);
+            },
+            setPatientInfo(email, info) {
+                this.set('ptinfo_' + email, info);
+            },
+        };
+
+        /* ============================================================
+           HELPERS
+           ============================================================ */
+        const CLINICS = ['ทันตกรรมรังสี', 'ทันตกรรมประดิษฐ์', 'ทันตกรรมครอบครัว', 'ทันตกรรมพร้อมมูล', 'ทันตกรรมบูรณะ', 'ทันตกรรมจัดฟัน', 'เอนโดดอนติกส์', 'ศัลยกรรมช่องปาก', 'ปริทันตวิทยา', 'ทันตกรรมบดเคี้ยว'];
+        const DAYS = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี'];
+        const TIMES = ['เช้า', 'บ่าย', 'ทั้งวัน'];
+        const YEARS = ['4', '5', '6'];
+
+        function thaiNow() {
+            return new Date().toLocaleString('th-TH', {
+                timeZone: 'Asia/Bangkok',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function todayISO() {
+            return new Date().toLocaleDateString('sv-SE', {
+                timeZone: 'Asia/Bangkok'
+            });
+        }
+
+        function fmtDate(d) {
+            if (!d) return '—';
+            try {
+                return new Date(d).toLocaleDateString('th-TH', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    timeZone: 'Asia/Bangkok'
+                });
+            } catch {
+                return d;
+            }
+        }
+
+        function daysDiff(d) {
+            if (!d) return null;
+            const diff = new Date(d) - new Date(todayISO());
+            return Math.ceil(diff / (1000 * 60 * 60 * 24));
+        }
+
+        function initials(name) {
+            if (!name) return '?';
+            const parts = name.trim().split(' ').filter(Boolean);
+            return parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : name.slice(0, 2).toUpperCase();
+        }
+
+        function avatarHtml(name, size = 36, bg = '#0B1F3A') {
+            return `<div class="avatar" style="width:${size}px;height:${size}px;font-size:${Math.round(size * 0.35)}px;background:${bg};flex-shrink:0">${initials(name)}</div>`;
+        }
+
+        function colorForRole(role) {
+            return {
+                staff: '#0D7377',
+                doctor: '#0D7377',
+                patient: '#C97D2C'
+            }[role] || '#0B1F3A';
+        }
+
+        function statusBadge(status) {
+            const m = {
+                'รอแพทย์': 'badge-amber',
+                'อยู่ระหว่างรักษา': 'badge-navy',
+                'รักษาเสร็จสิ้น': 'badge-green',
+                'รอยืนยัน': 'badge-red'
+            };
+            return `<span class="badge ${m[status] || 'badge-gray'} badge-dot">${status}</span>`;
+        }
+        let currentUser = null;
+        let currentTab = '';
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        function toast(msg, type = '') {
+            const c = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = 'toast ' + type;
+            t.innerHTML = `<span>${{ success: '✓', warn: '⚠', error: '✕' }[type] || '🔔'}</span> ${msg}`;
+            c.appendChild(t);
+            setTimeout(() => {
+                t.style.opacity = '0';
+                t.style.transform = 'translateY(8px)';
+                t.style.transition = '.3s';
+                setTimeout(() => t.remove(), 300);
+            }, 3000);
+        }
+
+        /* ============================================================
+           DROPDOWN
+           ============================================================ */
+        function toggleDropdown(id) {
+            document.querySelectorAll('.dropdown').forEach(d => {
+                if (d.id !== id) d.style.display = 'none';
+            });
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+            if (el.style.display === 'block' && id === 'notif-drop') renderNotifDrop();
+        }
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.dropdown-wrap')) document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+        });
+
+        /* ============================================================
+           MODAL
+           ============================================================ */
+        function openModal(html, maxW = 600) {
+            closeModal();
+            const ov = document.createElement('div');
+            ov.className = 'modal-overlay';
+            ov.id = 'modal-overlay';
+            ov.innerHTML = `<div class="modal" style="max-width:${maxW}px">${html}</div>`;
+            ov.addEventListener('click', e => {
+                if (e.target === ov) closeModal();
+            });
+            document.body.appendChild(ov);
+        }
+
+        function closeModal() {
+            const m = document.getElementById('modal-overlay');
+            if (m) m.remove();
+        }
+
+        /* ============================================================
+           NAVIGATE
+           ============================================================ */
+        function navigateTo(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+            renderTab(tab);
+            document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+        }
+
+        /* ============================================================
+           SCREENS
+           ============================================================ */
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function goSelect() {
+            showScreen('screen-select');
+        }
+
+        function goLogin(role) {
+            const titles = {
+                staff: ['เจ้าหน้าที่เวชระเบียน', 'กรุณาเข้าสู่ระบบด้วยอีเมลโรงพยาบาล'],
+                doctor: ['นักศึกษาทันตแพทย์', 'ต้องใช้อีเมล @up.ac.th เท่านั้น'],
+                patient: ['ผู้ป่วย', 'เข้าสู่ระบบด้วยอีเมลของคุณ']
+            };
+            const hints = {
+                staff: 'staff@up.ac.th / 1234',
+                doctor: 'doctor1@up.ac.th / 1234',
+                patient: 'patient@gmail.com / 1234'
+            };
+            document.getElementById('login-role-badge').className = `login-role-badge ${role}`;
+            document.getElementById('login-role-badge').textContent = titles[role][0];
+            document.getElementById('login-welcome-title').innerHTML = `ยินดีต้อนรับสู่<br>ระบบ${titles[role][0]}`;
+            document.getElementById('login-welcome-desc').textContent = titles[role][1];
+            document.getElementById('login-subtitle').textContent = titles[role][1];
+            document.getElementById('login-hint-text').textContent = hints[role];
+            document.getElementById('login-btn').className = `btn-primary ${role === 'staff' ? 'teal' : role === 'doctor' ? 'teal' : 'amber'}`;
+            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-email').dataset.role = role;
+            showScreen('screen-login');
+        }
+
+        function doLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const pw = document.getElementById('login-password').value;
+            const role = document.getElementById('login-email').dataset.role;
+            const errEl = document.getElementById('login-error');
+
+            if (!email || !pw) {
+                errEl.textContent = 'กรุณากรอกอีเมลและรหัสผ่าน';
+                errEl.style.display = 'block';
+                return;
+            }
+            if (role === 'doctor' && !email.endsWith('@up.ac.th')) {
+                errEl.textContent = 'นักศึกษาทันตแพทย์ต้องใช้อีเมล @up.ac.th เท่านั้น';
+                errEl.style.display = 'block';
+                return;
+            }
+
+            const users = DB.users();
+            const u = users.find(x => x.email === email && x.password === pw && x.role === role);
+            if (!u) {
+                errEl.textContent = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่';
+                errEl.style.display = 'block';
+                return;
+            }
+
+            currentUser = u;
+            setupApp();
+            showScreen('screen-app');
+            toast(`ยินดีต้อนรับ ${u.name}`, 'success');
+        }
+
+        function doLogout() {
+            if (!confirm('ต้องการออกจากระบบ?')) return;
+            currentUser = null;
+            showScreen('screen-select');
+        }
+
+        /* ============================================================
+           APP SETUP
+           ============================================================ */
+        function setupApp() {
+            const u = currentUser;
+            const iconEl = document.getElementById('topbar-icon');
+            iconEl.textContent = u.role === 'patient' ? '👤' : '🦷';
+            iconEl.className = `topbar-logo-icon ${u.role}`;
+
+            document.getElementById('topbar-username').textContent = u.name;
+            document.getElementById('drop-name').textContent = u.name;
+            document.getElementById('drop-email').textContent = u.email;
+            const av = document.getElementById('topbar-avatar');
+            av.textContent = initials(u.name);
+            av.style.background = colorForRole(u.role);
+            const dav = document.getElementById('drop-avatar');
+            dav.textContent = initials(u.name);
+            dav.style.background = colorForRole(u.role);
+
+            const navDefs = {
+                staff: [{
+                    tab: 'staff-patients',
+                    label: '📋 ผู้ป่วย'
+                }, {
+                    tab: 'staff-doctors',
+                    label: '👨‍⚕️ แพทย์'
+                }, {
+                    tab: 'staff-completed',
+                    label: '✅ รักษาเสร็จ'
+                }, {
+                    tab: 'staff-chat',
+                    label: '💬 แชท'
+                }, {
+                    tab: 'staff-notif',
+                    label: '🔔 แจ้งเตือน'
+                }, ],
+                doctor: [{
+                    tab: 'doc-waiting',
+                    label: '⏳ รอรับผู้ป่วย'
+                }, {
+                    tab: 'doc-mypatients',
+                    label: '🏥 ผู้ป่วยของฉัน'
+                }, {
+                    tab: 'doc-goals',
+                    label: '🎯 เป้าหมาย'
+                }, {
+                    tab: 'doc-clinics',
+                    label: '🏛 คลินิก'
+                }, {
+                    tab: 'doc-doctors',
+                    label: '👨‍⚕️ รายชื่อแพทย์'
+                }, {
+                    tab: 'doc-history',
+                    label: '📂 ประวัติ'
+                }, {
+                    tab: 'doc-chat',
+                    label: '💬 แชท'
+                }, {
+                    tab: 'doc-notif',
+                    label: '🔔 แจ้งเตือน'
+                }, ],
+                patient: [{
+                    tab: 'pt-home',
+                    label: '🏠 หน้าหลัก'
+                }, {
+                    tab: 'pt-info',
+                    label: '📝 ข้อมูลของฉัน'
+                }, {
+                    tab: 'pt-chat',
+                    label: '💬 แชทกับแพทย์'
+                }, {
+                    tab: 'pt-notif',
+                    label: '🔔 แจ้งเตือน'
+                }, ]
+            };
+            const nav = document.getElementById('topbar-nav');
+            nav.innerHTML = navDefs[u.role].map(n => `<button class="nav-btn" data-tab="${n.tab}" onclick="navigateTo('${n.tab}')">${n.label}</button>`).join('');
+
+            const firstTab = navDefs[u.role][0].tab;
+            navigateTo(firstTab);
+            updateNotifBadge();
+        }
+
+        function updateNotifBadge() {
+            if (!currentUser) return;
+            const n = DB.notifs(currentUser.email).filter(x => x.unread);
+            const badge = document.getElementById('notif-badge');
+            badge.style.display = n.length ? 'flex' : 'none';
+            badge.textContent = n.length > 9 ? '9+' : n.length;
+        }
+
+        function renderNotifDrop() {
+            const notifs = DB.notifs(currentUser.email);
+            const list = document.getElementById('notif-list');
+            if (!notifs.length) {
+                list.innerHTML = '<div class="empty-state" style="padding:24px"><span class="empty-icon">🔔</span><div class="empty-title">ไม่มีการแจ้งเตือน</div></div>';
+                return;
+            }
+            list.innerHTML = notifs.slice(0, 10).map(n => `
+    <div class="notif-item ${n.unread ? 'unread' : ''}">
+      <div class="notif-icon-wrap ${n.color || 'blue'}">${n.icon || '🔔'}</div>
+      <div style="flex:1;min-width:0">
+        <div class="notif-msg">${n.msg}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>
+    </div>`).join('');
+            // Mark all read
+            const updated = DB.notifs(currentUser.email).map(x => ({...x,
+                unread: false
+            }));
+            DB.set('notif_' + currentUser.email, updated);
+            updateNotifBadge();
+        }
+
+        /* ============================================================
+           RENDER TAB
+           ============================================================ */
+        function renderTab(tab) {
+            const el = document.getElementById('main-content');
+            const renderers = {
+                // STAFF
+                'staff-patients': renderStaffPatients,
+                'staff-doctors': renderStaffDoctors,
+                'staff-completed': renderStaffCompleted,
+                'staff-chat': () => renderChat('staff'),
+                'staff-notif': renderNotifPage,
+                'profile': renderProfile,
+                // DOCTOR
+                'doc-waiting': renderDocWaiting,
+                'doc-mypatients': renderDocMyPatients,
+                'doc-goals': renderDocGoals,
+                'doc-clinics': renderDocClinics,
+                'doc-doctors': renderDocDoctors,
+                'doc-history': renderDocHistory,
+                'doc-chat': () => renderChat('doctor'),
+                'doc-notif': renderNotifPage,
+                // PATIENT
+                'pt-home': renderPatientHome,
+                'pt-info': renderPatientInfo,
+                'pt-chat': () => renderChat('patient'),
+                'pt-notif': renderNotifPage,
+            };
+            if (renderers[tab]) {
+                el.innerHTML = '';
+                renderers[tab]();
+            }
+        }
+
+        /* ============================================================
+           STAFF — PATIENTS
+           ============================================================ */
+        let staffPatPage = 1;
+        let staffPatSearch = '';
+
+        function renderStaffPatients() {
+            const el = document.getElementById('main-content');
+            const pts = DB.patients();
+            const filtered = pts.filter(p => !staffPatSearch || p.name.includes(staffPatSearch));
+            const total = Math.max(1, Math.ceil(filtered.length / 5));
+            staffPatPage = Math.min(staffPatPage, total);
+            const paged = filtered.slice((staffPatPage - 1) * 5, staffPatPage * 5);
+
+            const waiting = pts.filter(p => p.status === 'รอแพทย์').length;
+            const active = pts.filter(p => p.status === 'อยู่ระหว่างรักษา').length;
+            const done = pts.filter(p => p.status === 'รักษาเสร็จสิ้น').length;
+
+            el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">รายชื่อผู้ป่วย</div><div class="page-subtitle">จัดการข้อมูลผู้ป่วยทั้งหมดในระบบ</div></div>
+      <button class="btn btn-navy btn-lg" onclick="openAddPatientModal()">+ เพิ่มผู้ป่วยใหม่</button>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">ผู้ป่วยทั้งหมด</div><div class="stat-value">${pts.length}</div></div>
+      <div class="stat-card amber"><div class="stat-label">รอแพทย์</div><div class="stat-value">${waiting}</div></div>
+      <div class="stat-card teal"><div class="stat-label">อยู่ระหว่างรักษา</div><div class="stat-value">${active}</div></div>
+      <div class="stat-card green"><div class="stat-label">รักษาเสร็จสิ้น</div><div class="stat-value">${done}</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">รายชื่อผู้ป่วย</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="input" style="width:240px" placeholder="🔍 ค้นหาชื่อผู้ป่วย..." value="${staffPatSearch}" oninput="staffPatSearch=this.value;staffPatPage=1;renderStaffPatients()">
+        </div>
+      </div>
+      <div class="card-body" style="padding:16px 20px">
+        ${paged.length ? paged.map(pt => patientCardHtml(pt, 'staff')).join('') : emptyState('📋', 'ไม่มีผู้ป่วยในระบบ', 'กด "เพิ่มผู้ป่วยใหม่" เพื่อเริ่มต้น')}
+        ${paginationHtml(staffPatPage, total, 'staffPatPage', 'renderStaffPatients')}
+      </div>
+    </div>`;
+        }
+
+        function patientCardHtml(pt, ctx) {
+            const drs = DB.doctors();
+            const dr = drs.find(d => String(d.id) === String(pt.doctorId));
+            const days = daysDiff(pt.appointmentDate);
+            let apptTag = '';
+            if (pt.appointmentDate) {
+                const cls = days !== null && days <= 0 ? 'appt-today' : days !== null && days <= 5 ? 'appt-soon' : 'appt-normal';
+                const label = days !== null && days <= 0 ? '🚨 ถึงวันนัดแล้ว!' : days !== null && days <= 1 ? `⚡ พรุ่งนี้!` : days !== null && days <= 5 ? `⚠️ อีก ${days} วัน` : `📅 ${fmtDate(pt.appointmentDate)}`;
+                apptTag = `<div class="appt-tag ${cls}">${label} · ${fmtDate(pt.appointmentDate)}</div>`;
+            }
+            const actions = ctx === 'staff' ?
+                `<button class="btn btn-ghost btn-sm" onclick="openViewPatient('${pt.id}')">ดูข้อมูล</button>
+       <button class="btn btn-ghost btn-sm" onclick="openEditPatient('${pt.id}')">✏️ แก้ไข</button>` :
+                `<button class="btn btn-ghost btn-sm" onclick="openViewPatient('${pt.id}')">ดูข้อมูล</button>
+       <button class="btn btn-teal btn-sm" onclick="openSetAppt('${pt.id}')">📅 นัดหมาย</button>
+       ${pt.status === 'อยู่ระหว่างรักษา' ? `<button class="btn btn-green btn-sm" onclick="sendTreatmentDone('${pt.id}')">📤 ส่งข้อมูล</button>` : ''}`;
+  return `<div class="patient-card" style="margin-bottom:12px">
+    ${avatarHtml(pt.name, 48)}
+    <div class="patient-card-info">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span class="patient-card-name">${pt.name}</span>
+        ${statusBadge(pt.status)}
+        ${pt.caseType ? `<span class="badge badge-gray">${pt.caseType}</span>` : ''}
+      </div>
+      <div class="patient-card-meta">
+        <span>👤 ${pt.gender || '—'}</span>
+        <span>📆 อายุ ${pt.age || '—'} ปี</span>
+        <span>🏛 ${pt.clinic || '—'}</span>
+        <span>🩺 ${dr ? dr.name : 'ยังไม่มีแพทย์'}</span>
+        <span>📅 รับเมื่อ ${fmtDate(pt.admitDate)}</span>
+      </div>
+      ${pt.allergies && pt.allergies !== 'ไม่มี' ? `<span class="allergy-tag">⚠️ แพ้ยา: ${pt.allergies}</span>` : ''}
+      ${apptTag}
+      <div class="patient-card-actions">${actions}</div>
+    </div>
+  </div>`;
+}
+ 
+/* ============================================================
+   ADD / EDIT PATIENT MODAL
+   ============================================================ */
+function openAddPatientModal(existingId) {
+  const pt = existingId ? DB.patients().find(p => p.id === existingId) : null;
+  const v = k => pt ? (pt[k] || '') : '';
+  openModal(`
+    <div class="modal-header">
+      <h2 class="modal-title">${pt ? 'แก้ไขข้อมูลผู้ป่วย' : 'เพิ่มผู้ป่วยใหม่'}</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="step-tabs">
+        <button class="step-tab active" id="stab1" onclick="switchStep(1)">1. ข้อมูลพื้นฐาน</button>
+        <button class="step-tab" id="stab2" onclick="switchStep(2)">2. ประวัติการรักษา</button>
+        <button class="step-tab" id="stab3" onclick="switchStep(3)">3. ข้อมูลเพิ่มเติม</button>
+      </div>
+      <!-- STEP 1 -->
+      <div id="step1">
+        <div class="form-grid-2">
+          <div class="col-span-2 form-group-row"><label class="label-sm">ชื่อ-สกุล *</label><input class="input" id="pf-name" value="${v('name')}" placeholder="ชื่อ-สกุลผู้ป่วย"></div>
+          <div class="form-group-row"><label class="label-sm">เพศ</label><select class="input select" id="pf-gender"><option value="">เลือกเพศ</option><option ${v('gender')==='ชาย'?'selected':''}>ชาย</option><option ${v('gender')==='หญิง'?'selected':''}>หญิง</option><option ${v('gender')==='อื่นๆ'?'selected':''}>อื่นๆ</option></select></div>
+          <div class="form-group-row"><label class="label-sm">วันเกิด</label><input class="input" type="date" id="pf-dob" value="${v('dob')}"></div>
+          <div class="form-group-row"><label class="label-sm">อายุ (ปี)</label><input class="input" type="number" id="pf-age" value="${v('age')}" min="0" max="150"></div>
+          <div class="form-group-row"><label class="label-sm">น้ำหนัก (กก.)</label><input class="input" type="number" id="pf-weight" value="${v('weight')}"></div>
+          <div class="form-group-row"><label class="label-sm">ส่วนสูง (ซม.)</label><input class="input" type="number" id="pf-height" value="${v('height')}"></div>
+          <div class="form-group-row"><label class="label-sm">เบอร์โทรศัพท์</label><input class="input" id="pf-phone" value="${v('phone')}" placeholder="0XX-XXX-XXXX"></div>
+          <div class="form-group-row"><label class="label-sm">อีเมลผู้ป่วย</label><input class="input" type="email" id="pf-email" value="${v('patientEmail')}" placeholder="example@email.com"></div>
+          <div class="col-span-2 form-group-row"><label class="label-sm">ประวัติการแพ้ยา</label><input class="input" id="pf-allergies" value="${v('allergies')}" placeholder="ระบุยาที่แพ้ หรือ ไม่มี"></div>
+          <div class="col-span-2 form-group-row"><label class="label-sm">ประวัติการแพ้อาหาร</label><input class="input" id="pf-foodallerg" value="${v('foodAllergies')}" placeholder="ระบุอาหารที่แพ้ หรือ ไม่มี"></div>
+          <div class="col-span-2 form-group-row"><label class="label-sm">ยาที่กินประจำ</label><input class="input" id="pf-meds" value="${v('regularMeds')}" placeholder="ระบุยา หรือ ไม่มี"></div>
+          <div class="form-group-row"><label class="label-sm">สูบบุหรี่</label><select class="input select" id="pf-smoke"><option ${v('smokingStatus')==='ไม่สูบ'?'selected':''}>ไม่สูบ</option><option ${v('smokingStatus')==='สูบ'?'selected':''}>สูบ</option><option ${v('smokingStatus')==='เคยสูบ'?'selected':''}>เคยสูบ</option></select></div>
+          <div class="form-group-row"><label class="label-sm">ดื่มสุรา</label><select class="input select" id="pf-alcohol"><option ${v('alcoholStatus')==='ไม่ดื่ม'?'selected':''}>ไม่ดื่ม</option><option ${v('alcoholStatus')==='ดื่ม'?'selected':''}>ดื่ม</option><option ${v('alcoholStatus')==='เคยดื่ม'?'selected':''}>เคยดื่ม</option></select></div>
+        </div>
+      </div>
+      <!-- STEP 2 -->
+      <div id="step2" style="display:none">
+        <div class="form-group-row"><label class="label-sm">วันที่มาทำการรักษาครั้งแรก</label><input class="input" type="date" id="pf-admitDate" value="${v('admitDate') || todayISO()}"></div>
+        <div class="form-group-row"><label class="label-sm">อาการที่มา (Chief Complaint)</label><textarea class="input textarea" id="pf-chief" placeholder="อาการหลักที่ผู้ป่วยมาพบ">${v('chiefComplaint')}</textarea></div>
+        <div class="form-grid-2">
+          <div class="form-group-row"><label class="label-sm">คลินิกแรกที่รักษา</label><select class="input select" id="pf-firstclinic"><option value="">เลือกคลินิก</option>${CLINICS.map(c=>`<option ${v('firstVisitClinic')===c?'selected':''}>${c}</option>`).join('')}</select></div>
+          <div class="form-group-row"><label class="label-sm">ถูกจัดเป็นผู้ป่วยเคส</label><input class="input" id="pf-casetype" value="${v('caseType')}" placeholder="เช่น ทันตกรรมบูรณะ"></div>
+        </div>
+        <div class="form-group-row"><label class="label-sm">ผลตรวจจากคลินิกแรก</label><textarea class="input textarea" style="min-height:60px" id="pf-firstresult">${v('firstVisitResult')}</textarea></div>
+        <div class="form-grid-2">
+          <div class="form-group-row"><label class="label-sm">คลินิกที่ทำการรักษาปัจจุบัน</label><select class="input select" id="pf-clinic"><option value="">เลือกคลินิก</option>${CLINICS.map(c=>`<option ${v('clinic')===c?'selected':''}>${c}</option>`).join('')}</select></div>
+          <div class="form-group-row"><label class="label-sm">ส่งตัวไปคลินิก</label><select class="input select" id="pf-referclinic"><option value="">ไม่มีการส่งตัว</option>${CLINICS.map(c=>`<option ${v('referClinic')===c?'selected':''}>${c}</option>`).join('')}</select></div>
+          <div class="form-group-row"><label class="label-sm">วันที่ส่งตัว</label><input class="input" type="date" id="pf-referdate" value="${v('referDate')}"></div>
+          <div class="form-group-row"><label class="label-sm">แพทย์ผู้ดูแลคนแรก</label><select class="input select" id="pf-firstdr"><option value="">เลือกแพทย์</option>${DB.doctors().map(d=>`<option value="${d.id}" ${v('firstDoctorId')===d.id?'selected':''}>${d.name}</option>`).join('')}</select></div>
+        </div>
+      </div>
+      <!-- STEP 3 -->
+      <div id="step3" style="display:none">
+        <div class="form-grid-2">
+          <div class="form-group-row"><label class="label-sm">การรักษาลำดับที่ 1</label><input class="input" id="pf-tx1" value="${v('treatmentOrder1')}"></div>
+          <div class="form-group-row"><label class="label-sm">การรักษาลำดับที่ 2 (ถ้ามี)</label><input class="input" id="pf-tx2" value="${v('treatmentOrder2')}"></div>
+          <div class="form-group-row"><label class="label-sm">การรักษาลำดับที่ 3 (ถ้ามี)</label><input class="input" id="pf-tx3" value="${v('treatmentOrder3')}"></div>
+          <div class="form-group-row"><label class="label-sm">การรักษาลำดับที่ 4 (ถ้ามี)</label><input class="input" id="pf-tx4" value="${v('treatmentOrder4')}"></div>
+          <div class="form-group-row"><label class="label-sm">ถ่ายภาพรังสีเสร็จวันที่</label><input class="input" type="date" id="pf-xraydate" value="${v('xrayDate')}"></div>
+          <div class="form-group-row"><label class="label-sm">วัน Recall ผู้ป่วย</label><input class="input" type="date" id="pf-recall" value="${v('recallDate')}"></div>
+          <div class="form-group-row"><label class="label-sm">วันที่สิ้นสุดการรักษา</label><input class="input" type="date" id="pf-enddate" value="${v('endDate')}"></div>
+          <div class="form-group-row"><label class="label-sm">หมายเหตุเพิ่มเติม</label><textarea class="input textarea" style="min-height:60px" id="pf-notes">${v('notes')}</textarea></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn btn-navy" onclick="savePatient('${existingId || ''}')">
+        ${pt ? '💾 บันทึกการแก้ไข' : '+ รับผู้ป่วย'}
+      </button>
+    </div>`, 700);
+}
+ 
+function switchStep(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('step'+i).style.display = i===n ? 'block' : 'none';
+    const t = document.getElementById('stab'+i);
+    t.classList.toggle('active', i===n);
+  });
+}
+ 
+function savePatient(existingId) {
+  const name = document.getElementById('pf-name').value.trim();
+  if (!name) { toast('กรุณากรอกชื่อ-สกุล', 'error'); return; }
+  const pt = {
+    id: existingId || String(Date.now()),
+    name, gender: document.getElementById('pf-gender').value,
+    dob: document.getElementById('pf-dob').value, age: document.getElementById('pf-age').value,
+    weight: document.getElementById('pf-weight').value, height: document.getElementById('pf-height').value,
+    phone: document.getElementById('pf-phone').value, patientEmail: document.getElementById('pf-email').value,
+    allergies: document.getElementById('pf-allergies').value || 'ไม่มี',
+    foodAllergies: document.getElementById('pf-foodallerg').value || 'ไม่มี',
+    regularMeds: document.getElementById('pf-meds').value || 'ไม่มี',
+    smokingStatus: document.getElementById('pf-smoke').value, alcoholStatus: document.getElementById('pf-alcohol').value,
+    admitDate: document.getElementById('pf-admitDate').value,
+    chiefComplaint: document.getElementById('pf-chief').value,
+    firstVisitClinic: document.getElementById('pf-firstclinic').value,
+    firstVisitResult: document.getElementById('pf-firstresult').value,
+    caseType: document.getElementById('pf-casetype').value,
+    clinic: document.getElementById('pf-clinic').value,
+    referClinic: document.getElementById('pf-referclinic').value,
+    referDate: document.getElementById('pf-referdate').value,
+    firstDoctorId: document.getElementById('pf-firstdr').value,
+    treatmentOrder1: document.getElementById('pf-tx1').value,
+    treatmentOrder2: document.getElementById('pf-tx2').value,
+    treatmentOrder3: document.getElementById('pf-tx3').value,
+    treatmentOrder4: document.getElementById('pf-tx4').value,
+    xrayDate: document.getElementById('pf-xraydate').value,
+    recallDate: document.getElementById('pf-recall').value,
+    endDate: document.getElementById('pf-enddate').value,
+    notes: document.getElementById('pf-notes').value,
+    status: existingId ? (DB.patients().find(p => p.id === existingId)?.status || 'รอแพทย์') : 'รอแพทย์',
+    createdAt: existingId ? (DB.patients().find(p => p.id === existingId)?.createdAt || todayISO()) : todayISO(),
+  };
+  if (existingId) {
+    const prev = DB.patients().find(p => p.id === existingId);
+    pt.doctorId = prev?.doctorId; pt.doctorName = prev?.doctorName;
+    pt.appointmentDate = prev?.appointmentDate; pt.treatmentSent = prev?.treatmentSent;
+    DB.setPatients(DB.patients().map(p => p.id === existingId ? pt : p));
+    toast('แก้ไขข้อมูลผู้ป่วยแล้ว', 'success');
+  } else {
+    DB.setPatients([...DB.patients(), pt]);
+    toast(`รับผู้ป่วย ${name} เข้าระบบแล้ว`, 'success');
+  }
+  closeModal();
+  renderTab(currentTab);
+}
+ 
+function openEditPatient(id) { openAddPatientModal(id); }
+ 
+function openViewPatient(id) {
+  const pt = DB.patients().find(p => p.id === id);
+  if (!pt) return;
+  const dr = DB.doctors().find(d => String(d.id) === String(pt.doctorId));
+  const fields = [
+    ['ข้อมูลส่วนตัว', [['ชื่อ-สกุล',pt.name],['เพศ',pt.gender],['อายุ',pt.age?`${pt.age} ปี`:''],['วันเกิด',fmtDate(pt.dob)],['น้ำหนัก',pt.weight?`${pt.weight} กก.`:''],['ส่วนสูง',pt.height?`${pt.height} ซม.`:''],['เบอร์โทร',pt.phone],['อีเมล',pt.patientEmail]]],
+    ['ประวัติสุขภาพ', [['แพ้ยา',pt.allergies],['แพ้อาหาร',pt.foodAllergies],['ยาที่กินประจำ',pt.regularMeds],['สูบบุหรี่',pt.smokingStatus],['ดื่มสุรา',pt.alcoholStatus]]],
+    ['ข้อมูลการรักษา', [['วันที่รับการรักษา',fmtDate(pt.admitDate)],['อาการที่มา',pt.chiefComplaint],['คลินิกแรก',pt.firstVisitClinic],['ผลตรวจคลินิกแรก',pt.firstVisitResult],['ประเภทเคส',pt.caseType],['คลินิกปัจจุบัน',pt.clinic],['ส่งตัวไปคลินิก',pt.referClinic],['วันที่ส่งตัว',fmtDate(pt.referDate)],['แพทย์ผู้ดูแลคนแรก',DB.doctors().find(d=>String(d.id)===String(pt.firstDoctorId))?.name||''],['แพทย์ปัจจุบัน',dr?.name||'รอรับผู้ป่วย']]],
+    ['ลำดับการรักษา', [['การรักษาที่ 1',pt.treatmentOrder1],['การรักษาที่ 2',pt.treatmentOrder2],['การรักษาที่ 3',pt.treatmentOrder3],['การรักษาที่ 4',pt.treatmentOrder4],['X-Ray เสร็จวันที่',fmtDate(pt.xrayDate)],['วัน Recall',fmtDate(pt.recallDate)],['วันสิ้นสุดการรักษา',fmtDate(pt.endDate)]]],
+  ];
+  openModal(`
+    <div class="modal-header">
+      <h2 class="modal-title">ข้อมูลผู้ป่วย</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:16px;padding:16px;background:var(--gray0);border-radius:var(--radius-lg);margin-bottom:20px">
+        ${avatarHtml(pt.name, 56)}
+        <div>
+          <div style="font-size:20px;font-weight:700;margin-bottom:6px">${pt.name}</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">${statusBadge(pt.status)}<span class="badge badge-teal">${pt.clinic || 'ยังไม่ระบุคลินิก'}</span></div>
+        </div>
+      </div>
+      ${fields.map(([sec, rows]) => `
+        <div class="detail-section">
+          <div class="detail-section-title">${sec}</div>
+          <div class="detail-grid">
+            ${rows.filter(([,v])=>v).map(([k,v])=>`<div class="detail-row"><div class="detail-label">${k}</div><div class="detail-value">${v}</div></div>`).join('')}
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">ปิด</button>
+      ${currentUser.role==='staff'?`<button class="btn btn-navy" onclick="closeModal();openEditPatient('${pt.id}')">✏️ แก้ไข</button>`:''}
+    </div>`, 680);
+}
+ 
+/* ============================================================
+   STAFF — DOCTORS
+   ============================================================ */
+let staffDrPage = 1;
+function renderStaffDoctors() {
+  const el = document.getElementById('main-content');
+  const drs = DB.doctors();
+  const pts = DB.patients();
+  const total = Math.max(1, Math.ceil(drs.length / 5));
+  staffDrPage = Math.min(staffDrPage, total);
+  const paged = drs.slice((staffDrPage - 1) * 5, staffDrPage * 5);
+ 
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">รายชื่อแพทย์</div><div class="page-subtitle">จัดการนักศึกษาทันตแพทย์ในระบบ</div></div>
+      <button class="btn btn-navy btn-lg" onclick="openAddDoctorModal()">+ เพิ่มแพทย์ใหม่</button>
+    </div>
+    <div class="stats-grid">
+      ${['4','5','6'].map(y=>`<div class="stat-card teal"><div class="stat-label">นักศึกษาปีที่ ${y}</div><div class="stat-value">${drs.filter(d=>d.year===y).length}</div></div>`).join('')}
+      <div class="stat-card"><div class="stat-label">ทั้งหมด</div><div class="stat-value">${drs.length}</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">รายชื่อแพทย์</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ชื่อ-สกุล</th><th>ชั้นปี</th><th>ความเชี่ยวชาญ</th><th>อีเมล</th><th>ผู้ป่วย</th><th>คลินิก</th><th></th></tr></thead>
+          <tbody>${paged.map(dr => {
+    const myPts = pts.filter(p => String(p.doctorId) === String(dr.id));
+    const active = myPts.filter(p => p.status === 'อยู่ระหว่างรักษา').length;
+    return `<tr>
+      <td><div style="display:flex;align-items:center;gap:10px">${avatarHtml(dr.name, 32)}<strong>${dr.name}</strong></div></td>
+      <td><span class="badge badge-navy">ปี ${dr.year}</span></td>
+      <td>${dr.specialty || '—'}</td>
+      <td style="font-size:13px;color:var(--gray3)">${dr.email || '—'}</td>
+      <td><span class="badge badge-teal">${active} กำลังรักษา</span></td>
+      <td>${[...new Set(myPts.map(p=>p.clinic).filter(Boolean))].slice(0,2).map(c=>`<span class="badge badge-gray" style="margin:2px">${c}</span>`).join('')}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="openDoctorDetail('${dr.id}')">ดูเคส</button></td>
+    </tr>`;
+  }).join('')}</tbody>
+        </table>
+      </div>
+      <div style="padding:16px 20px">${paginationHtml(staffDrPage, total, 'staffDrPage', 'renderStaffDoctors')}</div>
+    </div>`;
+}
+ 
+function openAddDoctorModal() {
+  openModal(`
+    <div class="modal-header"><h2 class="modal-title">เพิ่มแพทย์ใหม่</h2><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid-2">
+        <div class="col-span-2 form-group-row"><label class="label-sm">ชื่อ-สกุล *</label><input class="input" id="df-name" placeholder="ชื่อ-สกุลแพทย์"></div>
+        <div class="form-group-row"><label class="label-sm">ชั้นปี</label><select class="input select" id="df-year">${YEARS.map(y=>`<option value="${y}">ปีที่ ${y}</option>`).join('')}</select></div>
+        <div class="form-group-row"><label class="label-sm">ความเชี่ยวชาญ</label><select class="input select" id="df-specialty"><option value="">เลือกสาขา</option>${CLINICS.map(c=>`<option>${c}</option>`).join('')}</select></div>
+        <div class="col-span-2 form-group-row"><label class="label-sm">อีเมล @up.ac.th</label><input class="input" type="email" id="df-email" placeholder="example@up.ac.th"></div>
+        <div class="form-group-row"><label class="label-sm">เบอร์โทรศัพท์</label><input class="input" id="df-phone" placeholder="0XX-XXX-XXXX"></div>
+        <div class="form-group-row"><label class="label-sm">รหัสประจำตัวนักศึกษา</label><input class="input" id="df-sid" placeholder="XXXXXXXXXX"></div>
+        <div class="form-group-row"><label class="label-sm">รหัสผ่าน</label><input class="input" type="password" id="df-pw" value="1234"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn btn-navy" onclick="saveDoctor()">+ บันทึกแพทย์</button>
+    </div>`, 560);
+}
+ 
+function saveDoctor() {
+  const name = document.getElementById('df-name').value.trim();
+  const email = document.getElementById('df-email').value.trim();
+  if (!name) { toast('กรุณากรอกชื่อ-สกุล', 'error'); return; }
+  if (email && !email.endsWith('@up.ac.th')) { toast('อีเมลต้องเป็น @up.ac.th', 'error'); return; }
+  const dr = { id: String(Date.now()), name, year: document.getElementById('df-year').value, specialty: document.getElementById('df-specialty').value, email, phone: document.getElementById('df-phone').value, sid: document.getElementById('df-sid').value };
+  DB.setDoctors([...DB.doctors(), dr]);
+  // Also add as user
+  const users = DB.users();
+  if (email && !users.find(u => u.email === email)) {
+    users.push({ id: 'dr_' + dr.id, email, password: document.getElementById('df-pw').value || '1234', role: 'doctor', name, year: dr.year, specialty: dr.specialty });
+    DB.set('users', users);
+  }
+  toast(`เพิ่มแพทย์ ${name} แล้ว`, 'success');
+  closeModal(); renderTab(currentTab);
+}
+ 
+function openDoctorDetail(id) {
+  const dr = DB.doctors().find(d => d.id === id);
+  if (!dr) return;
+  const myPts = DB.patients().filter(p => String(p.doctorId) === String(id));
+  openModal(`
+    <div class="modal-header"><h2 class="modal-title">เคสของ ${dr.name}</h2><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:14px;padding:14px;background:var(--gray0);border-radius:var(--radius-lg);margin-bottom:20px">
+        ${avatarHtml(dr.name, 48)}
+        <div>
+          <div style="font-weight:700;font-size:16px;margin-bottom:4px">${dr.name}</div>
+          <div style="display:flex;gap:8px"><span class="badge badge-navy">ปี ${dr.year}</span><span class="badge badge-teal">${dr.specialty || '—'}</span></div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ผู้ป่วย</th><th>คลินิก</th><th>สถานะ</th><th>วันนัด</th></tr></thead>
+          <tbody>${myPts.map(p=>`<tr>
+            <td><div style="display:flex;align-items:center;gap:8px">${avatarHtml(p.name, 28)}<span>${p.name}</span></div></td>
+            <td>${p.clinic||'—'}</td><td>${statusBadge(p.status)}</td>
+            <td>${p.appointmentDate?fmtDate(p.appointmentDate):'ยังไม่มีนัด'}</td>
+          </tr>`).join('')}</tbody>
+        </table>
+        ${!myPts.length ? emptyState('📋', 'ยังไม่มีเคส', '') : ''}
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">ปิด</button></div>`, 600);
+}
+ 
+/* ============================================================
+   STAFF — COMPLETED
+   ============================================================ */
+function renderStaffCompleted() {
+  const el = document.getElementById('main-content');
+  const pending = DB.patients().filter(p => p.treatmentSent && p.status !== 'รักษาเสร็จสิ้น');
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">รอยืนยันรักษาเสร็จสิ้น</div><div class="page-subtitle">ยืนยันการรักษาที่แพทย์ส่งมา</div></div>
+    </div>
+    ${pending.length ? pending.map(pt => `
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-body" style="display:flex;align-items:center;gap:16px">
+          ${avatarHtml(pt.name, 48)}
+          <div style="flex:1">
+            <div style="font-size:16px;font-weight:700;margin-bottom:4px">${pt.name}</div>
+            <div style="font-size:13px;color:var(--gray4)">คลินิก: ${pt.clinic || '—'} · แพทย์ส่งข้อมูลเมื่อ ${fmtDate(pt.treatmentSentAt)}</div>
+          </div>
+          <button class="btn btn-green" onclick="confirmTreatmentDone('${pt.id}')">✅ ยืนยันรักษาเสร็จสิ้น</button>
+        </div>
+      </div>`).join('') : emptyState('✅', 'ไม่มีรายการรอยืนยัน', 'เมื่อแพทย์ส่งข้อมูลรักษาเสร็จ จะแสดงที่นี่')}`;
+}
+ 
+function confirmTreatmentDone(id) {
+  if (!confirm('ยืนยันว่าการรักษาของผู้ป่วยรายนี้เสร็จสิ้นแล้วใช่หรือไม่?')) return;
+  const pts = DB.patients().map(p => p.id === id ? { ...p, status: 'รักษาเสร็จสิ้น', treatmentSent: false, completedAt: todayISO() } : p);
+  const pt = pts.find(p => p.id === id);
+  DB.setPatients(pts);
+  if (pt?.patientEmail) DB.addNotif(pt.patientEmail, `การรักษาของคุณได้รับการยืนยันเสร็จสิ้นแล้ว`, '✅', 'green');
+  if (pt?.doctorId) {
+    const dr = DB.doctors().find(d => String(d.id) === String(pt.doctorId));
+    if (dr?.email) DB.addNotif(dr.email, `เวชระเบียนยืนยันรักษาเสร็จสิ้น: ${pt.name}`, '✅', 'green');
+  }
+  toast('ยืนยันการรักษาเสร็จสิ้นแล้ว', 'success');
+  renderTab(currentTab);
+}
+ 
+/* ============================================================
+   DOCTOR — WAITING
+   ============================================================ */
+let docWaitPage = 1;
+function renderDocWaiting() {
+  const el = document.getElementById('main-content');
+  const waiting = DB.patients().filter(p => !p.doctorId && p.status === 'รอแพทย์');
+  const total = Math.max(1, Math.ceil(waiting.length / 5));
+  docWaitPage = Math.min(docWaitPage, total);
+  const paged = waiting.slice((docWaitPage - 1) * 5, docWaitPage * 5);
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">ผู้ป่วยรอรับการดูแล</div><div class="page-subtitle">เลือกผู้ป่วยที่คุณต้องการรับดูแล</div></div>
+    </div>
+    ${waiting.length ? '' : `<div class="alert alert-success">✅ ไม่มีผู้ป่วยรอรับการดูแลในขณะนี้</div>`}
+    ${paged.map(pt => patientCardHtml(pt, 'doctor_waiting')).join('')}
+    ${paginationHtml(docWaitPage, total, 'docWaitPage', 'renderDocWaiting')}`;
+  el.querySelectorAll('.patient-card').forEach((card, i) => {
+    const pt = paged[i];
+    card.querySelector('.patient-card-actions').innerHTML = `
+      <button class="btn btn-ghost btn-sm" onclick="openViewPatient('${pt.id}')">ดูข้อมูล</button>
+      <button class="btn btn-navy btn-sm" onclick="confirmAcceptPatient('${pt.id}')">รับผู้ป่วยเข้าดูแล →</button>`;
+  });
+}
+ 
+function confirmAcceptPatient(id) {
+  const pt = DB.patients().find(p => p.id === id);
+  openModal(`
+    <div class="modal-header"><h2 class="modal-title">ยืนยันรับผู้ป่วย</h2><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" style="text-align:center;padding:32px 24px">
+      <div class="confirm-icon warn">🤝</div>
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:8px">${pt.name}</h3>
+      <p style="color:var(--gray4);font-size:14px;margin-bottom:6px">คลินิก: ${pt.clinic || '—'} · อายุ ${pt.age || '—'} ปี</p>
+      ${pt.allergies && pt.allergies !== 'ไม่มี' ? `<div class="alert alert-danger" style="text-align:left;margin:12px 0">⚠️ ประวัติแพ้ยา: ${pt.allergies}</div>` : ''}
+      <p style="color:var(--gray3);font-size:13px;margin-top:8px">เมื่อยืนยันแล้ว ผู้ป่วยรายนี้จะอยู่ในความดูแลของคุณ</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn btn-navy" onclick="acceptPatient('${id}')">✓ ยืนยันรับผู้ป่วย</button>
+    </div>`, 480);
+}
+ 
+function acceptPatient(id) {
+  const pts = DB.patients().map(p => p.id === id ? { ...p, doctorId: currentUser.id, doctorName: currentUser.name, status: 'อยู่ระหว่างรักษา', acceptedAt: todayISO() } : p);
+  const pt = pts.find(p => p.id === id);
+  DB.setPatients(pts);
+  DB.addNotif(currentUser.email, `รับผู้ป่วย ${pt.name} เข้าดูแลแล้ว`, '👤', 'blue');
+  if (pt.patientEmail) DB.addNotif(pt.patientEmail, `${currentUser.name} รับคุณเข้าดูแลแล้ว`, '🩺', 'green');
+  toast(`รับผู้ป่วย ${pt.name} เรียบร้อยแล้ว`, 'success');
+  closeModal(); updateNotifBadge();
+  navigateTo('doc-mypatients');
+}
+ 
+/* ============================================================
+   DOCTOR — MY PATIENTS
+   ============================================================ */
+let docMyPage = 1;
+function renderDocMyPatients() {
+  const el = document.getElementById('main-content');
+  const myPts = DB.patients().filter(p => String(p.doctorId) === String(currentUser.id));
+  const total = Math.max(1, Math.ceil(myPts.length / 5));
+  docMyPage = Math.min(docMyPage, total);
+  const paged = myPts.slice((docMyPage - 1) * 5, docMyPage * 5);
+ 
+  if (!myPts.length) {
+    el.innerHTML = `<div class="page-header"><div class="page-title">ผู้ป่วยของฉัน</div></div>
+      ${emptyState('🏥', 'ยังไม่มีผู้ป่วยในความดูแล', `ไปที่หน้า "รอรับผู้ป่วย" เพื่อเริ่มต้น<br>คุณควรรับเคสจากทุกคลินิก:<br>${CLINICS.map(c=>`<span class="badge badge-navy" style="margin:2px">${c}</span>`).join('')}`)}`;
+    return;
+  }
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">ผู้ป่วยของฉัน</div><div class="page-subtitle">${myPts.length} คนในความดูแล</div></div>
+    </div>
+    ${paged.map(pt => {
+    const days = daysDiff(pt.appointmentDate);
+    const apptHtml = pt.appointmentDate ? (() => {
+      const cls = days !== null && days <= 0 ? 'appt-today' : days !== null && days <= 5 ? 'appt-soon' : 'appt-normal';
+      const lbl = days !== null && days <= 0 ? '🚨 ถึงวันนัดแล้ว!' : days === 1 ? '⚡ พรุ่งนี้!' : days !== null && days <= 5 ? `⚠️ อีก ${days} วัน` : `📅 ${fmtDate(pt.appointmentDate)}`;
+      return `<div class="appt-tag ${cls}">${lbl} · ${fmtDate(pt.appointmentDate)}</div>`;
+    })() : '';
+    return `<div class="patient-card" style="margin-bottom:12px">
+      ${avatarHtml(pt.name, 48)}
+      <div class="patient-card-info">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="patient-card-name">${pt.name}</span>${statusBadge(pt.status)}
+        </div>
+        <div class="patient-card-meta">
+          <span>👤 ${pt.gender || '—'}</span><span>📆 ${pt.age || '—'} ปี</span>
+          <span>🏛 ${pt.clinic || '—'}</span>
+        </div>
+        ${pt.allergies && pt.allergies !== 'ไม่มี' ? `<span class="allergy-tag">⚠️ แพ้ยา: ${pt.allergies}</span>` : ''}
+        ${apptHtml}
+        <div class="patient-card-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openViewPatient('${pt.id}')">ดูข้อมูล</button>
+          <button class="btn btn-ghost btn-sm" onclick="openSetAppt('${pt.id}')">📅 นัดหมาย</button>
+          ${pt.status === 'อยู่ระหว่างรักษา' ? `<button class="btn btn-green btn-sm" onclick="sendTreatmentDone('${pt.id}')">📤 ส่งข้อมูลรักษาเสร็จ</button>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('')}
+    ${paginationHtml(docMyPage, total, 'docMyPage', 'renderDocMyPatients')}`;
+}
+ 
+function openSetAppt(id) {
+  const pt = DB.patients().find(p => p.id === id);
+  openModal(`
+    <div class="modal-header"><h2 class="modal-title">นัดหมายผู้ป่วย: ${pt.name}</h2><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      ${pt.allergies && pt.allergies !== 'ไม่มี' ? `<div class="alert alert-danger">⚠️ แพ้ยา: ${pt.allergies}</div>` : ''}
+      <div class="form-group-row">
+        <label class="label-sm">วันนัดหมาย (ไม่สามารถนัดย้อนหลังได้)</label>
+        <input class="input" type="date" id="appt-date" min="${todayISO()}" value="${pt.appointmentDate || ''}">
+      </div>
+      ${pt.patientInfo ? `<div class="alert alert-info">📋 ผู้ป่วยว่าง: ${pt.patientInfo.availableDays?.join(', ')} · ${pt.patientInfo.availableTime}</div>` : ''}
+      <div class="form-group-row">
+        <label class="label-sm">หมายเหตุ</label>
+        <textarea class="input textarea" id="appt-note" placeholder="หมายเหตุการนัดหมาย" style="min-height:60px"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn btn-navy" onclick="saveAppt('${id}')">บันทึกนัดหมาย</button>
+    </div>`, 480);
+}
+ 
+function saveAppt(id) {
+  const date = document.getElementById('appt-date').value;
+  if (!date) { toast('กรุณาเลือกวันนัด', 'error'); return; }
+  if (date < todayISO()) { toast('ไม่สามารถนัดย้อนหลังได้', 'error'); return; }
+  const note = document.getElementById('appt-note').value;
+  const pts = DB.patients().map(p => p.id === id ? { ...p, appointmentDate: date, appointmentNote: note } : p);
+  const pt = pts.find(p => p.id === id);
+  DB.setPatients(pts);
+  const days = daysDiff(date);
+  DB.addNotif(currentUser.email, `นัด ${pt.name} วันที่ ${fmtDate(date)} (อีก ${days} วัน)`, '📅', 'blue');
+  if (pt.patientEmail) DB.addNotif(pt.patientEmail, `${currentUser.name} นัดคุณวันที่ ${fmtDate(date)}`, '📅', 'green');
+  toast(`บันทึกนัดหมาย ${fmtDate(date)} แล้ว`, 'success');
+  closeModal(); updateNotifBadge(); renderTab(currentTab);
+}
+ 
+function sendTreatmentDone(id) {
+  if (!confirm('ยืนยันส่งข้อมูลการรักษาเสร็จสิ้นไปยังเวชระเบียน?')) return;
+  const pts = DB.patients().map(p => p.id === id ? { ...p, treatmentSent: true, treatmentSentAt: todayISO() } : p);
+  const pt = pts.find(p => p.id === id);
+  DB.setPatients(pts);
+  DB.addNotif('staff@up.ac.th', `${currentUser.name} ส่งข้อมูลรักษาเสร็จ: ${pt.name}`, '📋', 'amber');
+  toast('ส่งข้อมูลไปยังเวชระเบียนแล้ว', 'success');
+  renderTab(currentTab);
+}
+ 
+/* ============================================================
+   DOCTOR — GOALS
+   ============================================================ */
+function renderDocGoals() {
+  const el = document.getElementById('main-content');
+  const myPts = DB.patients().filter(p => String(p.doctorId) === String(currentUser.id));
+  const myClinics = new Set(myPts.map(p => p.clinic).filter(Boolean));
+  const missing = CLINICS.filter(c => !myClinics.has(c));
+  const recommended = DB.patients().filter(p => !p.doctorId && p.clinic && missing.includes(p.clinic));
+ 
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">เป้าหมายคลินิก</div><div class="page-subtitle">คุณต้องรับเคสครบทุกคลินิก</div></div>
+    </div>
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header"><span class="card-title">ความคืบหน้า (${CLINICS.length - missing.length}/${CLINICS.length} คลินิก)</span></div>
+      <div class="card-body">
+        ${CLINICS.map(c => {
+    const count = myPts.filter(p => p.clinic === c).length;
+    const done = count > 0;
+    return `<div class="goal-item">
+          <span class="goal-clinic-name">${done ? '✓' : '○'} ${c}</span>
+          <div class="goal-bar-wrap"><div class="goal-bar ${done ? 'done' : ''}" style="width:${done ? 100 : 0}%"></div></div>
+          <span class="goal-count">${count} เคส</span>
+        </div>`;
+  }).join('')}
+      </div>
+    </div>
+    ${missing.length ? `<div class="alert alert-warn">⚠️ คุณยังต้องรับเคสจากคลินิก: ${missing.map(c => `<strong>${c}</strong>`).join(', ')}</div>` : `<div class="alert alert-success">✅ คุณรับเคสครบทุกคลินิกแล้ว!</div>`}
+    <div class="page-header" style="margin-top:24px">
+      <div><div class="page-title" style="font-size:17px">ผู้ป่วยแนะนำ</div><div class="page-subtitle">ตรงกับคลินิกที่คุณต้องการ</div></div>
+    </div>
+    ${recommended.map(pt => `
+      <div class="patient-card" style="margin-bottom:10px">
+        ${avatarHtml(pt.name, 44)}
+        <div class="patient-card-info">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="patient-card-name">${pt.name}</span>
+            <span class="badge badge-amber">🎯 ${pt.clinic}</span>
+          </div>
+          <div class="patient-card-meta"><span>อายุ ${pt.age || '—'} ปี</span><span>${pt.gender || '—'}</span></div>
+          <div class="patient-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="openViewPatient('${pt.id}')">ดูข้อมูล</button>
+            <button class="btn btn-navy btn-sm" onclick="confirmAcceptPatient('${pt.id}')">รับเข้าดูแล →</button>
+          </div>
+        </div>
+      </div>`).join('')}
+    ${!recommended.length ? emptyState('🎯', 'ไม่มีผู้ป่วยที่ตรงกับเป้าหมายตอนนี้', 'ผู้ป่วยใหม่จะแสดงเมื่อเวชระเบียนเพิ่มเข้ามา') : ''}`;
+}
+ 
+/* ============================================================
+   DOCTOR — CLINICS
+   ============================================================ */
+let selectedClinic = null;
+function renderDocClinics() {
+  const el = document.getElementById('main-content');
+  const pts = DB.patients();
+  el.innerHTML = `
+    <div class="page-header"><div><div class="page-title">คลินิกทั้งหมด</div><div class="page-subtitle">ดูผู้ป่วยแบ่งตามคลินิก</div></div></div>
+    <div class="clinic-grid" style="margin-bottom:24px">
+      ${CLINICS.map(c => {
+    const cpPts = pts.filter(p => p.clinic === c);
+    const waiting = cpPts.filter(p => !p.doctorId).length;
+    return `<div class="clinic-tile ${selectedClinic === c ? 'active' : ''}" onclick="selectClinic('${c}')">
+          <div class="clinic-tile-name">${c}</div>
+          <div class="clinic-tile-count">${cpPts.length}</div>
+          <div class="clinic-tile-sub">${waiting > 0 ? `${waiting} รอแพทย์` : 'ทุกคนมีแพทย์แล้ว'}</div>
+        </div>`;
+  }).join('')}
+    </div>
+    <div id="clinic-patients"></div>`;
+  if (selectedClinic) renderClinicPatients();
+}
+ 
+function selectClinic(c) {
+  selectedClinic = c;
+  renderDocClinics();
+}
+ 
+function renderClinicPatients() {
+  const el = document.getElementById('clinic-patients');
+  const pts = DB.patients().filter(p => p.clinic === selectedClinic);
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-header"><span class="card-title">ผู้ป่วยในคลินิก: ${selectedClinic}</span><span class="badge badge-teal">${pts.length} คน</span></div>
+      <div class="card-body">
+        ${pts.map(pt => {
+    const isMine = String(pt.doctorId) === String(currentUser.id);
+    return `<div class="patient-card" style="margin-bottom:10px">
+            ${avatarHtml(pt.name, 44)}
+            <div class="patient-card-info">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <span class="patient-card-name">${pt.name}</span>${statusBadge(pt.status)}
+                ${isMine ? `<span class="badge badge-green">ผู้ป่วยของฉัน</span>` : ''}
+              </div>
+              <div class="patient-card-meta"><span>อายุ ${pt.age || '—'} ปี</span><span>${pt.gender || '—'}</span><span>แพทย์: ${pt.doctorName || 'รอแพทย์'}</span></div>
+              <div class="patient-card-actions">
+                <button class="btn btn-ghost btn-sm" onclick="openViewPatient('${pt.id}')">ดูข้อมูล</button>
+                ${!pt.doctorId ? `<button class="btn btn-navy btn-sm" onclick="confirmAcceptPatient('${pt.id}')">รับเข้าดูแล</button>` : ''}
+              </div>
+            </div>
+          </div>`;
+  }).join('')}
+        ${!pts.length ? emptyState('🏛', 'ไม่มีผู้ป่วยในคลินิกนี้', '') : ''}
+      </div>
+    </div>`;
+}
+ 
+/* ============================================================
+   DOCTOR — DOCTORS LIST
+   ============================================================ */
+function renderDocDoctors() {
+  const el = document.getElementById('main-content');
+  const drs = DB.doctors();
+  el.innerHTML = `
+    <div class="page-header"><div><div class="page-title">รายชื่อนักศึกษาทันตแพทย์</div><div class="page-subtitle">ทั้งหมด ${drs.length} คน</div></div></div>
+    ${['4','5','6'].map(y => {
+    const grp = drs.filter(d => d.year === y);
+    if (!grp.length) return '';
+    return `<div style="margin-bottom:24px">
+        <h3 style="font-size:15px;font-weight:700;color:var(--gray3);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:4px;height:18px;background:var(--teal);border-radius:2px"></span>
+          นักศึกษาชั้นปีที่ ${y}
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+          ${grp.map(d => {
+      const myPts = DB.patients().filter(p => String(p.doctorId) === String(d.id));
+      return `<div class="card">
+              <div class="card-body" style="display:flex;align-items:center;gap:12px;padding:14px 16px">
+                ${avatarHtml(d.name, 40, colorForRole('doctor'))}
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.name}</div>
+                  <div style="font-size:12px;color:var(--gray3);margin-top:2px">${d.specialty || '—'}</div>
+                  <div style="font-size:12px;color:var(--teal);margin-top:3px;font-weight:600">${myPts.length} เคส</div>
+                </div>
+              </div>
+            </div>`;
+    }).join('')}
+        </div>
+      </div>`;
+  }).join('')}
+    ${!drs.length ? emptyState('👨‍⚕️', 'ยังไม่มีแพทย์ในระบบ', 'เวชระเบียนต้องเพิ่มแพทย์ก่อน') : ''}`;
+}
+ 
+/* ============================================================
+   DOCTOR — HISTORY
+   ============================================================ */
+let historySelPt = null;
+function renderDocHistory() {
+  const el = document.getElementById('main-content');
+  const myPts = DB.patients().filter(p => String(p.doctorId) === String(currentUser.id));
+  el.innerHTML = `
+    <div class="page-header"><div><div class="page-title">ประวัติการรักษา</div><div class="page-subtitle">ประวัติผู้ป่วยในความดูแลของคุณ</div></div></div>
+    <div style="display:flex;gap:16px">
+      <div class="history-sidebar">
+        <div class="card">
+          <div class="card-header" style="padding:12px 14px"><span class="card-title" style="font-size:13px">ผู้ป่วย (${myPts.length})</span></div>
+          <div style="padding:8px">
+            ${myPts.map(p => `<div class="history-pt-item ${historySelPt === p.id ? 'active' : ''}" onclick="selectHistoryPt('${p.id}')">
+              <div style="font-size:14px;font-weight:600;margin-bottom:2px">${p.name}</div>
+              <div style="font-size:12px;color:var(--gray3)">${p.clinic || '—'}</div>
+            </div>`).join('')}
+            ${!myPts.length ? '<p style="font-size:13px;color:var(--gray3);padding:12px;text-align:center">ไม่มีผู้ป่วย</p>' : ''}
+          </div>
+        </div>
+      </div>
+      <div style="flex:1" id="history-detail">
+        ${historySelPt ? renderHistoryDetail(historySelPt) : emptyState('📂', 'เลือกผู้ป่วยเพื่อดูประวัติ', '')}
+      </div>
+    </div>`;
+}
+ 
+function selectHistoryPt(id) { historySelPt = id; renderDocHistory(); }
+ 
+function renderHistoryDetail(id) {
+  const pt = DB.patients().find(p => p.id === id);
+  if (!pt) return '';
+  const sections = [
+    ['ข้อมูลส่วนตัว', [['ชื่อ-สกุล',pt.name],['เพศ',pt.gender],['อายุ',pt.age?`${pt.age} ปี`:''],['น้ำหนัก',pt.weight?`${pt.weight} กก.`:''],['ส่วนสูง',pt.height?`${pt.height} ซม.`:''],['เบอร์โทรศัพท์',pt.phone],['วันเกิด',fmtDate(pt.dob)],['อีเมล',pt.patientEmail]]],
+    ['ประวัติสุขภาพ', [['ประวัติการแพ้ยา',pt.allergies],['ประวัติการแพ้อาหาร',pt.foodAllergies],['ยาที่กินประจำ',pt.regularMeds],['สูบบุหรี่',pt.smokingStatus],['ดื่มสุรา',pt.alcoholStatus]]],
+    ['ข้อมูลการรักษา', [['วันที่มาทำการรักษาครั้งแรก',fmtDate(pt.admitDate)],['อาการที่มา',pt.chiefComplaint],['คลินิกแรกที่ทำการรักษา',pt.firstVisitClinic],['ผลตรวจจากคลินิก',pt.firstVisitResult],['ถูกจัดเป็นผู้ป่วยเคส',pt.caseType],['คลินิกที่ทำการรักษา',pt.clinic],['ถูกส่งตัวไปคลินิก',pt.referClinic],['เมื่อวันที่',fmtDate(pt.referDate)],['แพทย์ผู้ดูแลคนแรก',DB.doctors().find(d=>String(d.id)===String(pt.firstDoctorId))?.name||''],['แพทย์ผู้ดูแลปัจจุบัน',pt.doctorName||currentUser.name]]],
+    ['ลำดับการรักษา', [['ทำการรักษาลำดับที่ 1',pt.treatmentOrder1],['ทำการรักษาลำดับที่ 2',pt.treatmentOrder2],['ทำการรักษาลำดับที่ 3',pt.treatmentOrder3],['ทำการรักษาลำดับที่ 4',pt.treatmentOrder4],['ถ่ายภาพรังสีเสร็จสิ้นเมื่อวันที่',fmtDate(pt.xrayDate)],['หลังทำการรักษามีอาการเพิ่มเติม',pt.notes],['วันที่ Recall ผู้ป่วย',fmtDate(pt.recallDate)],['วันที่สิ้นสุดการรักษา',fmtDate(pt.endDate)]]],
+  ];
+  return `<div class="card">
+    <div class="card-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        ${avatarHtml(pt.name, 40)}
+        <div>
+          <div class="card-title">${pt.name}</div>
+          <div style="display:flex;gap:6px;margin-top:4px">${statusBadge(pt.status)}<span class="badge badge-teal">${pt.clinic||'—'}</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      ${sections.map(([sec, rows]) => `
+        <div class="detail-section">
+          <div class="detail-section-title">${sec}</div>
+          ${rows.filter(([,v])=>v).map(([k,v])=>`<div class="history-field"><span class="history-key">${k}</span><span class="history-val">${v}</span></div>`).join('')}
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+ 
+/* ============================================================
+   PATIENT — HOME
+   ============================================================ */
+function renderPatientHome() {
+  const el = document.getElementById('main-content');
+  const pts = DB.patients();
+  const myPt = pts.find(p => p.patientEmail === currentUser.email);
+  if (!myPt) {
+    el.innerHTML = `
+      <div class="page-header"><div class="page-title">หน้าหลัก</div></div>
+      <div class="card">
+        <div class="card-body" style="text-align:center;padding:48px 24px">
+          <div style="font-size:60px;margin-bottom:16px">📋</div>
+          <h3 style="margin-bottom:8px;font-size:18px">ยังไม่มีข้อมูลของคุณในระบบ</h3>
+          <p style="color:var(--gray3);font-size:14px;margin-bottom:16px">กรุณาติดต่อเวชระเบียนเพื่อลงทะเบียน</p>
+          <div class="alert alert-warn" style="max-width:400px;margin:0 auto">⏰ ระบบจะอัพเดทเมื่อเวลา 00.00 น. ของทุกวัน</div>
+        </div>
+      </div>`;
+    return;
+  }
+  const days = daysDiff(myPt.appointmentDate);
+  const drs = DB.doctors();
+  const dr = drs.find(d => String(d.id) === String(myPt.doctorId));
+  el.innerHTML = `
+    <div class="page-header"><div><div class="page-title">สวัสดี, ${currentUser.name.split(' ')[0]}</div><div class="page-subtitle">${thaiNow()}</div></div></div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-body">
+        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          ${avatarHtml(myPt.name, 64, colorForRole('patient'))}
+          <div>
+            <div style="font-size:22px;font-weight:700;margin-bottom:8px">${myPt.name}</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">${statusBadge(myPt.status)}<span class="badge badge-teal">${myPt.clinic || 'ยังไม่ระบุคลินิก'}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-grid" style="grid-template-columns:repeat(2,1fr)">
+      <div class="stat-card teal"><div class="stat-label">คลินิก</div><div class="stat-value" style="font-size:18px;font-family:var(--font)">${myPt.clinic || '—'}</div></div>
+      <div class="stat-card"><div class="stat-label">แพทย์ผู้ดูแล</div><div class="stat-value" style="font-size:18px;font-family:var(--font)">${dr?.name || 'รอแพทย์รับ'}</div></div>
+    </div>
+    ${myPt.appointmentDate ? `
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-body">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <span style="font-size:36px">📅</span>
+            <div>
+              <div style="font-size:13px;color:var(--gray3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">วันนัดหมาย</div>
+              <div style="font-size:20px;font-weight:700">${fmtDate(myPt.appointmentDate)}</div>
+              ${days !== null ? `<div class="appt-tag ${days <= 0 ? 'appt-today' : days <= 5 ? 'appt-soon' : 'appt-normal'}" style="margin-top:6px">
+                ${days <= 0 ? '🚨 ถึงวันนัดแล้ว!' : days === 1 ? '⚡ พรุ่งนี้!' : days <= 5 ? `⚠️ อีก ${days} วัน` : `อีก ${days} วัน`}
+              </div>` : ''}
+            </div>
+          </div>
+          ${myPt.appointmentNote ? `<p style="margin-top:12px;padding-top:12px;border-top:1px solid var(--gray1);font-size:14px;color:var(--gray4)">📝 ${myPt.appointmentNote}</p>` : ''}
+        </div>
+      </div>` : `<div class="alert alert-info">📅 ยังไม่มีวันนัดหมาย รอแพทย์กำหนดนัด</div>`}
+    ${myPt.status === 'รักษาเสร็จสิ้น' ? `<div class="alert alert-success">✅ การรักษาของคุณเสร็จสิ้นแล้ว เมื่อวันที่ ${fmtDate(myPt.completedAt)}</div>` : ''}`;
+}
+ 
+/* ============================================================
+   PATIENT — INFO
+   ============================================================ */
+function renderPatientInfo() {
+  const el = document.getElementById('main-content');
+  const info = DB.patientInfo(currentUser.email) || { name: currentUser.name, availableDays: [], availableTime: 'เช้า' };
+  el.innerHTML = `
+    <div class="page-header"><div><div class="page-title">ข้อมูลส่วนตัว</div><div class="page-subtitle">กรอกข้อมูลเพื่อช่วยให้แพทย์จัดนัดได้ตรงกับเวลาของคุณ</div></div></div>
+    <div class="card" style="max-width:520px">
+      <div class="card-header"><span class="card-title">ข้อมูลการติดต่อ</span></div>
+      <div class="card-body">
+        <div class="form-group-row"><label class="label-sm">ชื่อ-สกุล</label><input class="input" id="pt-name" value="${info.name}"></div>
+        <div class="form-group-row">
+          <label class="label-sm">วันที่ว่าง (เลือกได้ จันทร์-พฤหัสบดี)</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+            ${DAYS.map(d => `<button id="day-${d}" class="btn ${(info.availableDays||[]).includes(d) ? 'btn-navy' : 'btn-ghost'}" onclick="toggleDay('${d}')">${d}</button>`).join('')}
+          </div>
+        </div>
+        <div class="form-group-row">
+          <label class="label-sm">ช่วงเวลาที่ว่าง</label>
+          <div style="display:flex;gap:8px;margin-top:6px">
+            ${TIMES.map(t => `<button id="time-${t}" class="btn ${info.availableTime === t ? 'btn-navy' : 'btn-ghost'}" onclick="selectTime('${t}')">${t}</button>`).join('')}
+          </div>
+        </div>
+        <div id="pt-info-saved" style="display:none" class="alert alert-success">✅ บันทึกข้อมูลแล้ว</div>
+        <button class="btn btn-lg" style="background:var(--amber);color:#fff;width:100%;margin-top:8px" onclick="savePtInfo()">บันทึกข้อมูล</button>
+      </div>
+    </div>`;
+  window._ptInfoDays = [...(info.availableDays || [])];
+  window._ptInfoTime = info.availableTime;
+}
+ 
+function toggleDay(d) {
+  const idx = window._ptInfoDays.indexOf(d);
+  if (idx >= 0) window._ptInfoDays.splice(idx, 1); else window._ptInfoDays.push(d);
+  DAYS.forEach(day => {
+    const btn = document.getElementById('day-' + day);
+    if (btn) btn.className = `btn ${window._ptInfoDays.includes(day) ? 'btn-navy' : 'btn-ghost'}`;
+  });
+}
+ 
+function selectTime(t) {
+  window._ptInfoTime = t;
+  TIMES.forEach(time => {
+    const btn = document.getElementById('time-' + time);
+    if (btn) btn.className = `btn ${window._ptInfoTime === time ? 'btn-navy' : 'btn-ghost'}`;
+  });
+}
+ 
+function savePtInfo() {
+  const info = { name: document.getElementById('pt-name').value, availableDays: window._ptInfoDays, availableTime: window._ptInfoTime };
+  DB.setPatientInfo(currentUser.email, info);
+  // Update patient record
+  const pts = DB.patients().map(p => p.patientEmail === currentUser.email ? { ...p, patientInfo: info } : p);
+  DB.setPatients(pts);
+  const saved = document.getElementById('pt-info-saved');
+  saved.style.display = 'flex'; setTimeout(() => saved.style.display = 'none', 2500);
+  toast('บันทึกข้อมูลแล้ว', 'success');
+}
+ 
+/* ============================================================
+   CHAT
+   ============================================================ */
+let chatTarget = null;
+function renderChat(role) {
+  const el = document.getElementById('main-content');
+  let contacts = [];
+  if (role === 'staff') {
+    contacts = DB.patients().slice(0, 20).map(p => ({ id: p.id, name: p.name, email: p.patientEmail, type: 'patient' }));
+  } else if (role === 'doctor') {
+    contacts = DB.patients().filter(p => String(p.doctorId) === String(currentUser.id)).map(p => ({ id: p.id, name: p.name, email: p.patientEmail, type: 'patient' }));
+  } else {
+    const pt = DB.patients().find(p => p.patientEmail === currentUser.email);
+    if (pt && pt.doctorName) contacts = [{ id: 'dr_' + pt.doctorId, name: pt.doctorName, email: DB.doctors().find(d => String(d.id) === String(pt.doctorId))?.email || '', type: 'doctor' }];
+  }
+ 
+  el.innerHTML = `
+    <div class="page-header"><div><div class="page-title">ข้อความ</div></div></div>
+    <div class="chat-layout">
+      <div class="chat-sidebar">
+        <div class="chat-sidebar-header"><input class="input" placeholder="🔍 ค้นหา..." style="font-size:13px"></div>
+        <div style="overflow-y:auto;flex:1">
+          ${contacts.map(c => {
+    const key = [currentUser.email, c.email || c.id].sort().join('__');
+    const msgs = DB.chats(key);
+    const last = msgs[msgs.length - 1];
+    return `<div class="chat-contact ${chatTarget?.id === c.id ? 'active' : ''}" onclick="selectChatTarget(${JSON.stringify(c).replace(/"/g, '&quot;')})">
+              ${avatarHtml(c.name, 38, colorForRole(c.type === 'doctor' ? 'doctor' : 'patient'))}
+              <div style="flex:1;min-width:0">
+                <div class="chat-contact-name">${c.name}</div>
+                <div class="chat-contact-preview">${last ? last.text : 'ยังไม่มีข้อความ'}</div>
+              </div>
+            </div>`;
+  }).join('')}
+          ${!contacts.length ? '<div style="padding:20px;text-align:center;color:var(--gray3);font-size:13px">ไม่มีรายชื่อ</div>' : ''}
+        </div>
+      </div>
+      <div class="chat-main" id="chat-main">
+        ${chatTarget ? renderChatMain() : `<div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--gray3)">
+          <div style="text-align:center"><div style="font-size:48px;margin-bottom:12px">💬</div><div style="font-weight:600">เลือกรายชื่อเพื่อแชท</div></div>
+        </div>`}
+      </div>
+    </div>`;
+}
+ 
+function renderChatMain() {
+  const c = chatTarget;
+  const key = [currentUser.email, c.email || c.id].sort().join('__');
+  const msgs = DB.chats(key);
+  return `
+    <div class="chat-header">
+      ${avatarHtml(c.name, 36)}
+      <div><div style="font-weight:700;font-size:15px">${c.name}</div><div style="font-size:12px;color:var(--gray3)">${c.type === 'doctor' ? 'แพทย์' : 'ผู้ป่วย'}</div></div>
+    </div>
+    <div class="chat-messages" id="chat-msgs">
+      ${msgs.map(m => {
+    const mine = m.sender === currentUser.email;
+    return `<div class="chat-bubble-wrap ${mine ? 'mine' : ''}">
+          ${!mine ? avatarHtml(c.name, 28) : ''}
+          <div>
+            <div class="chat-bubble ${mine ? 'mine' : 'other'}">${m.text}</div>
+            <div class="chat-time">${m.time}</div>
+          </div>
+        </div>`;
+  }).join('')}
+      ${!msgs.length ? '<div style="text-align:center;color:var(--gray3);padding:40px 0;font-size:14px">เริ่มบทสนทนา 👋</div>' : ''}
+    </div>
+    <div class="chat-input-bar">
+      <input class="chat-input" id="chat-input-box" placeholder="พิมพ์ข้อความ..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMsg()}">
+      <button class="btn btn-navy" onclick="sendChatMsg()">ส่ง →</button>
+    </div>`;
+}
+ 
+function selectChatTarget(c) {
+  chatTarget = c;
+  const main = document.getElementById('chat-main');
+  if (main) { main.innerHTML = renderChatMain(); scrollChatBottom(); }
+  document.querySelectorAll('.chat-contact').forEach(el => el.classList.remove('active'));
+  event.currentTarget?.classList.add('active');
+}
+ 
+function sendChatMsg() {
+  const input = document.getElementById('chat-input-box');
+  const text = input?.value.trim();
+  if (!text || !chatTarget) return;
+  const key = [currentUser.email, chatTarget.email || chatTarget.id].sort().join('__');
+  const msgs = DB.chats(key);
+  msgs.push({ sender: currentUser.email, senderName: currentUser.name, text, time: thaiNow() });
+  DB.setChats(key, msgs);
+  // Notify target
+  const targetEmail = chatTarget.email;
+  if (targetEmail) {
+    DB.addNotif(targetEmail, `${currentUser.name}: ${text.slice(0, 40)}${text.length > 40 ? '...' : ''}`, '💬', 'blue');
+    updateNotifBadge();
+  }
+  input.value = '';
+  const main = document.getElementById('chat-main');
+  if (main) { main.innerHTML = renderChatMain(); scrollChatBottom(); }
+}
+ 
+function scrollChatBottom() { setTimeout(() => { const m = document.getElementById('chat-msgs'); if (m) m.scrollTop = m.scrollHeight; }, 50); }
+ 
+/* ============================================================
+   NOTIFICATIONS PAGE
+   ============================================================ */
+function renderNotifPage() {
+  const el = document.getElementById('main-content');
+  const notifs = DB.notifs(currentUser.email);
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">การแจ้งเตือน</div><div class="page-subtitle">การแจ้งเตือนทั้งหมด</div></div>
+      ${notifs.length ? `<button class="btn btn-ghost btn-sm" onclick="clearNotifs()">ล้างทั้งหมด</button>` : ''}
+    </div>
+    <div class="card">
+      ${notifs.length ? notifs.map(n => `
+        <div class="notif-item ${n.unread ? 'unread' : ''}">
+          <div class="notif-icon-wrap ${n.color || 'blue'}">${n.icon || '🔔'}</div>
+          <div style="flex:1">
+            <div class="notif-msg">${n.msg}</div>
+            <div class="notif-time">${n.time}</div>
+          </div>
+        </div>`).join('') : emptyState('🔔', 'ไม่มีการแจ้งเตือน', '')}
+    </div>`;
+  // Mark all read
+  const updated = notifs.map(n => ({ ...n, unread: false }));
+  DB.set('notif_' + currentUser.email, updated);
+  updateNotifBadge();
+}
+ 
+function clearNotifs() {
+  DB.set('notif_' + currentUser.email, []);
+  updateNotifBadge();
+  renderTab(currentTab);
+}
+ 
+/* ============================================================
+   PROFILE
+   ============================================================ */
+function renderProfile() {
+  const el = document.getElementById('main-content');
+  const u = currentUser;
+  el.innerHTML = `
+    <div class="page-header"><div class="page-title">โปรไฟล์ของฉัน</div></div>
+    <div class="card" style="max-width:480px">
+      <div class="card-body" style="text-align:center;padding:32px">
+        ${avatarHtml(u.name, 80, colorForRole(u.role))}
+        <div style="margin:16px 0">
+          <div style="font-size:22px;font-weight:700;margin-bottom:6px">${u.name}</div>
+          <div style="color:var(--gray3);font-size:14px">${u.email}</div>
+          <div style="margin-top:8px"><span class="badge badge-teal">${u.role === 'staff' ? 'เวชระเบียน' : u.role === 'doctor' ? `นักศึกษาทันตแพทย์ ปี ${u.year}` : 'ผู้ป่วย'}</span></div>
+        </div>
+      </div>
+      <div class="card-body" style="border-top:1px solid var(--gray1)">
+        ${u.specialty ? `<div class="history-field"><span class="history-key">ความเชี่ยวชาญ</span><span class="history-val">${u.specialty}</span></div>` : ''}
+        ${u.year ? `<div class="history-field"><span class="history-key">ชั้นปี</span><span class="history-val">ปีที่ ${u.year}</span></div>` : ''}
+        <div class="history-field"><span class="history-key">อีเมล</span><span class="history-val">${u.email}</span></div>
+        <div class="history-field"><span class="history-key">บทบาท</span><span class="history-val">${u.role === 'staff' ? 'เจ้าหน้าที่เวชระเบียน' : u.role === 'doctor' ? 'นักศึกษาทันตแพทย์' : 'ผู้ป่วย'}</span></div>
+      </div>
+    </div>`;
+}
+ 
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function emptyState(icon, title, desc) {
+  return `<div class="empty-state"><span class="empty-icon">${icon}</span><div class="empty-title">${title}</div>${desc ? `<div class="empty-desc">${desc}</div>` : ''}</div>`;
+}
+ 
+function paginationHtml(page, total, varName, fn) {
+  if (total <= 1) return '';
+  const btns = [];
+  btns.push(`<button class="page-btn" ${page === 1 ? 'disabled' : ''} onclick="${varName}=${page - 1};${fn}()">‹</button>`);
+  for (let i = 1; i <= total; i++) {
+    btns.push(`<button class="page-btn ${i === page ? 'active' : ''}" onclick="${varName}=${i};${fn}()">${i}</button>`);
+  }
+  btns.push(`<button class="page-btn" ${page === total ? 'disabled' : ''} onclick="${varName}=${page + 1};${fn}()">›</button>`);
+  return `<div class="pagination">${btns.join('')}</div>`;
+}
+ 
+/* ============================================================
+   APPOINTMENT REMINDER CHECKER
+   ============================================================ */
+function checkApptReminders() {
+  if (!currentUser || currentUser.role !== 'doctor') return;
+  const myPts = DB.patients().filter(p => String(p.doctorId) === String(currentUser.id) && p.appointmentDate);
+  myPts.forEach(pt => {
+    const days = daysDiff(pt.appointmentDate);
+    if (days === 5 || days === 1) {
+      const msg = `ผู้ป่วย ${pt.name} อีก ${days} วันจะถึงคิว (${fmtDate(pt.appointmentDate)})`;
+      const notifs = DB.notifs(currentUser.email);
+      const alreadyNotified = notifs.some(n => n.msg.includes(pt.name) && n.msg.includes(`อีก ${days} วัน`) && n.time.includes(new Date().toLocaleDateString('th-TH')));
+      if (!alreadyNotified) {
+        DB.addNotif(currentUser.email, msg, days === 1 ? '🚨' : '⚠️', days === 1 ? 'red' : 'amber');
+        updateNotifBadge();
+      }
+    }
+  });
+}
+ 
+// Check reminders every minute
+setInterval(() => { if (currentUser) { checkApptReminders(); } }, 60000);
+// Auto-refresh data every 5 seconds (simulate real-time)
+setInterval(() => {
+  if (currentUser && currentTab) {
+    // Silent refresh for chat
+    if (currentTab.includes('chat') && chatTarget) {
+      const main = document.getElementById('chat-main');
+      if (main && chatTarget) { main.innerHTML = renderChatMain(); }
+    }
+  }
+}, 5000);
+    </script>
+</body>
+
+</html>

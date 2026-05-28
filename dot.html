@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ระบบจัดการ</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg: #0a0c10;
+            --surface: #111318;
+            --surface2: #181c24;
+            --border: #1e2330;
+            --accent: #00d4ff;
+            --accent2: #ff6b35;
+            --accent3: #7fff6b;
+            --text: #e8eaf0;
+            --text-muted: #5a6278;
+            --text-dim: #8892aa;
+            --danger: #ff4757;
+            --warning: #ffa502;
+            --success: #2ed573;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+        }
+        /* Sidebar */
+        
+        .sidebar {
+            width: 240px;
+            min-height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+        }
+        
+        .logo {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .logo-text {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .logo-sub {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+        
+        nav {
+            flex: 1;
+            padding: 16px 0;
+        }
+        
+        .nav-section {
+            padding: 8px 20px 4px;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            color: var(--text-dim);
+            font-size: 13px;
+            border-left: 2px solid transparent;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .nav-item:hover {
+            background: var(--surface2);
+            color: var(--text);
+        }
+        
+        .nav-item.active {
+            background: rgba(0, 212, 255, 0.06);
+            color: var(--accent);
+            border-left-color: var(--accent);
+        }
+        
+        .nav-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        
+        .admin-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-size: 10px;
+            font-family: 'IBM Plex Mono', monospace;
+            margin-bottom: 4px;
+        }
+        /* Main content */
+        
+        .main {
+            margin-left: 240px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .topbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .page-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .page-path {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-family: 'IBM Plex Mono', monospace;
+            margin-top: 2px;
+        }
+        
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .time-display {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            color: var(--accent);
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg);
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: #00b8d9;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: var(--bg);
+            font-weight: 600;
+        }
+        /* Content */
+        
+        .content {
+            padding: 32px;
+            flex: 1;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        /* Stats grid */
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+        
+        .stat-card.blue::before {
+            background: var(--accent);
+        }
+        
+        .stat-card.orange::before {
+            background: var(--accent2);
+        }
+        
+        .stat-card.green::before {
+            background: var(--accent3);
+        }
+        
+        .stat-card.red::before {
+            background: var(--danger);
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 8px 0 4px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .stat-card.blue .stat-value {
+            color: var(--accent);
+        }
+        
+        .stat-card.orange .stat-value {
+            color: var(--accent2);
+        }
+        
+        .stat-card.green .stat-value {
+            color: var(--accent3);
+        }
+        
+        .stat-card.red .stat-value {
+            color: var(--danger);
+        }
+        
+        .stat-change {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        
+        .stat-change .up {
+            color: var(--success);
+        }
+        
+        .stat-change .down {
+            color: var(--danger);
+        }
+        /* Tables */
+        
+        .data-table {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        
+        .table-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .table-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: var(--surface2);
+            padding: 10px 16px;
+            text-align: left;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-family: 'IBM Plex Mono', monospace;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        td {
+            padding: 12px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text);
+        }
+        
+        .badge {
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-size: 10px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+        }
+        
+        .badge-qr {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+        }
+        
+        .badge-cash {
+            background: rgba(127, 255, 107, 0.1);
+            color: var(--accent3);
+        }
+        
+        .badge-card {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--accent2);
+        }
+        
+        .badge-in {
+            background: rgba(46, 213, 115, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-out {
+            background: rgba(255, 71, 87, 0.1);
+            color: var(--danger);
+        }
+        /* Charts area */
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .chart-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+        }
+        
+        .chart-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+        }
+        
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 120px;
+        }
+        
+        .bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .bar {
+            width: 100%;
+            border-radius: 2px 2px 0 0;
+            min-height: 4px;
+            transition: opacity 0.2s;
+        }
+        
+        .bar:hover {
+            opacity: 0.8;
+        }
+        
+        .bar-label {
+            font-size: 9px;
+            color: var(--text-muted);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        /* Donut chart */
+        
+        .donut-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .donut-svg {
+            flex-shrink: 0;
+        }
+        
+        .donut-legend {
+            font-size: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .legend-label {
+            color: var(--text-dim);
+        }
+        
+        .legend-val {
+            color: var(--text);
+            font-weight: 600;
+            margin-left: auto;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        /* Form */
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group.full {
+            grid-column: span 2;
+        }
+        
+        label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        input,
+        select,
+        textarea {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--accent);
+        }
+        /* Employee */
+        
+        .emp-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .emp-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+        }
+        
+        .emp-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .emp-role {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        
+        .emp-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .emp-stat:last-child {
+            border-bottom: none;
+        }
+        
+        .emp-stat-label {
+            color: var(--text-muted);
+        }
+        
+        .emp-stat-val {
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--text);
+        }
+        
+        .deduct-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 8px;
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .deduct-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+        /* Modal */
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.open {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 28px;
+            width: 480px;
+            max-width: 90vw;
+        }
+        
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        /* Tabs */
+        
+        .tab-bar {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            font-size: 13px;
+            cursor: pointer;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.2s;
+        }
+        
+        .tab:hover {
+            color: var(--text);
+        }
+        
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        /* Inventory movements */
+        
+        .movement-list {}
+        
+        .movement-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            gap: 12px;
+            font-size: 13px;
+        }
+        
+        .movement-item:last-child {
+            border-bottom: none;
+        }
+        
+        .movement-icon {
+            font-size: 20px;
+        }
+        
+        .movement-info {
+            flex: 1;
+        }
+        
+        .movement-name {
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .movement-meta {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        
+        .movement-qty {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .movement-qty.in {
+            color: var(--success);
+        }
+        
+        .movement-qty.out {
+            color: var(--danger);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-text">ADMIN PANEL</div>
+            <div class="logo-sub">ระบบจัดการหลัก v2.1</div>
+        </div>
+        <nav>
+            <div class="nav-section">ภาพรวม</div>
+            <a class="nav-item active" onclick="showSection('overview')">
+                <span class="nav-icon">◈</span> Dashboard
+            </a>
+            <div class="nav-section">จัดการ</div>
+            <a class="nav-item" onclick="showSection('menu')">
+                <span class="nav-icon">⊞</span> จัดการเมนูอาหาร
+            </a>
+            <a class="nav-item" onclick="showSection('inventory')">
+                <span class="nav-icon">◧</span> สต็อกสินค้า
+            </a>
+            <a class="nav-item" onclick="showSection('finance')">
+                <span class="nav-icon">◈</span> รายรับ-รายจ่าย
+            </a>
+            <a class="nav-item" onclick="showSection('payment')">
+                <span class="nav-icon">◉</span> ช่องทางชำระเงิน
+            </a>
+            <div class="nav-section">พนักงาน</div>
+            <a class="nav-item" onclick="showSection('employees')">
+                <span class="nav-icon">◎</span> พนักงาน
+            </a>
+            <a class="nav-item" onclick="showSection('salary')">
+                <span class="nav-icon">▦</span> เงินเดือน/หักเงิน
+            </a>
+            <div class="nav-section">รายงาน</div>
+            <a class="nav-item" onclick="showSection('reports')">
+                <span class="nav-icon">▤</span> รายงานสรุป
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="admin-badge">ADMIN</div>
+            <div>ผู้ดูแลระบบ</div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <div class="topbar">
+            <div>
+                <div class="page-title" id="pageTitle">Dashboard ภาพรวม</div>
+                <div class="page-path" id="pagePath">admin / overview</div>
+            </div>
+            <div class="topbar-right">
+                <div class="time-display" id="clock">00:00:00</div>
+                <button class="btn btn-primary" onclick="document.getElementById('addMenuModal').classList.add('open')">+ เพิ่มเมนู</button>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <!-- OVERVIEW -->
+            <div class="section active" id="section-overview">
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-label">รายได้วันนี้</div>
+                        <div class="stat-value">฿24,580</div>
+                        <div class="stat-change"><span class="up">↑ 12%</span> จากเมื่อวาน</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-label">ยอดขายมุมสบาย</div>
+                        <div class="stat-value">฿8,920</div>
+                        <div class="stat-change"><span class="up">↑ 5%</span> จากเมื่อวาน</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-label">ยอดขายครัวตำหนัก</div>
+                        <div class="stat-value">฿15,660</div>
+                        <div class="stat-change"><span class="up">↑ 18%</span> จากเมื่อวาน</div>
+                    </div>
+                    <div class="stat-card red">
+                        <div class="stat-label">รายจ่ายรวม</div>
+                        <div class="stat-value">฿6,240</div>
+                        <div class="stat-change"><span class="down">↑ 3%</span> จากเมื่อวาน</div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-title">// ยอดขายรายวัน (7 วันล่าสุด)</div>
+                        <div class="bar-chart" id="barChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">// ช่องทางชำระเงิน</div>
+                        <div class="donut-container">
+                            <svg class="donut-svg" width="100" height="100" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="35" fill="none" stroke="#1e2330" stroke-width="18"/>
+              <circle cx="50" cy="50" r="35" fill="none" stroke="#00d4ff" stroke-width="18" stroke-dasharray="88 132" stroke-dashoffset="0" transform="rotate(-90 50 50)"/>
+              <circle cx="50" cy="50" r="35" fill="none" stroke="#7fff6b" stroke-width="18" stroke-dasharray="52 168" stroke-dashoffset="-88" transform="rotate(-90 50 50)"/>
+              <circle cx="50" cy="50" r="35" fill="none" stroke="#ff6b35" stroke-width="18" stroke-dasharray="40 220" stroke-dashoffset="-140" transform="rotate(-90 50 50)"/>
+            </svg>
+                            <div class="donut-legend">
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:#00d4ff"></div>
+                                    <span class="legend-label">QR Code</span>
+                                    <span class="legend-val">40%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:#7fff6b"></div>
+                                    <span class="legend-label">เงินสด</span>
+                                    <span class="legend-val">24%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:#ff6b35"></div>
+                                    <span class="legend-label">บัตรเครดิต</span>
+                                    <span class="legend-val">18%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <div class="table-header">
+                        <div class="table-title">รายการล่าสุด</div>
+                        <button class="btn btn-outline" onclick="showSection('finance')">ดูทั้งหมด →</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>เวลา</th>
+                                <th>แผนก</th>
+                                <th>รายการ</th>
+                                <th>ช่องทาง</th>
+                                <th>ยอด</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>14:23</td>
+                                <td>ครัวตำหนัก</td>
+                                <td>ข้าวผัดกะเพรา x2</td>
+                                <td><span class="badge badge-qr">QR</span></td>
+                                <td style="color:var(--success)">+฿140</td>
+                            </tr>
+                            <tr>
+                                <td>14:18</td>
+                                <td>มุมสบาย</td>
+                                <td>น้ำดื่ม, ขนม</td>
+                                <td><span class="badge badge-cash">เงินสด</span></td>
+                                <td style="color:var(--success)">+฿65</td>
+                            </tr>
+                            <tr>
+                                <td>14:05</td>
+                                <td>ครัวตำหนัก</td>
+                                <td>ส้มตำ, ลาบ, ข้าวเหนียว</td>
+                                <td><span class="badge badge-card">บัตร</span></td>
+                                <td style="color:var(--success)">+฿280</td>
+                            </tr>
+                            <tr>
+                                <td>13:55</td>
+                                <td>มุมสบาย</td>
+                                <td>บุหรี่, น้ำอัดลม</td>
+                                <td><span class="badge badge-cash">เงินสด</span></td>
+                                <td style="color:var(--success)">+฿120</td>
+                            </tr>
+                            <tr>
+                                <td>13:40</td>
+                                <td>ระบบ</td>
+                                <td>ค่าน้ำ-ไฟ</td>
+                                <td>-</td>
+                                <td style="color:var(--danger)">-฿800</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MENU MANAGEMENT -->
+            <div class="section" id="section-menu">
+                <div class="tab-bar">
+                    <div class="tab active" onclick="switchTab(this,'menu-mumsabai')">มุมสบาย</div>
+                    <div class="tab" onclick="switchTab(this,'menu-kitchen')">ครัวตำหนัก</div>
+                </div>
+                <div class="tab-content active" id="menu-mumsabai">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                        <div style="color:var(--text-dim);font-size:13px">สินค้าในระบบมุมสบาย — บาร์โค้ด</div>
+                        <button class="btn btn-primary" onclick="document.getElementById('addMenuModal').classList.add('open')">+ เพิ่มสินค้า</button>
+                    </div>
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>บาร์โค้ด</th>
+                                    <th>ชื่อสินค้า</th>
+                                    <th>ราคา</th>
+                                    <th>สต็อก</th>
+                                    <th>หมวด</th>
+                                    <th>จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mumsabaiMenuTable">
+                                <tr>
+                                    <td><span style="font-family:monospace;color:var(--accent)">8850006540010</span></td>
+                                    <td>น้ำดื่มสิงห์ 600ml</td>
+                                    <td>฿7</td>
+                                    <td>48</td>
+                                    <td>เครื่องดื่ม</td>
+                                    <td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px">แก้ไข</button></td>
+                                </tr>
+                                <tr>
+                                    <td><span style="font-family:monospace;color:var(--accent)">8850006540027</span></td>
+                                    <td>โค้ก 325ml</td>
+                                    <td>฿15</td>
+                                    <td>36</td>
+                                    <td>เครื่องดื่ม</td>
+                                    <td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px">แก้ไข</button></td>
+                                </tr>
+                                <tr>
+                                    <td><span style="font-family:monospace;color:var(--accent)">8850329110011</span></td>
+                                    <td>มาม่าต้มยำกุ้ง</td>
+                                    <td>฿6</td>
+                                    <td>120</td>
+                                    <td>อาหารกึ่งสำเร็จ</td>
+                                    <td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px">แก้ไข</button></td>
+                                </tr>
+                                <tr>
+                                    <td><span style="font-family:monospace;color:var(--accent)">8850001234567</span></td>
+                                    <td>บุหรี่แอล&เอ็ม</td>
+                                    <td>฿85</td>
+                                    <td>24</td>
+                                    <td>บุหรี่</td>
+                                    <td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px">แก้ไข</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-content" id="menu-kitchen">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                        <div style="color:var(--text-dim);font-size:13px">เมนูอาหารครัวตำหนัก</div>
+                        <button class="btn btn-primary" onclick="document.getElementById('addMenuModal').classList.add('open')">+ เพิ่มเมนู</button>
+                    </div>
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>รหัส</th>
+                                    <th>ชื่อเมนู</th>
+                                    <th>ราคา</th>
+                                    <th>หมวด</th>
+                                    <th>สถานะ</th>
+                                    <th>จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span style="font-family:monospace;color:var(--accent2)">K001</span></td>
+                                    <td>ส้มตำไทย</td>
+                                    <td>฿60</td>
+                                    <td>ส้มตำ</td>
+                                    <td><span class="badge badge-in">เปิด</span></td>
+                                    <td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px">แก้ไข</button></td>
+                                </tr>
+                                <tr>
+                                    <td><span style="font-family:monospace;color:var(--accent2)">K002</span></td>
+                                    <td>ส้มตำปูปลาร้า</td>
+                                    <td>฿70</td>
+                                    <td>ส้มตำ</td>
+                                    <td><span class="badge badge-in">เปิด</span></td>
+                                    <td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px">แก้ไข</button></td>
+                                </tr>
+                                <tr>
+                                    <td><span style="font-family:monospace;color:var(--accent2)">K003</span></td>
+                                    <td>ลาบหมู</td>
+                                    <td>฿80</td>
+                                    <td>ยำ/ลาบ</td>
+                                    <td><span class="badge badge-in">เปิด</span></td>
+                                    <td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px">แก้ไข</button></td>
+                                </tr>
+                                <tr>
+                                    <td><span style="font-family:monospace;color:var(--accent2)">K004</span></td>
+                                    <td>ข้าวเหนียว</td>
+                                    <td>฿10</td>
+                                    <td>ข้าว</td>
+                                    <td><span class="badge badge-in">เปิด</span></td>
+                                    <td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px">แก้ไข</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INVENTORY -->
+            <div class="section" id="section-inventory">
+                <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+                    <div class="stat-card blue">
+                        <div class="stat-label">รายการสินค้า</div>
+                        <div class="stat-value">142</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-label">รับเข้าวันนี้</div>
+                        <div class="stat-value">+38</div>
+                    </div>
+                    <div class="stat-card red">
+                        <div class="stat-label">จ่ายออกวันนี้</div>
+                        <div class="stat-value">-124</div>
+                    </div>
+                </div>
+                <div class="data-table">
+                    <div class="table-header">
+                        <div class="table-title">ความเคลื่อนไหวสินค้า</div>
+                    </div>
+                    <div class="movement-list">
+                        <div class="movement-item">
+                            <div class="movement-icon">📦</div>
+                            <div class="movement-info">
+                                <div class="movement-name">น้ำดื่มสิงห์ 600ml</div>
+                                <div class="movement-meta">มุมสบาย · 09:30 · โดย สมชาย</div>
+                            </div>
+                            <div class="movement-qty in">+24 ชิ้น</div>
+                        </div>
+                        <div class="movement-item">
+                            <div class="movement-icon">🛍</div>
+                            <div class="movement-info">
+                                <div class="movement-name">โค้ก 325ml</div>
+                                <div class="movement-meta">มุมสบาย · ขาย · 10:15</div>
+                            </div>
+                            <div class="movement-qty out">-12 ชิ้น</div>
+                        </div>
+                        <div class="movement-item">
+                            <div class="movement-icon">🥬</div>
+                            <div class="movement-info">
+                                <div class="movement-name">มะละกอดิบ (กก.)</div>
+                                <div class="movement-meta">ครัวตำหนัก · รับเข้า · 06:00</div>
+                            </div>
+                            <div class="movement-qty in">+10 กก.</div>
+                        </div>
+                        <div class="movement-item">
+                            <div class="movement-icon">🌶</div>
+                            <div class="movement-info">
+                                <div class="movement-name">พริกขี้หนู</div>
+                                <div class="movement-meta">ครัวตำหนัก · ใช้ไป · 11:00</div>
+                            </div>
+                            <div class="movement-qty out">-0.5 กก.</div>
+                        </div>
+                        <div class="movement-item">
+                            <div class="movement-icon">🍚</div>
+                            <div class="movement-info">
+                                <div class="movement-name">ข้าวเหนียว (กก.)</div>
+                                <div class="movement-meta">ครัวตำหนัก · ใช้ไป · 11:30</div>
+                            </div>
+                            <div class="movement-qty out">-3 กก.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINANCE -->
+            <div class="section" id="section-finance">
+                <div class="stats-grid">
+                    <div class="stat-card green">
+                        <div class="stat-label">รายรับรวมเดือนนี้</div>
+                        <div class="stat-value">฿312,400</div>
+                    </div>
+                    <div class="stat-card red">
+                        <div class="stat-label">รายจ่ายรวมเดือนนี้</div>
+                        <div class="stat-value">฿98,200</div>
+                    </div>
+                    <div class="stat-card blue">
+                        <div class="stat-label">กำไรสุทธิ</div>
+                        <div class="stat-value">฿214,200</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-label">รอบบิลค้างชำระ</div>
+                        <div class="stat-value">3</div>
+                    </div>
+                </div>
+                <div class="data-table">
+                    <div class="table-header">
+                        <div class="table-title">รายการทางการเงิน</div><button class="btn btn-primary">+ เพิ่มรายการ</button></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>วันที่</th>
+                                <th>แผนก</th>
+                                <th>รายการ</th>
+                                <th>ประเภท</th>
+                                <th>ยอด</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>04/05/26</td>
+                                <td>ครัวตำหนัก</td>
+                                <td>ยอดขายรวม</td>
+                                <td><span class="badge badge-in">รายรับ</span></td>
+                                <td style="color:var(--success)">+฿15,660</td>
+                            </tr>
+                            <tr>
+                                <td>04/05/26</td>
+                                <td>มุมสบาย</td>
+                                <td>ยอดขายรวม</td>
+                                <td><span class="badge badge-in">รายรับ</span></td>
+                                <td style="color:var(--success)">+฿8,920</td>
+                            </tr>
+                            <tr>
+                                <td>04/05/26</td>
+                                <td>ทั้งหมด</td>
+                                <td>ค่าวัตถุดิบ</td>
+                                <td><span class="badge badge-out">รายจ่าย</span></td>
+                                <td style="color:var(--danger)">-฿3,200</td>
+                            </tr>
+                            <tr>
+                                <td>03/05/26</td>
+                                <td>ทั้งหมด</td>
+                                <td>เงินเดือนพนักงาน</td>
+                                <td><span class="badge badge-out">รายจ่าย</span></td>
+                                <td style="color:var(--danger)">-฿45,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PAYMENT -->
+            <div class="section" id="section-payment">
+                <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+                    <div class="stat-card blue">
+                        <div class="stat-label">QR Code</div>
+                        <div class="stat-value">฿9,832</div>
+                        <div class="stat-change">40% ของยอดรวม</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-label">เงินสด</div>
+                        <div class="stat-value">฿5,899</div>
+                        <div class="stat-change">24% ของยอดรวม</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-label">บัตรเครดิต</div>
+                        <div class="stat-value">฿4,421</div>
+                        <div class="stat-change">18% ของยอดรวม</div>
+                    </div>
+                </div>
+                <div class="data-table">
+                    <div class="table-header">
+                        <div class="table-title">รายการชำระเงินวันนี้</div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>เวลา</th>
+                                <th>แผนก</th>
+                                <th>ยอด</th>
+                                <th>ช่องทาง</th>
+                                <th>สถานะ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>14:23</td>
+                                <td>ครัวตำหนัก</td>
+                                <td>฿140</td>
+                                <td><span class="badge badge-qr">QR Code</span></td>
+                                <td><span class="badge badge-in">สำเร็จ</span></td>
+                            </tr>
+                            <tr>
+                                <td>14:18</td>
+                                <td>มุมสบาย</td>
+                                <td>฿65</td>
+                                <td><span class="badge badge-cash">เงินสด</span></td>
+                                <td><span class="badge badge-in">สำเร็จ</span></td>
+                            </tr>
+                            <tr>
+                                <td>14:05</td>
+                                <td>ครัวตำหนัก</td>
+                                <td>฿280</td>
+                                <td><span class="badge badge-card">บัตรเครดิต</span></td>
+                                <td><span class="badge badge-in">สำเร็จ</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- EMPLOYEES -->
+            <div class="section" id="section-employees">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <div style="font-size:14px;color:var(--text-dim)">พนักงานทั้งหมด 6 คน</div>
+                    <button class="btn btn-primary">+ เพิ่มพนักงาน</button>
+                </div>
+                <div class="emp-grid">
+                    <div class="emp-card">
+                        <div class="emp-name">สมชาย มีสุข</div>
+                        <div class="emp-role">มุมสบาย · แคชเชียร์</div>
+                        <div class="emp-stat"><span class="emp-stat-label">เงินเดือน</span><span class="emp-stat-val">฿12,000</span></div>
+                        <div class="emp-stat"><span class="emp-stat-label">ยอดขายวันนี้</span><span class="emp-stat-val">฿8,920</span></div>
+                        <div class="emp-stat"><span class="emp-stat-label">คอมมิชชั่น</span><span class="emp-stat-val text-success" style="color:var(--success)">฿446</span></div>
+                        <button class="deduct-btn" onclick="openDeductModal('สมชาย มีสุข')">หักเงิน</button>
+                    </div>
+                    <div class="emp-card">
+                        <div class="emp-name">สมหญิง ดีใจ</div>
+                        <div class="emp-role">ครัวตำหนัก · แคชเชียร์</div>
+                        <div class="emp-stat"><span class="emp-stat-label">เงินเดือน</span><span class="emp-stat-val">฿12,000</span></div>
+                        <div class="emp-stat"><span class="emp-stat-label">ยอดขายวันนี้</span><span class="emp-stat-val">฿15,660</span></div>
+                        <div class="emp-stat"><span class="emp-stat-label">คอมมิชชั่น</span><span class="emp-stat-val" style="color:var(--success)">฿783</span></div>
+                        <button class="deduct-btn" onclick="openDeductModal('สมหญิง ดีใจ')">หักเงิน</button>
+                    </div>
+                    <div class="emp-card">
+                        <div class="emp-name">วิชัย แสงทอง</div>
+                        <div class="emp-role">ครัวตำหนัก · พ่อครัว</div>
+                        <div class="emp-stat"><span class="emp-stat-label">เงินเดือน</span><span class="emp-stat-val">฿15,000</span></div>
+                        <div class="emp-stat"><span class="emp-stat-label">หักเงิน</span><span class="emp-stat-val" style="color:var(--danger)">-฿500</span></div>
+                        <div class="emp-stat"><span class="emp-stat-label">ได้รับสุทธิ</span><span class="emp-stat-val">฿14,500</span></div>
+                        <button class="deduct-btn" onclick="openDeductModal('วิชัย แสงทอง')">หักเงิน</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SALARY -->
+            <div class="section" id="section-salary">
+                <div class="data-table">
+                    <div class="table-header">
+                        <div class="table-title">รายการเงินเดือน/หักเงิน</div><button class="btn btn-primary">+ หักเงิน</button></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>พนักงาน</th>
+                                <th>แผนก</th>
+                                <th>เงินเดือน</th>
+                                <th>คอมมิชชั่น</th>
+                                <th>หัก</th>
+                                <th>สุทธิ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>สมชาย มีสุข</td>
+                                <td>มุมสบาย</td>
+                                <td>฿12,000</td>
+                                <td style="color:var(--success)">+฿446</td>
+                                <td style="color:var(--danger)">-฿0</td>
+                                <td style="color:var(--accent)">฿12,446</td>
+                            </tr>
+                            <tr>
+                                <td>สมหญิง ดีใจ</td>
+                                <td>ครัวตำหนัก</td>
+                                <td>฿12,000</td>
+                                <td style="color:var(--success)">+฿783</td>
+                                <td style="color:var(--danger)">-฿0</td>
+                                <td style="color:var(--accent)">฿12,783</td>
+                            </tr>
+                            <tr>
+                                <td>วิชัย แสงทอง</td>
+                                <td>ครัวตำหนัก</td>
+                                <td>฿15,000</td>
+                                <td style="color:var(--success)">+฿0</td>
+                                <td style="color:var(--danger)">-฿500</td>
+                                <td style="color:var(--accent)">฿14,500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- REPORTS -->
+            <div class="section" id="section-reports">
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-label">ยอดรวมเดือนนี้</div>
+                        <div class="stat-value">฿312,400</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-label">ลูกค้าเฉลี่ย/วัน</div>
+                        <div class="stat-value">87</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-label">เมนูขายดี</div>
+                        <div class="stat-value">ส้มตำ</div>
+                    </div>
+                    <div class="stat-card red">
+                        <div class="stat-label">ค่าใช้จ่ายสูงสุด</div>
+                        <div class="stat-value">เงินเดือน</div>
+                    </div>
+                </div>
+                <div class="data-table">
+                    <div class="table-header">
+                        <div class="table-title">สรุปรายเดือน</div><button class="btn btn-outline">ดาวน์โหลด PDF</button></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>เดือน</th>
+                                <th>รายรับ</th>
+                                <th>รายจ่าย</th>
+                                <th>กำไร</th>
+                                <th>เปลี่ยนแปลง</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>พฤษภาคม 2026</td>
+                                <td style="color:var(--success)">฿312,400</td>
+                                <td style="color:var(--danger)">฿98,200</td>
+                                <td style="color:var(--accent)">฿214,200</td>
+                                <td style="color:var(--success)">↑ 8%</td>
+                            </tr>
+                            <tr>
+                                <td>เมษายน 2026</td>
+                                <td style="color:var(--success)">฿289,100</td>
+                                <td style="color:var(--danger)">฿91,500</td>
+                                <td style="color:var(--accent)">฿197,600</td>
+                                <td style="color:var(--success)">↑ 5%</td>
+                            </tr>
+                            <tr>
+                                <td>มีนาคม 2026</td>
+                                <td style="color:var(--success)">฿275,200</td>
+                                <td style="color:var(--danger)">℃87,300</td>
+                                <td style="color:var(--accent)">฿187,900</td>
+                                <td style="color:var(--danger)">↓ 2%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Add Menu Modal -->
+    <div class="modal-overlay" id="addMenuModal">
+        <div class="modal">
+            <div class="modal-title">เพิ่มเมนู / สินค้า</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>แผนก</label>
+                    <select><option>มุมสบาย</option><option>ครัวตำหนัก</option></select>
+                </div>
+                <div class="form-group">
+                    <label>ประเภท</label>
+                    <select><option>สินค้า (บาร์โค้ด)</option><option>เมนูอาหาร</option></select>
+                </div>
+                <div class="form-group full">
+                    <label>ชื่อสินค้า / เมนู</label>
+                    <input type="text" placeholder="เช่น น้ำดื่มสิงห์ 600ml">
+                </div>
+                <div class="form-group">
+                    <label>บาร์โค้ด / รหัส</label>
+                    <input type="text" placeholder="8850006540010">
+                </div>
+                <div class="form-group">
+                    <label>ราคา (บาท)</label>
+                    <input type="number" placeholder="0.00">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="document.getElementById('addMenuModal').classList.remove('open')">ยกเลิก</button>
+                <button class="btn btn-primary">บันทึก</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deduct Modal -->
+    <div class="modal-overlay" id="deductModal">
+        <div class="modal">
+            <div class="modal-title">หักเงินพนักงาน: <span id="deductName"></span></div>
+            <div class="form-group">
+                <label>จำนวนเงินที่หัก (บาท)</label>
+                <input type="number" placeholder="0.00">
+            </div>
+            <div class="form-group">
+                <label>เหตุผล</label>
+                <textarea rows="3" placeholder="ระบุเหตุผลการหักเงิน..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="document.getElementById('deductModal').classList.remove('open')">ยกเลิก</button>
+                <button class="btn btn-danger">หักเงิน</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pages = {
+            'overview': ['Dashboard ภาพรวม', 'admin / overview'],
+            'menu': ['จัดการเมนูอาหาร', 'admin / menu-management'],
+            'inventory': ['สต็อกสินค้า', 'admin / inventory'],
+            'finance': ['รายรับ-รายจ่าย', 'admin / finance'],
+            'payment': ['ช่องทางชำระเงิน', 'admin / payment-methods'],
+            'employees': ['ข้อมูลพนักงาน', 'admin / employees'],
+            'salary': ['เงินเดือน/หักเงิน', 'admin / salary'],
+            'reports': ['รายงานสรุป', 'admin / reports'],
+        };
+
+        function showSection(name) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('section-' + name).classList.add('active');
+            document.getElementById('pageTitle').textContent = pages[name][0];
+            document.getElementById('pagePath').textContent = pages[name][1];
+            event.currentTarget.classList.add('active');
+        }
+
+        function switchTab(el, id) {
+            el.closest('.tab-bar').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            el.closest('.section').querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function openDeductModal(name) {
+            document.getElementById('deductName').textContent = name;
+            document.getElementById('deductModal').classList.add('open');
+        }
+        // Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent =
+                now.toLocaleTimeString('th-TH', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+        // Bar chart
+        const data = [18200, 22400, 19800, 24100, 21500, 23900, 24580];
+        const days = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
+        const max = Math.max(...data);
+        const bc = document.getElementById('barChart');
+        days.forEach((d, i) => {
+            const h = Math.round((data[i] / max) * 100);
+            bc.innerHTML += `<div class="bar-group">
+    <div class="bar" style="height:${h}%;background:${i===6?'var(--accent)':'var(--border)'}"></div>
+    <div class="bar-label">${d}</div>
+  </div>`;
+        });
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(m => {
+            m.addEventListener('click', e => {
+                if (e.target === m) m.classList.remove('open');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -345,20 +345,6 @@
         });
 
         function goBack() {
-            const from = localStorage.getItem("chat_from");
-            const clinic = localStorage.getItem("fromClinic");
-
-            // มาจากหน้าหลัก
-            if (from === "home") {
-                window.location.href = "../index.html";
-                return;
-            }
-
-            // มาจากคลินิก
-            if (from === "clinic" && clinic) {
-                window.location.href = `../Clinic/${clinic}.html`;
-                return;
-            }
 
             // fallback กรณีเข้าตรง / ไม่มีค่า
             window.location.href = "../Chat/Chat.html";
